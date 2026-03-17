@@ -1613,6 +1613,8 @@
         }
 
         // ─── Single Worker Loop ───────────────────────────────────────────────────
+        // NOTE: mode: 'no-cors' removed — CORS is now whitelisted on the server.
+        // This allows reading real HTTP status codes and detecting 4xx/5xx errors accurately.
         async function singleUserLoop(url, method, endTime) {
             activeWorkers++;
             while (isRunning && Date.now() < endTime) {
@@ -1626,7 +1628,6 @@
                 try {
                     const res = await fetch(bypassUrl, {
                         method,
-                        mode: 'no-cors',
                         cache: 'no-store',
                         headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' }
                     });
@@ -1636,7 +1637,7 @@
                     stats.totalLatencyMs += latency;
                     stats.total++;
 
-                    if (res.type === 'opaque' || res.ok) {
+                    if (res.ok) {
                         stats.success++;
                     } else {
                         stats.errors++;
@@ -1780,6 +1781,9 @@
             setTimeout(() => {
                 if (isRunning) captureOnce();
             }, 1500);
+
+            // Auto-start monitor
+            if (!monitorActive) startMonitor();
         }
 
         // ─── Stop ─────────────────────────────────────────────────────────────────
@@ -1861,6 +1865,11 @@
             drawSparkline();
             logMessage('Đang tự động xuất báo cáo JSON…', 'info');
             exportJsonReport();
+
+            // Keep monitor running for 10s after test ends
+            setTimeout(() => {
+                if (monitorActive && !isRunning) stopMonitor();
+            }, 10000);
         }
 
         // ─── Render Spikes ────────────────────────────────────────────────────────
@@ -2095,11 +2104,6 @@
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         }
 
-        // Auto-capture once when test starts (after 1.5s warmup)
-        const _origStart = startTest;
-        // Patch startTest to schedule auto-capture
-        window.addEventListener('load', () => { });
-
         async function exportJsonReport() {
             if (stats.total === 0) return;
 
@@ -2263,6 +2267,7 @@
                 let cmpRunning = true;
                 const endTime = Date.now() + durationSec * 1000;
 
+                // NOTE: mode: 'no-cors' removed here too — same reason as singleUserLoop.
                 async function cmpWorkerLoop() {
                     cmpWorkers++;
                     while (cmpRunning && compareRunning && Date.now() < endTime) {
@@ -2274,7 +2279,6 @@
                         try {
                             const res = await fetch(bypassUrl, {
                                 method,
-                                mode: 'no-cors',
                                 cache: 'no-store',
                                 headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' }
                             });
@@ -2283,7 +2287,7 @@
                             cmpStats.totalLatencyMs += latency;
                             cmpStats.total++;
 
-                            if (res.type === 'opaque' || res.ok) {
+                            if (res.ok) {
                                 cmpStats.success++;
                             } else {
                                 cmpStats.errors++;
@@ -2576,21 +2580,6 @@
             c.fillStyle = colorBase + '1)';
             c.fill();
         }
-
-        // Auto-start/stop monitor with benchmark
-        const _origStartForMonitor = startTest;
-        startTest = function() {
-            _origStartForMonitor();
-            if (!monitorActive) startMonitor();
-        };
-        const _origFinishForMonitor = finishTest;
-        finishTest = function() {
-            _origFinishForMonitor();
-            // Keep monitor running for 10s after test ends
-            setTimeout(() => {
-                if (monitorActive && !isRunning) stopMonitor();
-            }, 10000);
-        };
     </script>
 </body>
 
