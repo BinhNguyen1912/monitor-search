@@ -2,1874 +2,1889 @@
 <html lang="vi">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TIKERA — Advanced Performance Analyzer</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap"
-    rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #060910;
-      --panel: #0d1117;
-      --panel2: #111820;
-      --border: rgba(255, 255, 255, 0.07);
-      --border2: rgba(255, 255, 255, 0.13);
-      --accent: #00e5ff;
-      --accent2: #ff6b35;
-      --accent3: #a855f7;
-      --success: #22d3a0;
-      --warn: #fbbf24;
-      --danger: #f43f5e;
-      --text: #e2e8f0;
-      --muted: #4a5568;
-      --muted2: #718096;
-      --mono: 'Space Mono', monospace;
-      --sans: 'Syne', sans-serif;
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* Grid background */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .container {
-      position: relative;
-      z-index: 1;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem 4rem;
-    }
-
-    /* ── Header ── */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2.5rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--border2);
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-icon {
-      width: 36px;
-      height: 36px;
-      background: var(--accent);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: pulse-icon 3s ease-in-out infinite;
-    }
-
-    @keyframes pulse-icon {
-
-      0%,
-      100% {
-        box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4);
-      }
-
-      50% {
-        box-shadow: 0 0 0 12px rgba(0, 229, 255, 0);
-      }
-    }
-
-    .logo-text {
-      font-size: 1.4rem;
-      font-weight: 800;
-      letter-spacing: 4px;
-      color: var(--accent);
-    }
-
-    .logo-sub {
-      font-size: 0.7rem;
-      color: var(--muted2);
-      letter-spacing: 2px;
-      margin-top: 2px;
-      font-family: var(--mono);
-    }
-
-    .status-pill {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--muted2);
-      background: var(--panel);
-      border: 1px solid var(--border2);
-      padding: 6px 14px;
-      border-radius: 100px;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--muted);
-      transition: background 0.3s;
-    }
-
-    .status-dot.running {
-      background: var(--success);
-      animation: blink 1s infinite;
-    }
-
-    .status-dot.done {
-      background: var(--accent);
-    }
-
-    @keyframes blink {
-
-      0%,
-      100% {
-        opacity: 1
-      }
-
-      50% {
-        opacity: 0.3
-      }
-    }
-
-    /* ── Panels ── */
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .panel-title {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 3px;
-      color: var(--muted2);
-      text-transform: uppercase;
-      margin-bottom: 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .panel-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border2);
-    }
-
-    /* ── Controls Grid ── */
-    .controls-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1.2rem;
-    }
-
-    @media (max-width: 900px) {
-      .controls-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--muted2);
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      background: var(--panel2);
-      border: 1px solid var(--border2);
-      border-radius: 6px;
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      padding: 10px 12px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      -webkit-appearance: none;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.12);
-    }
-
-    /* ── Buttons ── */
-    .btn-row {
-      display: flex;
-      gap: 0.75rem;
-    }
-
-    .btn {
-      flex: 1;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: var(--sans);
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      transition: all 0.2s;
-    }
-
-    .btn-start {
-      background: var(--accent);
-      color: #000;
-      box-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
-    }
-
-    .btn-start:hover {
-      box-shadow: 0 0 30px rgba(0, 229, 255, 0.5);
-      transform: translateY(-1px);
-    }
-
-    .btn-stop {
-      background: var(--danger);
-      color: #fff;
-      display: none;
-      box-shadow: 0 0 20px rgba(244, 63, 94, 0.25);
-    }
-
-    .btn-stop:hover {
-      box-shadow: 0 0 30px rgba(244, 63, 94, 0.5);
-      transform: translateY(-1px);
-    }
-
-    .btn-export {
-      background: transparent;
-      color: var(--success);
-      border: 1px solid var(--success);
-      display: none;
-    }
-
-    .btn-export:hover {
-      background: rgba(34, 211, 160, 0.1);
-    }
-
-    /* ── Progress Bar ── */
-    .progress-wrap {
-      margin-top: 1rem;
-      display: none;
-      background: var(--panel2);
-      border-radius: 4px;
-      overflow: hidden;
-      height: 4px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent3));
-      transition: width 0.1s linear;
-      box-shadow: 0 0 10px var(--accent);
-    }
-
-    /* ── Metrics Grid ── */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    @media (max-width: 900px) {
-      .metrics-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .metric-card {
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1rem 0.8rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.3s;
-    }
-
-    .metric-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--card-accent, var(--border));
-      transition: background 0.3s;
-    }
-
-    .metric-card.highlight::before {
-      background: var(--card-accent);
-      box-shadow: 0 0 10px var(--card-accent);
-    }
-
-    .metric-lbl {
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--muted2);
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .metric-val {
-      font-family: var(--mono);
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--text);
-      transition: color 0.3s;
-      line-height: 1;
-    }
-
-    .metric-val.accent {
-      color: var(--accent);
-    }
-
-    .metric-val.success {
-      color: var(--success);
-    }
-
-    .metric-val.warn {
-      color: var(--warn);
-    }
-
-    .metric-val.danger {
-      color: var(--danger);
-    }
-
-    .metric-sub {
-      font-size: 0.6rem;
-      color: var(--muted);
-      margin-top: 4px;
-      font-family: var(--mono);
-    }
-
-    /* ── Percentile Row ── */
-    .perc-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 1rem;
-    }
-
-    @media (max-width: 900px) {
-      .perc-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    /* ── Live Chart ── */
-    .chart-wrap {
-      position: relative;
-      height: 140px;
-      margin: 0.5rem 0;
-    }
-
-    #rpsCanvas {
-      width: 100%;
-      height: 100%;
-      border-radius: 6px;
-    }
-
-    /* ── Error Monitor ── */
-    .error-monitor {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    @media (max-width: 700px) {
-      .error-monitor {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .error-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .error-stat-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      background: var(--panel2);
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      transition: border-color 0.3s;
-    }
-
-    .error-stat-row.has-error {
-      border-color: rgba(244, 63, 94, 0.4);
-    }
-
-    .error-stat-row.has-warn {
-      border-color: rgba(251, 191, 36, 0.4);
-    }
-
-    .err-name {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: var(--muted2);
-    }
-
-    .err-val {
-      font-family: var(--mono);
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-
-    .err-bar-wrap {
-      height: 3px;
-      background: var(--border2);
-      border-radius: 2px;
-      margin-top: 6px;
-    }
-
-    .err-bar-fill {
-      height: 100%;
-      border-radius: 2px;
-      transition: width 0.4s ease;
-    }
-
-    /* ── Console Log ── */
-    .console {
-      background: #020408;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      height: 200px;
-      overflow-y: auto;
-      padding: 1rem;
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      line-height: 1.6;
-      scroll-behavior: smooth;
-    }
-
-    .console::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .console::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .console::-webkit-scrollbar-thumb {
-      background: var(--border2);
-      border-radius: 4px;
-    }
-
-    .log-line {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 2px;
-    }
-
-    .log-time {
-      color: var(--muted);
-      flex-shrink: 0;
-    }
-
-    .log-norm {
-      color: #48bb78;
-    }
-
-    .log-err {
-      color: var(--danger);
-    }
-
-    .log-warn {
-      color: var(--warn);
-    }
-
-    .log-info {
-      color: var(--accent);
-    }
-
-    /* ── Analysis Box ── */
-    .analysis-box {
-      display: none;
-      padding: 1.2rem 1.5rem;
-      border-radius: 10px;
-      border-left: 3px solid var(--accent);
-      background: rgba(0, 229, 255, 0.05);
-      margin-top: 1rem;
-      font-size: 0.88rem;
-      line-height: 1.7;
-    }
-
-    .analysis-box h4 {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-      color: var(--accent);
-    }
-
-    /* ── Error Breakdown Table ── */
-    .err-table-wrap {
-      overflow-x: auto;
-      margin-top: 0.75rem;
-    }
-
-    .err-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-    }
-
-    .err-table th {
-      text-align: left;
-      padding: 8px 12px;
-      border-bottom: 1px solid var(--border2);
-      color: var(--muted2);
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      font-size: 0.65rem;
-    }
-
-    .err-table td {
-      padding: 8px 12px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: middle;
-    }
-
-    .err-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .err-table tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
-    .badge-err {
-      background: rgba(244, 63, 94, 0.15);
-      color: var(--danger);
-    }
-
-    .badge-warn {
-      background: rgba(251, 191, 36, 0.15);
-      color: var(--warn);
-    }
-
-    .badge-net {
-      background: rgba(168, 85, 247, 0.15);
-      color: var(--accent3);
-    }
-
-    /* ── Spike Bars ── */
-    .spike-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .spike-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .spike-rank {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--muted);
-      width: 20px;
-      text-align: right;
-    }
-
-    .spike-bar-bg {
-      flex: 1;
-      height: 6px;
-      background: var(--border2);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .spike-bar {
-      height: 100%;
-      border-radius: 3px;
-      background: linear-gradient(90deg, var(--danger), var(--accent2));
-      transition: width 0.6s ease;
-    }
-
-    .spike-val {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--danger);
-      width: 62px;
-      text-align: right;
-    }
-
-    /* ── Responsive layout ── */
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    @media (max-width: 700px) {
-      .two-col {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* ── Scan line animation on metric update ── */
-    @keyframes flash-val {
-      0% {
-        opacity: 0.4;
-      }
-
-      100% {
-        opacity: 1;
-      }
-    }
-
-    .flashing {
-      animation: flash-val 0.3s ease;
-    }
-
-    /* ── Response Preview ── */
-    .resp-meta {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-
-    @media (max-width: 700px) {
-      .resp-meta {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .resp-meta-card {
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-    }
-
-    .resp-meta-lbl {
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--muted2);
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-
-    .resp-meta-val {
-      font-family: var(--mono);
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    .resp-meta-val.ok {
-      color: var(--success);
-    }
-
-    .resp-meta-val.slow {
-      color: var(--warn);
-    }
-
-    .resp-meta-val.fail {
-      color: var(--danger);
-    }
-
-    .resp-tabs {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 0.75rem;
-    }
-
-    .resp-tab {
-      padding: 5px 14px;
-      border-radius: 6px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      cursor: pointer;
-      border: 1px solid var(--border2);
-      background: transparent;
-      color: var(--muted2);
-      font-family: var(--mono);
-      transition: all 0.15s;
-    }
-
-    .resp-tab.active {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-    }
-
-    .resp-body {
-      background: #020408;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      line-height: 1.7;
-      max-height: 320px;
-      overflow-y: auto;
-      position: relative;
-    }
-
-    .resp-body::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .resp-body::-webkit-scrollbar-thumb {
-      background: var(--border2);
-      border-radius: 4px;
-    }
-
-    .resp-placeholder {
-      color: var(--muted);
-      text-align: center;
-      padding: 2rem 0;
-      font-size: 0.8rem;
-    }
-
-    /* JSON syntax highlight */
-    .json-key {
-      color: #79c0ff;
-    }
-
-    .json-str {
-      color: #a5d6ff;
-    }
-
-    .json-num {
-      color: #f2cc60;
-    }
-
-    .json-bool {
-      color: #ff7b72;
-    }
-
-    .json-null {
-      color: #ff7b72;
-    }
-
-    .json-brace {
-      color: var(--muted2);
-    }
-
-    .resp-type-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.6rem;
-      margin-bottom: 0.75rem;
-    }
-
-    @media (max-width: 700px) {
-      .resp-type-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .resp-type-card {
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.6rem 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .resp-type-name {
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: var(--muted2);
-      text-transform: uppercase;
-    }
-
-    .resp-type-count {
-      font-family: var(--mono);
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--accent);
-    }
-
-    @keyframes resp-in {
-      from {
-        opacity: 0;
-        transform: translateY(4px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .resp-anim {
-      animation: resp-in 0.3s ease;
-    }
-
-    /* ── Multi-Query Comparison ── */
-    .compare-queries {
-      width: 100%;
-      min-height: 80px;
-      background: var(--panel2);
-      border: 1px solid var(--border2);
-      border-radius: 6px;
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      padding: 10px 12px;
-      resize: vertical;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .compare-queries:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.12);
-    }
-
-    .compare-queries::placeholder {
-      color: var(--muted);
-    }
-
-    .compare-progress {
-      margin: 1rem 0;
-      display: none;
-    }
-
-    .compare-progress-text {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      color: var(--accent);
-      margin-bottom: 6px;
-    }
-
-    .compare-progress-bar {
-      height: 4px;
-      background: var(--panel2);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .compare-progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent3));
-      transition: width 0.3s ease;
-      box-shadow: 0 0 10px var(--accent);
-    }
-
-    .compare-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      margin-top: 1rem;
-    }
-
-    .compare-table th {
-      text-align: left;
-      padding: 10px 12px;
-      border-bottom: 2px solid var(--border2);
-      color: var(--muted2);
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      font-size: 0.62rem;
-      white-space: nowrap;
-    }
-
-    .compare-table td {
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: middle;
-      transition: background 0.2s;
-    }
-
-    .compare-table tr:hover td {
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .compare-table tr.best-row td {
-      background: rgba(34, 211, 160, 0.06);
-    }
-
-    .compare-table tr.worst-row td {
-      background: rgba(244, 63, 94, 0.06);
-    }
-
-    .cmp-query {
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 0.82rem;
-    }
-
-    .cmp-best {
-      color: var(--success);
-      font-weight: 700;
-    }
-
-    .cmp-worst {
-      color: var(--danger);
-      font-weight: 700;
-    }
-
-    .cmp-bar-wrap {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .cmp-bar-bg {
-      flex: 1;
-      height: 6px;
-      background: var(--border2);
-      border-radius: 3px;
-      overflow: hidden;
-      min-width: 60px;
-    }
-
-    .cmp-bar {
-      height: 100%;
-      border-radius: 3px;
-      transition: width 0.6s ease;
-    }
-
-    .cmp-rank {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      font-size: 0.65rem;
-      font-weight: 700;
-      margin-right: 6px;
-    }
-
-    .cmp-rank.gold {
-      background: rgba(251, 191, 36, 0.2);
-      color: var(--warn);
-    }
-
-    .cmp-rank.silver {
-      background: rgba(148, 163, 184, 0.2);
-      color: #94a3b8;
-    }
-
-    .cmp-rank.bronze {
-      background: rgba(255, 107, 53, 0.2);
-      color: var(--accent2);
-    }
-
-    .compare-settings {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    @media (max-width: 700px) {
-      .compare-settings {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* ── Server Resource Monitor ── */
-    .monitor-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    @media (max-width: 900px) {
-      .monitor-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .monitor-charts {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-top: 0.5rem;
-    }
-
-    @media (max-width: 700px) {
-      .monitor-charts {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .monitor-chart-box {
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.75rem;
-    }
-
-    .monitor-chart-label {
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--muted2);
-      text-transform: uppercase;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .monitor-chart-label span {
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
-
-    .monitor-chart-wrap {
-      height: 80px;
-      position: relative;
-    }
-
-    .monitor-chart-wrap canvas {
-      width: 100%;
-      height: 100%;
-      border-radius: 4px;
-    }
-
-    .monitor-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.2rem;
-    }
-
-    .monitor-header .panel-title {
-      margin-bottom: 0;
-    }
-
-    .btn-monitor {
-      padding: 5px 16px;
-      font-size: 0.72rem;
-      background: transparent;
-      border: 1px solid var(--accent3);
-      color: var(--accent3);
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: var(--mono);
-      font-weight: 700;
-      letter-spacing: 1px;
-      transition: all 0.2s;
-    }
-
-    .btn-monitor:hover {
-      background: rgba(168, 85, 247, 0.1);
-    }
-
-    .btn-monitor.active {
-      background: var(--accent3);
-      color: #000;
-    }
-
-    .monitor-status {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--muted);
-      margin-left: 10px;
-    }
-
-    .monitor-status.connected {
-      color: var(--success);
-    }
-
-    .monitor-status.error {
-      color: var(--danger);
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TIKERA — Advanced Performance Analyzer</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #060910;
+            --panel: #0d1117;
+            --panel2: #111820;
+            --border: rgba(255, 255, 255, 0.07);
+            --border2: rgba(255, 255, 255, 0.13);
+            --accent: #00e5ff;
+            --accent2: #ff6b35;
+            --accent3: #a855f7;
+            --success: #22d3a0;
+            --warn: #fbbf24;
+            --danger: #f43f5e;
+            --text: #e2e8f0;
+            --muted: #4a5568;
+            --muted2: #718096;
+            --mono: 'Space Mono', monospace;
+            --sans: 'Syne', sans-serif;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* ── Header ── */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse-icon 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-icon {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 12px rgba(0, 229, 255, 0);
+            }
+        }
+
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: var(--accent);
+        }
+
+        .logo-sub {
+            font-size: 0.7rem;
+            color: var(--muted2);
+            letter-spacing: 2px;
+            margin-top: 2px;
+            font-family: var(--mono);
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--muted2);
+            background: var(--panel);
+            border: 1px solid var(--border2);
+            padding: 6px 14px;
+            border-radius: 100px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--muted);
+            transition: background 0.3s;
+        }
+
+        .status-dot.running {
+            background: var(--success);
+            animation: blink 1s infinite;
+        }
+
+        .status-dot.done {
+            background: var(--accent);
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.3
+            }
+        }
+
+        /* ── Panels ── */
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--muted2);
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border2);
+        }
+
+        /* ── Controls Grid ── */
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        @media (max-width: 900px) {
+            .controls-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--muted2);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            background: var(--panel2);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            padding: 10px 12px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.12);
+        }
+
+        /* ── Buttons ── */
+        .btn-row {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .btn-start {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
+        }
+
+        .btn-start:hover {
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .btn-stop {
+            background: var(--danger);
+            color: #fff;
+            display: none;
+            box-shadow: 0 0 20px rgba(244, 63, 94, 0.25);
+        }
+
+        .btn-stop:hover {
+            box-shadow: 0 0 30px rgba(244, 63, 94, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .btn-export {
+            background: transparent;
+            color: var(--success);
+            border: 1px solid var(--success);
+            display: none;
+        }
+
+        .btn-export:hover {
+            background: rgba(34, 211, 160, 0.1);
+        }
+
+        /* ── Progress Bar ── */
+        .progress-wrap {
+            margin-top: 1rem;
+            display: none;
+            background: var(--panel2);
+            border-radius: 4px;
+            overflow: hidden;
+            height: 4px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            transition: width 0.1s linear;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* ── Metrics Grid ── */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .metrics-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .metric-card {
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem 0.8rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--card-accent, var(--border));
+            transition: background 0.3s;
+        }
+
+        .metric-card.highlight::before {
+            background: var(--card-accent);
+            box-shadow: 0 0 10px var(--card-accent);
+        }
+
+        .metric-lbl {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--muted2);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .metric-val {
+            font-family: var(--mono);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text);
+            transition: color 0.3s;
+            line-height: 1;
+        }
+
+        .metric-val.accent {
+            color: var(--accent);
+        }
+
+        .metric-val.success {
+            color: var(--success);
+        }
+
+        .metric-val.warn {
+            color: var(--warn);
+        }
+
+        .metric-val.danger {
+            color: var(--danger);
+        }
+
+        .metric-sub {
+            font-size: 0.6rem;
+            color: var(--muted);
+            margin-top: 4px;
+            font-family: var(--mono);
+        }
+
+        /* ── Percentile Row ── */
+        .perc-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .perc-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* ── Live Chart ── */
+        .chart-wrap {
+            position: relative;
+            height: 140px;
+            margin: 0.5rem 0;
+        }
+
+        #rpsCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 6px;
+        }
+
+        /* ── Error Monitor ── */
+        .error-monitor {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 700px) {
+            .error-monitor {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .error-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .error-stat-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: var(--panel2);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: border-color 0.3s;
+        }
+
+        .error-stat-row.has-error {
+            border-color: rgba(244, 63, 94, 0.4);
+        }
+
+        .error-stat-row.has-warn {
+            border-color: rgba(251, 191, 36, 0.4);
+        }
+
+        .err-name {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--muted2);
+        }
+
+        .err-val {
+            font-family: var(--mono);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .err-bar-wrap {
+            height: 3px;
+            background: var(--border2);
+            border-radius: 2px;
+            margin-top: 6px;
+        }
+
+        .err-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        /* ── Console Log ── */
+        .console {
+            background: #020408;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            height: 200px;
+            overflow-y: auto;
+            padding: 1rem;
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .console::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .console::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .console::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 4px;
+        }
+
+        .log-line {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 2px;
+        }
+
+        .log-time {
+            color: var(--muted);
+            flex-shrink: 0;
+        }
+
+        .log-norm {
+            color: #48bb78;
+        }
+
+        .log-err {
+            color: var(--danger);
+        }
+
+        .log-warn {
+            color: var(--warn);
+        }
+
+        .log-info {
+            color: var(--accent);
+        }
+
+        /* ── Analysis Box ── */
+        .analysis-box {
+            display: none;
+            padding: 1.2rem 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--accent);
+            background: rgba(0, 229, 255, 0.05);
+            margin-top: 1rem;
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+
+        .analysis-box h4 {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        /* ── Error Breakdown Table ── */
+        .err-table-wrap {
+            overflow-x: auto;
+            margin-top: 0.75rem;
+        }
+
+        .err-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+        }
+
+        .err-table th {
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border2);
+            color: var(--muted2);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+        }
+
+        .err-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .err-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .err-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .badge-err {
+            background: rgba(244, 63, 94, 0.15);
+            color: var(--danger);
+        }
+
+        .badge-warn {
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--warn);
+        }
+
+        .badge-net {
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--accent3);
+        }
+
+        /* ── Spike Bars ── */
+        .spike-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .spike-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .spike-rank {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--muted);
+            width: 20px;
+            text-align: right;
+        }
+
+        .spike-bar-bg {
+            flex: 1;
+            height: 6px;
+            background: var(--border2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .spike-bar {
+            height: 100%;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--danger), var(--accent2));
+            transition: width 0.6s ease;
+        }
+
+        .spike-val {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--danger);
+            width: 62px;
+            text-align: right;
+        }
+
+        /* ── Responsive layout ── */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 700px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── Scan line animation on metric update ── */
+        @keyframes flash-val {
+            0% {
+                opacity: 0.4;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .flashing {
+            animation: flash-val 0.3s ease;
+        }
+
+        /* ── Response Preview ── */
+        .resp-meta {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 700px) {
+            .resp-meta {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .resp-meta-card {
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+        }
+
+        .resp-meta-lbl {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--muted2);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .resp-meta-val {
+            font-family: var(--mono);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .resp-meta-val.ok {
+            color: var(--success);
+        }
+
+        .resp-meta-val.slow {
+            color: var(--warn);
+        }
+
+        .resp-meta-val.fail {
+            color: var(--danger);
+        }
+
+        .resp-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 0.75rem;
+        }
+
+        .resp-tab {
+            padding: 5px 14px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border: 1px solid var(--border2);
+            background: transparent;
+            color: var(--muted2);
+            font-family: var(--mono);
+            transition: all 0.15s;
+        }
+
+        .resp-tab.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        .resp-body {
+            background: #020408;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            line-height: 1.7;
+            max-height: 320px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .resp-body::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .resp-body::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 4px;
+        }
+
+        .resp-placeholder {
+            color: var(--muted);
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.8rem;
+        }
+
+        /* JSON syntax highlight */
+        .json-key {
+            color: #79c0ff;
+        }
+
+        .json-str {
+            color: #a5d6ff;
+        }
+
+        .json-num {
+            color: #f2cc60;
+        }
+
+        .json-bool {
+            color: #ff7b72;
+        }
+
+        .json-null {
+            color: #ff7b72;
+        }
+
+        .json-brace {
+            color: var(--muted2);
+        }
+
+        .resp-type-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.6rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 700px) {
+            .resp-type-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .resp-type-card {
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .resp-type-name {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--muted2);
+            text-transform: uppercase;
+        }
+
+        .resp-type-count {
+            font-family: var(--mono);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        @keyframes resp-in {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .resp-anim {
+            animation: resp-in 0.3s ease;
+        }
+
+        /* ── Multi-Query Comparison ── */
+        .compare-queries {
+            width: 100%;
+            min-height: 80px;
+            background: var(--panel2);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            padding: 10px 12px;
+            resize: vertical;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .compare-queries:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.12);
+        }
+
+        .compare-queries::placeholder {
+            color: var(--muted);
+        }
+
+        .compare-progress {
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .compare-progress-text {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .compare-progress-bar {
+            height: 4px;
+            background: var(--panel2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .compare-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .compare-table th {
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 2px solid var(--border2);
+            color: var(--muted2);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.62rem;
+            white-space: nowrap;
+        }
+
+        .compare-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+            transition: background 0.2s;
+        }
+
+        .compare-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .compare-table tr.best-row td {
+            background: rgba(34, 211, 160, 0.06);
+        }
+
+        .compare-table tr.worst-row td {
+            background: rgba(244, 63, 94, 0.06);
+        }
+
+        .cmp-query {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.82rem;
+        }
+
+        .cmp-best {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .cmp-worst {
+            color: var(--danger);
+            font-weight: 700;
+        }
+
+        .cmp-bar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cmp-bar-bg {
+            flex: 1;
+            height: 6px;
+            background: var(--border2);
+            border-radius: 3px;
+            overflow: hidden;
+            min-width: 60px;
+        }
+
+        .cmp-bar {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+
+        .cmp-rank {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            font-size: 0.65rem;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+
+        .cmp-rank.gold {
+            background: rgba(251, 191, 36, 0.2);
+            color: var(--warn);
+        }
+
+        .cmp-rank.silver {
+            background: rgba(148, 163, 184, 0.2);
+            color: #94a3b8;
+        }
+
+        .cmp-rank.bronze {
+            background: rgba(255, 107, 53, 0.2);
+            color: var(--accent2);
+        }
+
+        .compare-settings {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 700px) {
+            .compare-settings {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── Server Resource Monitor ── */
+        .monitor-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .monitor-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .monitor-charts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 700px) {
+            .monitor-charts {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .monitor-chart-box {
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+        }
+
+        .monitor-chart-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--muted2);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .monitor-chart-label span {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .monitor-chart-wrap {
+            height: 80px;
+            position: relative;
+        }
+
+        .monitor-chart-wrap canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .monitor-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+        }
+
+        .monitor-header .panel-title {
+            margin-bottom: 0;
+        }
+
+        .btn-monitor {
+            padding: 5px 16px;
+            font-size: 0.72rem;
+            background: transparent;
+            border: 1px solid var(--accent3);
+            color: var(--accent3);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: var(--mono);
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .btn-monitor:hover {
+            background: rgba(168, 85, 247, 0.1);
+        }
+
+        .btn-monitor.active {
+            background: var(--accent3);
+            color: #000;
+        }
+
+        .monitor-status {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-left: 10px;
+        }
+
+        .monitor-status.connected {
+            color: var(--success);
+        }
+
+        .monitor-status.error {
+            color: var(--danger);
+        }
+    </style>
 </head>
 
 <body>
-  <div class="container">
+    <div class="container">
 
-    <!-- Header -->
-    <header>
-      <div class="logo">
-        <div class="logo-icon"></div>
-        <div>
-          <div class="logo-text">TIKERA</div>
-          <div class="logo-sub">ADVANCED PERFORMANCE ANALYZER</div>
-        </div>
-      </div>
-      <div class="status-pill">
-        <div class="status-dot" id="statusDot"></div>
-        <span id="statusText">IDLE</span>
-      </div>
-    </header>
-
-    <!-- ── Config Panel ── -->
-    <div class="panel">
-      <div class="panel-title">Configuration</div>
-      <div class="controls-grid">
-        <div class="form-group">
-          <label>Target API URL</label>
-          <input type="text" id="apiUrl" value="https://api.festminton.tikera.net/search" />
-        </div>
-        <div class="form-group">
-          <label>Search Keyword (?q=)</label>
-          <input type="text" id="searchKeyword" value="keo" placeholder="từ khoá..." />
-        </div>
-        <div class="form-group">
-          <label>HTTP Method</label>
-          <select id="httpMethod">
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Concurrent Users</label>
-          <input type="number" id="concurrentUsers" value="100" min="1" max="2000" />
-        </div>
-        <div class="form-group">
-          <label>Duration (sec)</label>
-          <input type="number" id="duration" value="10" min="1" max="300" />
-        </div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-start" id="startBtn" onclick="startTest()">▶ Bắt đầu Benchmark</button>
-        <button class="btn btn-stop" id="stopBtn" onclick="stopTest()">■ Dừng Khẩn Cấp</button>
-        <button class="btn btn-export" id="exportBtn" onclick="exportJsonReport()">↓ Tải Báo cáo (JSON)</button>
-      </div>
-      <div class="progress-wrap" id="progressWrap">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-    </div>
-
-    <!-- ── Live Metrics ── -->
-    <div class="panel">
-      <div class="panel-title">Live Monitoring</div>
-      <div class="metrics-grid">
-        <div class="metric-card" style="--card-accent:var(--accent)">
-          <div class="metric-lbl">Total Requests</div>
-          <div class="metric-val accent" id="valTotal">0</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--accent)">
-          <div class="metric-lbl">Req / Sec (RPS)</div>
-          <div class="metric-val accent" id="valRps">0</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--success)">
-          <div class="metric-lbl">Avg Latency (ms)</div>
-          <div class="metric-val" id="valLatency">0</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--success)">
-          <div class="metric-lbl">Min Latency (ms)</div>
-          <div class="metric-val success" id="valMinLatency">0</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--warn)">
-          <div class="metric-lbl">Max Latency (ms)</div>
-          <div class="metric-val" id="valMaxLatency">0</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--success)">
-          <div class="metric-lbl">Error Rate</div>
-          <div class="metric-val success" id="valErrors">0%</div>
-        </div>
-      </div>
-
-      <!-- RPS Sparkline Chart -->
-      <div style="margin-bottom:1rem;">
-        <div
-          style="font-size:0.65rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">
-          RPS Over Time</div>
-        <div class="chart-wrap"><canvas id="rpsCanvas"></canvas></div>
-      </div>
-
-      <!-- Percentile Row -->
-      <div
-        style="font-size:0.65rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem;">
-        Latency Percentiles (Calculated on Finish)</div>
-      <div class="perc-grid">
-        <div class="metric-card" style="--card-accent:var(--success)">
-          <div class="metric-lbl">P50 (Median)</div>
-          <div class="metric-val success" id="valP50">--</div>
-          <div class="metric-sub" id="subP50">–</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--accent)">
-          <div class="metric-lbl">P90</div>
-          <div class="metric-val accent" id="valP90">--</div>
-          <div class="metric-sub" id="subP90">–</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--warn)">
-          <div class="metric-lbl">P95 (95th %ile)</div>
-          <div class="metric-val warn" id="valP95">--</div>
-          <div class="metric-sub" id="subP95">–</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--danger)">
-          <div class="metric-lbl">P99 (Tail Spikes)</div>
-          <div class="metric-val danger" id="valP99">--</div>
-          <div class="metric-sub" id="subP99">–</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--accent3)">
-          <div class="metric-lbl">P999</div>
-          <div class="metric-val" style="color:var(--accent3)" id="valP999">--</div>
-          <div class="metric-sub" id="subP999">–</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── Server Resource Monitor ── -->
-    <div class="panel">
-      <div class="monitor-header">
-        <div class="panel-title" style="flex:1">Server Resource Monitor</div>
-        <span class="monitor-status" id="monitorStatus">OFFLINE</span>
-        <button class="btn-monitor" id="monitorToggleBtn" onclick="toggleMonitor()">▶ Start Monitor</button>
-      </div>
-      <div class="monitor-grid">
-        <div class="metric-card" style="--card-accent:var(--accent2)">
-          <div class="metric-lbl">CPU Usage</div>
-          <div class="metric-val" id="monCpu" style="color:var(--accent2)">--</div>
-          <div class="metric-sub" id="monCpuSub">--</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--accent3)">
-          <div class="metric-lbl">RAM Usage</div>
-          <div class="metric-val" id="monRam" style="color:var(--accent3)">--</div>
-          <div class="metric-sub" id="monRamSub">--</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--warn)">
-          <div class="metric-lbl">RAM Used</div>
-          <div class="metric-val" id="monRamUsed" style="color:var(--warn)">--</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--success)">
-          <div class="metric-lbl">RAM Free</div>
-          <div class="metric-val success" id="monRamFree">--</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--accent)">
-          <div class="metric-lbl">Node Heap</div>
-          <div class="metric-val accent" id="monHeap">--</div>
-          <div class="metric-sub" id="monHeapSub">--</div>
-        </div>
-        <div class="metric-card" style="--card-accent:var(--muted2)">
-          <div class="metric-lbl">Server Uptime</div>
-          <div class="metric-val" id="monUptime">--</div>
-        </div>
-      </div>
-      <div class="monitor-charts">
-        <div class="monitor-chart-box">
-          <div class="monitor-chart-label">
-            CPU % Over Time
-            <span id="monCpuLive" style="color:var(--accent2)">--</span>
-          </div>
-          <div class="monitor-chart-wrap"><canvas id="cpuCanvas"></canvas></div>
-        </div>
-        <div class="monitor-chart-box">
-          <div class="monitor-chart-label">
-            RAM % Over Time
-            <span id="monRamLive" style="color:var(--accent3)">--</span>
-          </div>
-          <div class="monitor-chart-wrap"><canvas id="ramCanvas"></canvas></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── Error Monitor ── -->
-    <div class="panel">
-      <div class="panel-title">Error Monitor</div>
-      <div class="error-monitor">
-
-        <!-- Left: error stats -->
-        <div class="error-stats">
-          <div class="error-stat-row" id="rowTotal2">
-            <div>
-              <div class="err-name">TOTAL REQUESTS</div>
-              <div class="err-bar-wrap">
-                <div class="err-bar-fill" id="barTotal" style="width:0%;background:var(--accent)"></div>
-              </div>
-            </div>
-            <div class="err-val accent" id="err_total">0</div>
-          </div>
-          <div class="error-stat-row" id="rowSuccess">
-            <div style="flex:1">
-              <div class="err-name">SUCCESSFUL</div>
-              <div class="err-bar-wrap">
-                <div class="err-bar-fill" id="barSuccess" style="width:0%;background:var(--success)">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <div>
+                    <div class="logo-text">TIKERA</div>
+                    <div class="logo-sub">ADVANCED PERFORMANCE ANALYZER</div>
                 </div>
-              </div>
             </div>
-            <div class="err-val success" id="err_success">0</div>
-          </div>
-          <div class="error-stat-row" id="rowFailed">
-            <div style="flex:1">
-              <div class="err-name">FAILED REQUESTS</div>
-              <div class="err-bar-wrap">
-                <div class="err-bar-fill" id="barFailed" style="width:0%;background:var(--danger)">
+            <div class="status-pill">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">IDLE</span>
+            </div>
+        </header>
+
+        <!-- ── Config Panel ── -->
+        <div class="panel">
+            <div class="panel-title">Configuration</div>
+            <div class="controls-grid">
+                <div class="form-group">
+                    <label>Target API URL</label>
+                    <input type="text" id="apiUrl" value="https://api.festminton.tikera.net/search" />
                 </div>
-              </div>
+                <div class="form-group">
+                    <label>Search Keyword (?q=)</label>
+                    <input type="text" id="searchKeyword" value="keo" placeholder="từ khoá..." />
+                </div>
+                <div class="form-group">
+                    <label>HTTP Method</label>
+                    <select id="httpMethod">
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Concurrent Users</label>
+                    <input type="number" id="concurrentUsers" value="100" min="1" max="2000" />
+                </div>
+                <div class="form-group">
+                    <label>Duration (sec)</label>
+                    <input type="number" id="duration" value="10" min="1" max="300" />
+                </div>
             </div>
-            <div class="err-val danger" id="err_failed">0</div>
-          </div>
-          <div class="error-stat-row" id="rowHTTP">
-            <div style="flex:1">
-              <div class="err-name">HTTP ERRORS (4xx/5xx)</div>
-              <div class="err-bar-wrap">
-                <div class="err-bar-fill" id="barHTTP" style="width:0%;background:var(--warn)"></div>
-              </div>
+            <div class="btn-row">
+                <button class="btn btn-start" id="startBtn" onclick="startTest()">▶ Bắt đầu Benchmark</button>
+                <button class="btn btn-stop" id="stopBtn" onclick="stopTest()">■ Dừng Khẩn Cấp</button>
+                <button class="btn btn-export" id="exportBtn" onclick="exportJsonReport()">↓ Tải Báo cáo (JSON)</button>
+                <button class="btn" style="background:var(--warn);color:#000;flex:0.5;border:none;" id="clearCacheBtn" onclick="clearCache()">🗑️ Clear Cache</button>
             </div>
-            <div class="err-val warn" id="err_http">0</div>
-          </div>
-          <div class="error-stat-row" id="rowNet">
-            <div style="flex:1">
-              <div class="err-name">NETWORK ERRORS</div>
-              <div class="err-bar-wrap">
-                <div class="err-bar-fill" id="barNet" style="width:0%;background:var(--accent3)"></div>
-              </div>
+            <div class="progress-wrap" id="progressWrap">
+                <div class="progress-fill" id="progressFill"></div>
             </div>
-            <div class="err-val" style="color:var(--accent3)" id="err_net">0</div>
-          </div>
         </div>
 
-        <!-- Right: Worst Spikes -->
-        <div>
-          <div
-            style="font-size:0.65rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem;">
-            Worst Latency Spikes</div>
-          <div class="spike-list" id="spikeList">
-            <div style="color:var(--muted);font-family:var(--mono);font-size:0.75rem;padding:1rem 0;">Chưa
-              có dữ liệu — chạy benchmark để xem.</div>
-          </div>
-        </div>
-      </div>
+        <!-- ── Live Metrics ── -->
+        <div class="panel">
+            <div class="panel-title">Live Monitoring</div>
+            <div class="metrics-grid">
+                <div class="metric-card" style="--card-accent:var(--accent)">
+                    <div class="metric-lbl">Total Requests</div>
+                    <div class="metric-val accent" id="valTotal">0</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--accent)">
+                    <div class="metric-lbl">Req / Sec (RPS)</div>
+                    <div class="metric-val accent" id="valRps">0</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--success)">
+                    <div class="metric-lbl">Avg Latency (ms)</div>
+                    <div class="metric-val" id="valLatency">0</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--success)">
+                    <div class="metric-lbl">Min Latency (ms)</div>
+                    <div class="metric-val success" id="valMinLatency">0</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--warn)">
+                    <div class="metric-lbl">Max Latency (ms)</div>
+                    <div class="metric-val" id="valMaxLatency">0</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--success)">
+                    <div class="metric-lbl">Error Rate</div>
+                    <div class="metric-val success" id="valErrors">0%</div>
+                </div>
+            </div>
 
-      <!-- Error breakdown table -->
-      <div style="margin-top:1.25rem;">
-        <div
-          style="font-size:0.65rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem;">
-          Error Log Detail</div>
-        <div class="err-table-wrap">
-          <table class="err-table" id="errTable">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Time</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Latency</th>
-                <th>Detail</th>
-              </tr>
-            </thead>
-            <tbody id="errTableBody">
-              <tr>
-                <td colspan="6" style="color:var(--muted);text-align:center;padding:1.5rem 0;">Không có
-                  lỗi nào — hệ thống OK</td>
-              </tr>
-            </tbody>
-          </table>
+            <!-- RPS Sparkline Chart -->
+            <div style="margin-bottom:1rem;">
+                <div
+                    style="font-size:0.65rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">
+                    RPS Over Time</div>
+                <div class="chart-wrap"><canvas id="rpsCanvas"></canvas></div>
+            </div>
+
+            <!-- Percentile Row -->
+            <div
+                style="font-size:0.65rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem;">
+                Latency Percentiles (Calculated on Finish)</div>
+            <div class="perc-grid">
+                <div class="metric-card" style="--card-accent:var(--success)">
+                    <div class="metric-lbl">P50 (Median)</div>
+                    <div class="metric-val success" id="valP50">--</div>
+                    <div class="metric-sub" id="subP50">–</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--accent)">
+                    <div class="metric-lbl">P90</div>
+                    <div class="metric-val accent" id="valP90">--</div>
+                    <div class="metric-sub" id="subP90">–</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--warn)">
+                    <div class="metric-lbl">P95 (95th %ile)</div>
+                    <div class="metric-val warn" id="valP95">--</div>
+                    <div class="metric-sub" id="subP95">–</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--danger)">
+                    <div class="metric-lbl">P99 (Tail Spikes)</div>
+                    <div class="metric-val danger" id="valP99">--</div>
+                    <div class="metric-sub" id="subP99">–</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--accent3)">
+                    <div class="metric-lbl">P999</div>
+                    <div class="metric-val" style="color:var(--accent3)" id="valP999">--</div>
+                    <div class="metric-sub" id="subP999">–</div>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <!-- ── Server Resource Monitor ── -->
+        <div class="panel">
+            <div class="monitor-header">
+                <div class="panel-title" style="flex:1">Server Resource Monitor</div>
+                <span class="monitor-status" id="monitorStatus">OFFLINE</span>
+                <button class="btn-monitor" id="monitorToggleBtn" onclick="toggleMonitor()">▶ Start Monitor</button>
+            </div>
+            <div class="monitor-grid">
+                <div class="metric-card" style="--card-accent:var(--accent2)">
+                    <div class="metric-lbl">CPU Usage</div>
+                    <div class="metric-val" id="monCpu" style="color:var(--accent2)">--</div>
+                    <div class="metric-sub" id="monCpuSub">--</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--accent3)">
+                    <div class="metric-lbl">RAM Usage</div>
+                    <div class="metric-val" id="monRam" style="color:var(--accent3)">--</div>
+                    <div class="metric-sub" id="monRamSub">--</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--warn)">
+                    <div class="metric-lbl">RAM Used</div>
+                    <div class="metric-val" id="monRamUsed" style="color:var(--warn)">--</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--success)">
+                    <div class="metric-lbl">RAM Free</div>
+                    <div class="metric-val success" id="monRamFree">--</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--accent)">
+                    <div class="metric-lbl">Node Heap</div>
+                    <div class="metric-val accent" id="monHeap">--</div>
+                    <div class="metric-sub" id="monHeapSub">--</div>
+                </div>
+                <div class="metric-card" style="--card-accent:var(--muted2)">
+                    <div class="metric-lbl">Server Uptime</div>
+                    <div class="metric-val" id="monUptime">--</div>
+                </div>
+            </div>
+            <div class="monitor-charts">
+                <div class="monitor-chart-box">
+                    <div class="monitor-chart-label">
+                        CPU % Over Time
+                        <span id="monCpuLive" style="color:var(--accent2)">--</span>
+                    </div>
+                    <div class="monitor-chart-wrap"><canvas id="cpuCanvas"></canvas></div>
+                </div>
+                <div class="monitor-chart-box">
+                    <div class="monitor-chart-label">
+                        RAM % Over Time
+                        <span id="monRamLive" style="color:var(--accent3)">--</span>
+                    </div>
+                    <div class="monitor-chart-wrap"><canvas id="ramCanvas"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Error Monitor ── -->
+        <div class="panel">
+            <div class="panel-title">Error Monitor</div>
+            <div class="error-monitor">
+
+                <!-- Left: error stats -->
+                <div class="error-stats">
+                    <div class="error-stat-row" id="rowTotal2">
+                        <div>
+                            <div class="err-name">TOTAL REQUESTS</div>
+                            <div class="err-bar-wrap">
+                                <div class="err-bar-fill" id="barTotal" style="width:0%;background:var(--accent)"></div>
+                            </div>
+                        </div>
+                        <div class="err-val accent" id="err_total">0</div>
+                    </div>
+                    <div class="error-stat-row" id="rowSuccess">
+                        <div style="flex:1">
+                            <div class="err-name">SUCCESSFUL</div>
+                            <div class="err-bar-wrap">
+                                <div class="err-bar-fill" id="barSuccess" style="width:0%;background:var(--success)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="err-val success" id="err_success">0</div>
+                    </div>
+                    <div class="error-stat-row" id="rowFailed">
+                        <div style="flex:1">
+                            <div class="err-name">FAILED REQUESTS</div>
+                            <div class="err-bar-wrap">
+                                <div class="err-bar-fill" id="barFailed" style="width:0%;background:var(--danger)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="err-val danger" id="err_failed">0</div>
+                    </div>
+                    <div class="error-stat-row" id="rowHTTP">
+                        <div style="flex:1">
+                            <div class="err-name">HTTP ERRORS (4xx/5xx)</div>
+                            <div class="err-bar-wrap">
+                                <div class="err-bar-fill" id="barHTTP" style="width:0%;background:var(--warn)"></div>
+                            </div>
+                        </div>
+                        <div class="err-val warn" id="err_http">0</div>
+                    </div>
+                    <div class="error-stat-row" id="rowNet">
+                        <div style="flex:1">
+                            <div class="err-name">NETWORK ERRORS</div>
+                            <div class="err-bar-wrap">
+                                <div class="err-bar-fill" id="barNet" style="width:0%;background:var(--accent3)"></div>
+                            </div>
+                        </div>
+                        <div class="err-val" style="color:var(--accent3)" id="err_net">0</div>
+                    </div>
+                </div>
+
+                <!-- Right: Worst Spikes -->
+                <div>
+                    <div
+                        style="font-size:0.65rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem;">
+                        Worst Latency Spikes</div>
+                    <div class="spike-list" id="spikeList">
+                        <div style="color:var(--muted);font-family:var(--mono);font-size:0.75rem;padding:1rem 0;">Chưa
+                            có dữ liệu — chạy benchmark để xem.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error breakdown table -->
+            <div style="margin-top:1.25rem;">
+                <div
+                    style="font-size:0.65rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem;">
+                    Error Log Detail</div>
+                <div class="err-table-wrap">
+                    <table class="err-table" id="errTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Time</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Latency</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody id="errTableBody">
+                            <tr>
+                                <td colspan="6" style="color:var(--muted);text-align:center;padding:1.5rem 0;">Không có
+                                    lỗi nào — hệ thống OK</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Last Query Response ── -->
+        <div class="panel">
+            <div class="panel-title">Last Query Response</div>
+            <div class="resp-meta">
+                <div class="resp-meta-card">
+                    <div class="resp-meta-lbl">HTTP Status</div>
+                    <div class="resp-meta-val" id="respStatus">—</div>
+                </div>
+                <div class="resp-meta-card">
+                    <div class="resp-meta-lbl">Latency</div>
+                    <div class="resp-meta-val" id="respLatency">—</div>
+                </div>
+                <div class="resp-meta-card">
+                    <div class="resp-meta-lbl">Body Size</div>
+                    <div class="resp-meta-val" id="respSize">—</div>
+                </div>
+                <div class="resp-meta-card">
+                    <div class="resp-meta-lbl">Captured At</div>
+                    <div class="resp-meta-val" id="respTime" style="font-size:0.78rem">—</div>
+                </div>
+            </div>
+            <div
+                style="font-size:0.65rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.5rem;">
+                Result Breakdown</div>
+            <div class="resp-type-grid">
+                <div class="resp-type-card">
+                    <div class="resp-type-name" id="lblPosts">Posts</div>
+                    <div class="resp-type-count" id="rtPosts">—</div>
+                </div>
+                <div class="resp-type-card">
+                    <div class="resp-type-name" id="lblTournaments">Tournaments</div>
+                    <div class="resp-type-count" id="rtTournaments">—</div>
+                </div>
+                <div class="resp-type-card">
+                    <div class="resp-type-name" id="lblHosts">Hosts</div>
+                    <div class="resp-type-count" id="rtHosts">—</div>
+                </div>
+                <div class="resp-type-card">
+                    <div class="resp-type-name" id="lblUsers">Users</div>
+                    <div class="resp-type-count" id="rtUsers">—</div>
+                </div>
+            </div>
+            <div class="resp-tabs">
+                <button class="resp-tab active" onclick="switchTab('pretty')" id="tabPretty">Pretty</button>
+                <button class="resp-tab" onclick="switchTab('raw')" id="tabRaw">Raw</button>
+                <button class="resp-tab" onclick="switchTab('meta')" id="tabMeta">Meta</button>
+                <button onclick="captureOnce()"
+                    style="flex:0;padding:5px 16px;font-size:0.72rem;margin-left:auto;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:6px;cursor:pointer;font-family:var(--mono);"
+                    id="captureBtn">⟳ Capture Now</button>
+            </div>
+            <div class="resp-body" id="respBody">
+                <div class="resp-placeholder">Chưa có dữ liệu — nhấn "Capture Now" hoặc chạy benchmark để tự động lấy 1
+                    response mẫu.</div>
+            </div>
+        </div>
+
+        <!-- ── Console & Analysis ── -->
+        <div class="panel">
+            <div class="panel-title">Execution Logs & AI Analysis</div>
+            <div class="console" id="consoleLog">
+                <div class="log-line"><span class="log-time">[00:00]</span><span class="log-norm">> Ready. Cấu hình
+                        thông số và bấm Bắt đầu để đo lường.</span></div>
+            </div>
+            <div class="analysis-box" id="analysisBox">
+                <h4>Kết luận Hiệu năng Toàn diện</h4>
+                <p id="analysisText"></p>
+            </div>
+        </div>
+
+        <!-- ── Multi-Query Speed Comparison ── -->
+        <div class="panel">
+            <div class="panel-title">Multi-Query Speed Comparison</div>
+            <div class="compare-settings">
+                <div>
+                    <div class="form-group">
+                        <label>Danh sách query (mỗi dòng 1 keyword)</label>
+                        <textarea class="compare-queries" id="compareQueries" rows="5"
+                            placeholder="keo&#10;badminton&#10;tennis&#10;abc123&#10;tournament"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group" style="margin-bottom:0.75rem;">
+                        <label>Concurrent Users (per query)</label>
+                        <input type="number" id="compareConcurrency" value="50" min="1" max="500" />
+                    </div>
+                    <div class="form-group">
+                        <label>Duration per query (sec)</label>
+                        <input type="number" id="compareDuration" value="5" min="1" max="60" />
+                    </div>
+                </div>
+            </div>
+            <div class="btn-row">
+                <button class="btn btn-start" id="compareStartBtn" onclick="startComparison()" style="background:var(--accent3);box-shadow:0 0 20px rgba(168,85,247,0.25);">⚡ Run Comparison</button>
+                <button class="btn btn-stop" id="compareStopBtn" onclick="stopComparison()" style="display:none;">■ Stop Comparison</button>
+            </div>
+            <div class="compare-progress" id="compareProgress">
+                <div class="compare-progress-text" id="compareProgressText">Đang chạy query 1/5...</div>
+                <div class="compare-progress-bar">
+                    <div class="compare-progress-fill" id="compareProgressFill"></div>
+                </div>
+            </div>
+            <div id="compareResults"></div>
+        </div>
+
     </div>
 
-    <!-- ── Last Query Response ── -->
-    <div class="panel">
-      <div class="panel-title">Last Query Response</div>
-      <div class="resp-meta">
-        <div class="resp-meta-card">
-          <div class="resp-meta-lbl">HTTP Status</div>
-          <div class="resp-meta-val" id="respStatus">—</div>
-        </div>
-        <div class="resp-meta-card">
-          <div class="resp-meta-lbl">Latency</div>
-          <div class="resp-meta-val" id="respLatency">—</div>
-        </div>
-        <div class="resp-meta-card">
-          <div class="resp-meta-lbl">Body Size</div>
-          <div class="resp-meta-val" id="respSize">—</div>
-        </div>
-        <div class="resp-meta-card">
-          <div class="resp-meta-lbl">Captured At</div>
-          <div class="resp-meta-val" id="respTime" style="font-size:0.78rem">—</div>
-        </div>
-      </div>
-      <div
-        style="font-size:0.65rem;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.5rem;">
-        Result Breakdown</div>
-      <div class="resp-type-grid">
-        <div class="resp-type-card">
-          <div class="resp-type-name" id="lblPosts">Posts</div>
-          <div class="resp-type-count" id="rtPosts">—</div>
-        </div>
-        <div class="resp-type-card">
-          <div class="resp-type-name" id="lblTournaments">Tournaments</div>
-          <div class="resp-type-count" id="rtTournaments">—</div>
-        </div>
-        <div class="resp-type-card">
-          <div class="resp-type-name" id="lblHosts">Hosts</div>
-          <div class="resp-type-count" id="rtHosts">—</div>
-        </div>
-        <div class="resp-type-card">
-          <div class="resp-type-name" id="lblUsers">Users</div>
-          <div class="resp-type-count" id="rtUsers">—</div>
-        </div>
-      </div>
-      <div class="resp-tabs">
-        <button class="resp-tab active" onclick="switchTab('pretty')" id="tabPretty">Pretty</button>
-        <button class="resp-tab" onclick="switchTab('raw')" id="tabRaw">Raw</button>
-        <button class="resp-tab" onclick="switchTab('meta')" id="tabMeta">Meta</button>
-        <button onclick="captureOnce()"
-          style="flex:0;padding:5px 16px;font-size:0.72rem;margin-left:auto;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:6px;cursor:pointer;font-family:var(--mono);"
-          id="captureBtn">⟳ Capture Now</button>
-      </div>
-      <div class="resp-body" id="respBody">
-        <div class="resp-placeholder">Chưa có dữ liệu — nhấn "Capture Now" hoặc chạy benchmark để tự động lấy 1
-          response mẫu.</div>
-      </div>
-    </div>
+    <script>
+        // ─── State ───────────────────────────────────────────────────────────────
+        let isRunning = false;
+        let activeWorkers = 0;
+        let requestLatencies = [];
+        let activeFullUrl = '';
+        let rpsHistory = [];          // [{t, rps}]
+        let rpsLastCount = 0;
+        let rpsLastTime = 0;
+        let errorLog = [];             // [{time, type, status, latency, detail}]
+        let httpErrors = 0;
+        let netErrors = 0;
 
-    <!-- ── Console & Analysis ── -->
-    <div class="panel">
-      <div class="panel-title">Execution Logs & AI Analysis</div>
-      <div class="console" id="consoleLog">
-        <div class="log-line"><span class="log-time">[00:00]</span><span class="log-norm">> Ready. Cấu hình
-            thông số và bấm Bắt đầu để đo lường.</span></div>
-      </div>
-      <div class="analysis-box" id="analysisBox">
-        <h4>Kết luận Hiệu năng Toàn diện</h4>
-        <p id="analysisText"></p>
-      </div>
-    </div>
+        let stats = { total: 0, success: 0, errors: 0, totalLatencyMs: 0, startTime: 0, endTime: 0 };
 
-    <!-- ── Multi-Query Speed Comparison ── -->
-    <div class="panel">
-      <div class="panel-title">Multi-Query Speed Comparison</div>
-      <div class="compare-settings">
-        <div>
-          <div class="form-group">
-            <label>Danh sách query (mỗi dòng 1 keyword)</label>
-            <textarea class="compare-queries" id="compareQueries" rows="5"
-              placeholder="keo&#10;badminton&#10;tennis&#10;abc123&#10;tournament"></textarea>
-          </div>
-        </div>
-        <div>
-          <div class="form-group" style="margin-bottom:0.75rem;">
-            <label>Concurrent Users (per query)</label>
-            <input type="number" id="compareConcurrency" value="50" min="1" max="500" />
-          </div>
-          <div class="form-group">
-            <label>Duration per query (sec)</label>
-            <input type="number" id="compareDuration" value="5" min="1" max="60" />
-          </div>
-        </div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-start" id="compareStartBtn" onclick="startComparison()"
-          style="background:var(--accent3);box-shadow:0 0 20px rgba(168,85,247,0.25);">⚡ Run Comparison</button>
-        <button class="btn btn-stop" id="compareStopBtn" onclick="stopComparison()" style="display:none;">■ Stop
-          Comparison</button>
-      </div>
-      <div class="compare-progress" id="compareProgress">
-        <div class="compare-progress-text" id="compareProgressText">Đang chạy query 1/5...</div>
-        <div class="compare-progress-bar">
-          <div class="compare-progress-fill" id="compareProgressFill"></div>
-        </div>
-      </div>
-      <div id="compareResults"></div>
-    </div>
+        // ─── Canvas ──────────────────────────────────────────────────────────────
+        const canvas = document.getElementById('rpsCanvas');
+        const ctx = canvas.getContext('2d');
 
-  </div>
-
-  <script>
-    // ─── State ───────────────────────────────────────────────────────────────
-    let isRunning = false;
-    let activeWorkers = 0;
-    let requestLatencies = [];
-    let activeFullUrl = '';
-    let rpsHistory = [];          // [{t, rps}]
-    let rpsLastCount = 0;
-    let rpsLastTime = 0;
-    let errorLog = [];             // [{time, type, status, latency, detail}]
-    let httpErrors = 0;
-    let netErrors = 0;
-
-    let stats = { total: 0, success: 0, errors: 0, totalLatencyMs: 0, startTime: 0, endTime: 0 };
-
-    // ─── Canvas ──────────────────────────────────────────────────────────────
-    const canvas = document.getElementById('rpsCanvas');
-    const ctx = canvas.getContext('2d');
-
-    function resizeCanvas() {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    function drawSparkline() {
-      if (!rpsHistory.length) return;
-      resizeCanvas();
-      const W = canvas.width, H = canvas.height;
-      ctx.clearRect(0, 0, W, H);
-
-      const vals = rpsHistory.map(d => d.rps);
-      const maxV = Math.max(...vals, 1);
-      const pts = vals.map((v, i) => ({
-        x: (i / Math.max(vals.length - 1, 1)) * W,
-        y: H - (v / maxV) * (H - 10) - 5
-      }));
-
-      // Fill
-      const grad = ctx.createLinearGradient(0, 0, 0, H);
-      grad.addColorStop(0, 'rgba(0,229,255,0.18)');
-      grad.addColorStop(1, 'rgba(0,229,255,0)');
-      ctx.beginPath();
-      ctx.moveTo(pts[0].x, H);
-      pts.forEach(p => ctx.lineTo(p.x, p.y));
-      ctx.lineTo(pts[pts.length - 1].x, H);
-      ctx.closePath();
-      ctx.fillStyle = grad;
-      ctx.fill();
-
-      // Line
-      ctx.beginPath();
-      pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
-      ctx.strokeStyle = '#00e5ff';
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
-      // Last dot
-      const last = pts[pts.length - 1];
-      ctx.beginPath();
-      ctx.arc(last.x, last.y, 3, 0, Math.PI * 2);
-      ctx.fillStyle = '#00e5ff';
-      ctx.fill();
-    }
-
-    // ─── Logging ─────────────────────────────────────────────────────────────
-    function logMessage(msg, type = 'norm') {
-      const el = document.getElementById('consoleLog');
-      const now = new Date();
-      const ts = `${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-      const line = document.createElement('div');
-      line.className = 'log-line';
-      line.innerHTML = `<span class="log-time">[${ts}]</span><span class="log-${type}">${msg}</span>`;
-      el.appendChild(line);
-      el.scrollTop = el.scrollHeight;
-    }
-
-    // ─── Single Worker Loop ───────────────────────────────────────────────────
-    async function singleUserLoop(url, method, endTime) {
-      activeWorkers++;
-      while (isRunning && Date.now() < endTime) {
-        const bypassUrl = url.includes('?')
-          ? `${url}&_t=${Date.now()}_${Math.random()}`
-          : `${url}?_t=${Date.now()}_${Math.random()}`;
-
-        const reqStart = performance.now();
-        let latency = 0;
-
-        try {
-          const res = await fetch(bypassUrl, {
-            method,
-            cache: 'no-store',
-            headers: { 'Accept': 'application/json' }
-          });
-
-          latency = performance.now() - reqStart;
-          requestLatencies.push(latency);
-          stats.totalLatencyMs += latency;
-          stats.total++;
-
-          if (res.ok) {
-            stats.success++;
-          } else {
-            stats.errors++;
-            httpErrors++;
-            if (errorLog.length < 200) {
-              errorLog.push({ time: new Date().toISOString(), type: 'HTTP', status: res.status, latency: latency.toFixed(1), detail: `HTTP ${res.status}` });
-            }
-            if (stats.errors <= 5) logMessage(`[HTTP ${res.status}] Server trả về lỗi — latency: ${latency.toFixed(0)}ms`, 'err');
-          }
-        } catch (err) {
-          latency = performance.now() - reqStart;
-          requestLatencies.push(latency);
-          stats.totalLatencyMs += latency;
-          stats.total++;
-          stats.errors++;
-          netErrors++;
-          if (errorLog.length < 200) {
-            errorLog.push({ time: new Date().toISOString(), type: 'Network', status: '—', latency: latency.toFixed(1), detail: err.name });
-          }
-          if (stats.errors <= 10) logMessage(`[Network] ${err.name} — latency: ${latency.toFixed(0)}ms`, 'err');
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
         }
-      }
-      activeWorkers--;
-      if (activeWorkers === 0 && isRunning) finishTest();
-    }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
-    // ─── Live Dashboard Update ────────────────────────────────────────────────
-    function updateDashboard() {
-      if (!isRunning) return;
+        function drawSparkline() {
+            if (!rpsHistory.length) return;
+            resizeCanvas();
+            const W = canvas.width, H = canvas.height;
+            ctx.clearRect(0, 0, W, H);
 
-      const elapsed = (Date.now() - stats.startTime) / 1000;
-      const rps = elapsed > 0 ? stats.total / elapsed : 0;
-      const avgLat = stats.total > 0 ? stats.totalLatencyMs / stats.total : 0;
+            const vals = rpsHistory.map(d => d.rps);
+            const maxV = Math.max(...vals, 1);
+            const pts = vals.map((v, i) => ({
+                x: (i / Math.max(vals.length - 1, 1)) * W,
+                y: H - (v / maxV) * (H - 10) - 5
+            }));
 
-      let minLat = 0, maxLat = 0;
-      if (requestLatencies.length) {
-        minLat = Math.min(...requestLatencies);
-        maxLat = Math.max(...requestLatencies);
-      }
+            // Fill
+            const grad = ctx.createLinearGradient(0, 0, 0, H);
+            grad.addColorStop(0, 'rgba(0,229,255,0.18)');
+            grad.addColorStop(1, 'rgba(0,229,255,0)');
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, H);
+            pts.forEach(p => ctx.lineTo(p.x, p.y));
+            ctx.lineTo(pts[pts.length - 1].x, H);
+            ctx.closePath();
+            ctx.fillStyle = grad;
+            ctx.fill();
 
-      const errRate = stats.total > 0 ? (stats.errors / stats.total) * 100 : 0;
+            // Line
+            ctx.beginPath();
+            pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+            ctx.strokeStyle = '#00e5ff';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
 
-      // Main metrics
-      setVal('valTotal', stats.total);
-      setVal('valRps', Math.round(rps));
-      setVal('valLatency', Math.round(avgLat));
-      setVal('valMinLatency', Math.round(minLat));
-      setVal('valMaxLatency', Math.round(maxLat));
+            // Last dot
+            const last = pts[pts.length - 1];
+            ctx.beginPath();
+            ctx.arc(last.x, last.y, 3, 0, Math.PI * 2);
+            ctx.fillStyle = '#00e5ff';
+            ctx.fill();
+        }
 
-      const errEl = document.getElementById('valErrors');
-      errEl.textContent = errRate.toFixed(2) + '%';
-      errEl.className = 'metric-val ' + (errRate > 5 ? 'danger' : errRate > 1 ? 'warn' : 'success');
+        // ─── Logging ─────────────────────────────────────────────────────────────
+        function logMessage(msg, type = 'norm') {
+            const el = document.getElementById('consoleLog');
+            const now = new Date();
+            const ts = `${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+            const line = document.createElement('div');
+            line.className = 'log-line';
+            line.innerHTML = `<span class="log-time">[${ts}]</span><span class="log-${type}">${msg}</span>`;
+            el.appendChild(line);
+            el.scrollTop = el.scrollHeight;
+        }
 
-      const latEl = document.getElementById('valLatency');
-      latEl.className = 'metric-val ' + (avgLat > 500 ? 'danger' : avgLat > 150 ? 'warn' : '');
+        // ─── Single Worker Loop ───────────────────────────────────────────────────
+        async function singleUserLoop(url, method, endTime, signal) {
+            activeWorkers++;
+            while (isRunning && Date.now() < endTime) {
+                const bypassUrl = url.includes('?')
+                    ? `${url}&_t=${Date.now()}_${Math.random()}`
+                    : `${url}?_t=${Date.now()}_${Math.random()}`;
 
-      // Error monitor bars
-      document.getElementById('err_total').textContent = stats.total;
-      document.getElementById('err_success').textContent = stats.success;
-      document.getElementById('err_failed').textContent = stats.errors;
-      document.getElementById('err_http').textContent = httpErrors;
-      document.getElementById('err_net').textContent = netErrors;
+                const reqStart = performance.now();
+                let latency = 0;
 
-      const pct = (v) => stats.total > 0 ? Math.min((v / stats.total) * 100, 100) + '%' : '0%';
-      document.getElementById('barTotal').style.width = '100%';
-      document.getElementById('barSuccess').style.width = pct(stats.success);
-      document.getElementById('barFailed').style.width = pct(stats.errors);
-      document.getElementById('barHTTP').style.width = pct(httpErrors);
-      document.getElementById('barNet').style.width = pct(netErrors);
+                try {
+                    const res = await fetch(bypassUrl, {
+                        method,
+                        cache: 'no-store',
+                        headers: { 'Accept': 'application/json' },
+                        signal: signal
+                    });
+                    await res.text(); // Fix: consume body to prevent connection leak
 
-      document.getElementById('rowFailed').className = 'error-stat-row ' + (stats.errors > 0 ? 'has-error' : '');
-      document.getElementById('rowHTTP').className = 'error-stat-row ' + (httpErrors > 0 ? 'has-warn' : '');
+                    latency = performance.now() - reqStart;
+                    requestLatencies.push(latency);
+                    stats.totalLatencyMs += latency;
+                    stats.total++;
 
-      // RPS sparkline
-      const now = Date.now();
-      if (now - rpsLastTime >= 500) {
-        const interval = (now - (rpsLastTime || stats.startTime)) / 1000;
-        const burst = (stats.total - rpsLastCount) / interval;
-        rpsHistory.push({ t: now, rps: burst });
-        if (rpsHistory.length > 60) rpsHistory.shift();
-        rpsLastCount = stats.total;
-        rpsLastTime = now;
-        drawSparkline();
-      }
+                    if (res.ok) {
+                        stats.success++;
+                    } else {
+                        stats.errors++;
+                        httpErrors++;
+                        if (errorLog.length < 200) {
+                            errorLog.push({ time: new Date().toISOString(), type: 'HTTP', status: res.status, latency: latency.toFixed(1), detail: `HTTP ${res.status}` });
+                        }
+                        if (stats.errors <= 5) logMessage(`[HTTP ${res.status}] Server trả về lỗi — latency: ${latency.toFixed(0)}ms`, 'err');
+                    }
+                } catch (err) {
+                    if (err.name === 'AbortError') break;
+                    latency = performance.now() - reqStart;
+                    requestLatencies.push(latency);
+                    stats.totalLatencyMs += latency;
+                    stats.total++;
+                    stats.errors++;
+                    netErrors++;
+                    if (errorLog.length < 200) {
+                        errorLog.push({ time: new Date().toISOString(), type: 'Network', status: '—', latency: latency.toFixed(1), detail: err.name });
+                    }
+                    if (stats.errors <= 10) logMessage(`[Network] ${err.name} — latency: ${latency.toFixed(0)}ms`, 'err');
+                }
+            }
+            activeWorkers--;
+            if (activeWorkers === 0 && isRunning) finishTest();
+        }
 
-      requestAnimationFrame(updateDashboard);
-    }
+        // ─── Live Dashboard Update ────────────────────────────────────────────────
+        function updateDashboard() {
+            if (!isRunning) return;
 
-    function setVal(id, val) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = val;
-    }
+            const elapsed = (Date.now() - stats.startTime) / 1000;
+            const rps = elapsed > 0 ? stats.total / elapsed : 0;
+            const avgLat = stats.total > 0 ? stats.totalLatencyMs / stats.total : 0;
 
-    // ─── Start ────────────────────────────────────────────────────────────────
-    function startTest() {
-      stats = { total: 0, success: 0, errors: 0, totalLatencyMs: 0, startTime: Date.now(), endTime: 0 };
-      requestLatencies = [];
-      rpsHistory = []; rpsLastCount = 0; rpsLastTime = 0;
-      errorLog = []; httpErrors = 0; netErrors = 0;
-      isRunning = true;
+            let minLat = 0, maxLat = 0;
+            const len = requestLatencies.length;
+            if (len) {
+                let mn = requestLatencies[0], mx = requestLatencies[0];
+                for(let i=1; i<len; i++){
+                    if(requestLatencies[i] < mn) mn = requestLatencies[i];
+                    else if(requestLatencies[i] > mx) mx = requestLatencies[i];
+                }
+                minLat = mn; maxLat = mx;
+            }
 
-      const baseUrl = document.getElementById('apiUrl').value.trim();
-      const keyword = document.getElementById('searchKeyword').value.trim();
-      const httpMethod = document.getElementById('httpMethod').value;
-      const concurrency = parseInt(document.getElementById('concurrentUsers').value, 10);
-      const durationSec = parseInt(document.getElementById('duration').value, 10);
-      const endTime = Date.now() + durationSec * 1000;
+            const errRate = stats.total > 0 ? (stats.errors / stats.total) * 100 : 0;
 
-      activeFullUrl = keyword ? `${baseUrl}?q=${encodeURIComponent(keyword)}` : baseUrl;
+            // Main metrics
+            setVal('valTotal', stats.total);
+            setVal('valRps', Math.round(rps));
+            setVal('valLatency', Math.round(avgLat));
+            setVal('valMinLatency', Math.round(minLat));
+            setVal('valMaxLatency', Math.round(maxLat));
 
-      // Reset UI
-      document.getElementById('startBtn').style.display = 'none';
-      document.getElementById('exportBtn').style.display = 'none';
-      document.getElementById('stopBtn').style.display = 'block';
-      document.getElementById('analysisBox').style.display = 'none';
-      document.getElementById('consoleLog').innerHTML = '';
-      document.getElementById('errTableBody').innerHTML = '<tr><td colspan="6" style="color:var(--muted);text-align:center;padding:1.5rem 0;">Đang theo dõi…</td></tr>';
-      document.getElementById('spikeList').innerHTML = '<div style="color:var(--muted);font-family:var(--mono);font-size:0.75rem;padding:0.5rem 0;">Đang chạy…</div>';
-      ['valP50', 'valP90', 'valP95', 'valP99', 'valP999'].forEach(id => {
-        document.getElementById(id).textContent = '--';
-      });
+            const errEl = document.getElementById('valErrors');
+            errEl.textContent = errRate.toFixed(2) + '%';
+            errEl.className = 'metric-val ' + (errRate > 5 ? 'danger' : errRate > 1 ? 'warn' : 'success');
 
-      const statusDot = document.getElementById('statusDot');
-      statusDot.className = 'status-dot running';
-      document.getElementById('statusText').textContent = 'RUNNING';
+            const latEl = document.getElementById('valLatency');
+            latEl.className = 'metric-val ' + (avgLat > 500 ? 'danger' : avgLat > 150 ? 'warn' : '');
 
-      const pw = document.getElementById('progressWrap');
-      const pf = document.getElementById('progressFill');
-      pw.style.display = 'block';
-      pf.style.width = '0%';
-      pf.style.transition = `width ${durationSec}s linear`;
-      setTimeout(() => { pf.style.width = '100%'; }, 50);
+            // Error monitor bars
+            document.getElementById('err_total').textContent = stats.total;
+            document.getElementById('err_success').textContent = stats.success;
+            document.getElementById('err_failed').textContent = stats.errors;
+            document.getElementById('err_http').textContent = httpErrors;
+            document.getElementById('err_net').textContent = netErrors;
 
-      logMessage(`Khởi chạy với ${concurrency} luồng đồng thời × ${durationSec}s`, 'info');
-      logMessage(`Target: [${httpMethod}] ${activeFullUrl}`, 'info');
+            const pct = (v) => stats.total > 0 ? Math.min((v / stats.total) * 100, 100) + '%' : '0%';
+            document.getElementById('barTotal').style.width = '100%';
+            document.getElementById('barSuccess').style.width = pct(stats.success);
+            document.getElementById('barFailed').style.width = pct(stats.errors);
+            document.getElementById('barHTTP').style.width = pct(httpErrors);
+            document.getElementById('barNet').style.width = pct(netErrors);
 
-      for (let i = 0; i < concurrency; i++) singleUserLoop(activeFullUrl, httpMethod, endTime);
-      requestAnimationFrame(updateDashboard);
+            document.getElementById('rowFailed').className = 'error-stat-row ' + (stats.errors > 0 ? 'has-error' : '');
+            document.getElementById('rowHTTP').className = 'error-stat-row ' + (httpErrors > 0 ? 'has-warn' : '');
 
-      // Auto-capture 1 response mẫu sau 1.5s warmup
-      setTimeout(() => {
-        if (isRunning) captureOnce();
-      }, 1500);
-    }
+            // RPS sparkline
+            const now = Date.now();
+            if (now - rpsLastTime >= 500) {
+                const interval = (now - (rpsLastTime || stats.startTime)) / 1000;
+                const burst = (stats.total - rpsLastCount) / interval;
+                rpsHistory.push({ t: now, rps: burst });
+                if (rpsHistory.length > 60) rpsHistory.shift();
+                rpsLastCount = stats.total;
+                rpsLastTime = now;
+                drawSparkline();
+            }
 
-    // ─── Stop ─────────────────────────────────────────────────────────────────
-    function stopTest() {
-      isRunning = false;
-      logMessage('Đã ngắt — đang tổng hợp kết quả…', 'warn');
-      finishTest();
-    }
+            requestAnimationFrame(updateDashboard);
+        }
 
-    // ─── Percentile ───────────────────────────────────────────────────────────
-    function calcP(sorted, p) {
-      if (!sorted.length) return 0;
-      const idx = Math.ceil((p / 100) * sorted.length) - 1;
-      return sorted[Math.max(0, idx)];
-    }
+        function setVal(id, val) {
+            const el = document.getElementById(id);
+            if (el) el.textContent = val;
+        }
 
-    // ─── Finish ───────────────────────────────────────────────────────────────
-    function finishTest() {
-      isRunning = false;
-      stats.endTime = Date.now();
+        // ─── Start ────────────────────────────────────────────────────────────────
+        let runControllers = [];
 
-      document.getElementById('startBtn').style.display = 'block';
-      document.getElementById('stopBtn').style.display = 'none';
-      document.getElementById('exportBtn').style.display = 'block';
-      document.getElementById('progressWrap').style.display = 'none';
+        function startTest() {
+            stats = { total: 0, success: 0, errors: 0, totalLatencyMs: 0, startTime: Date.now(), endTime: 0 };
+            requestLatencies = [];
+            rpsHistory = []; rpsLastCount = 0; rpsLastTime = 0;
+            errorLog = []; httpErrors = 0; netErrors = 0;
+            isRunning = true;
+            runControllers = [];
 
-      const dot = document.getElementById('statusDot');
-      dot.className = 'status-dot done';
-      document.getElementById('statusText').textContent = 'DONE';
+            const baseUrl = document.getElementById('apiUrl').value.trim();
+            const keyword = document.getElementById('searchKeyword').value.trim();
+            const httpMethod = document.getElementById('httpMethod').value;
+            const concurrency = parseInt(document.getElementById('concurrentUsers').value, 10);
+            const durationSec = parseInt(document.getElementById('duration').value, 10);
+            const endTime = Date.now() + durationSec * 1000;
 
-      requestLatencies.sort((a, b) => a - b);
-      const p50 = calcP(requestLatencies, 50);
-      const p90 = calcP(requestLatencies, 90);
-      const p95 = calcP(requestLatencies, 95);
-      const p99 = calcP(requestLatencies, 99);
-      const p999 = calcP(requestLatencies, 99.9);
-      const minL = requestLatencies[0] || 0;
-      const maxL = requestLatencies[requestLatencies.length - 1] || 0;
+            activeFullUrl = keyword ? `${baseUrl}?q=${encodeURIComponent(keyword)}` : baseUrl;
 
-      // Percentile display + sub-label
-      const percData = [
-        { id: 'valP50', subId: 'subP50', val: p50, baseline: p50, label: 'median' },
-        { id: 'valP90', subId: 'subP90', val: p90, baseline: p50, label: '' },
-        { id: 'valP95', subId: 'subP95', val: p95, baseline: p50, label: '' },
-        { id: 'valP99', subId: 'subP99', val: p99, baseline: p50, label: 'tail' },
-        { id: 'valP999', subId: 'subP999', val: p999, baseline: p50, label: '' },
-      ];
-      percData.forEach(({ id, subId, val, baseline }) => {
-        document.getElementById(id).textContent = Math.round(val) + 'ms';
-        const ratio = baseline > 0 ? (val / baseline).toFixed(1) : '–';
-        document.getElementById(subId).textContent = `×${ratio} of P50`;
-      });
+            // Reset UI
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('exportBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'block';
+            document.getElementById('analysisBox').style.display = 'none';
+            document.getElementById('consoleLog').innerHTML = '';
+            document.getElementById('errTableBody').innerHTML = '<tr><td colspan="6" style="color:var(--muted);text-align:center;padding:1.5rem 0;">Đang theo dõi…</td></tr>';
+            document.getElementById('spikeList').innerHTML = '<div style="color:var(--muted);font-family:var(--mono);font-size:0.75rem;padding:0.5rem 0;">Đang chạy…</div>';
+            ['valP50', 'valP90', 'valP95', 'valP99', 'valP999'].forEach(id => {
+                document.getElementById(id).textContent = '--';
+            });
 
-      setVal('valMinLatency', Math.round(minL));
-      setVal('valMaxLatency', Math.round(maxL));
+            const statusDot = document.getElementById('statusDot');
+            statusDot.className = 'status-dot running';
+            document.getElementById('statusText').textContent = 'RUNNING';
 
-      const elapsed = (stats.endTime - stats.startTime) / 1000;
-      const rps = stats.total / elapsed;
-      const avgLat = stats.totalLatencyMs / stats.total;
-      const errRate = (stats.errors / stats.total) * 100;
+            const pw = document.getElementById('progressWrap');
+            const pf = document.getElementById('progressFill');
+            pw.style.display = 'block';
+            pf.style.width = '0%';
+            pf.style.transition = `width ${durationSec}s linear`;
+            setTimeout(() => { pf.style.width = '100%'; }, 50);
 
-      setVal('valTotal', stats.total);
-      setVal('valRps', Math.round(rps));
-      setVal('valLatency', Math.round(avgLat));
+            logMessage(`Khởi chạy với ${concurrency} luồng đồng thời × ${durationSec}s`, 'info');
+            logMessage(`Target: [${httpMethod}] ${activeFullUrl}`, 'info');
 
-      logMessage(`[DONE] Total: ${stats.total} | OK: ${stats.success} | Fail: ${stats.errors} | RPS: ${Math.round(rps)}`, 'info');
+            for (let i = 0; i < concurrency; i++) {
+                const ac = new AbortController();
+                runControllers.push(ac);
+                singleUserLoop(activeFullUrl, httpMethod, endTime, ac.signal);
+            }
+            requestAnimationFrame(updateDashboard);
 
-      // Worst spikes
-      const worst = requestLatencies.slice(-10).reverse();
-      renderSpikes(worst);
+            // Auto-capture 1 response mẫu sau 1.5s warmup
+            setTimeout(() => {
+                if (isRunning) captureOnce();
+            }, 1500);
+        }
 
-      // Error table
-      renderErrorTable();
+        // ─── Stop ─────────────────────────────────────────────────────────────────
+        function stopTest() {
+            isRunning = false;
+            logMessage('Đã ngắt — đang hủy các kết nối đang chạy…', 'warn');
+            runControllers.forEach(ac => ac.abort());
+            finishTest();
+        }
 
-      // Analysis
-      analyzeResults(rps, avgLat, p50, p95, p99, errRate,
-        document.getElementById('concurrentUsers').value);
+        // ─── Percentile ───────────────────────────────────────────────────────────
+        function calcP(sorted, p) {
+            if (!sorted.length) return 0;
+            const idx = Math.ceil((p / 100) * sorted.length) - 1;
+            return sorted[Math.max(0, idx)];
+        }
 
-      drawSparkline();
-      logMessage('Đang tự động xuất báo cáo JSON…', 'info');
-      exportJsonReport();
-    }
+        // ─── Finish ───────────────────────────────────────────────────────────────
+        function finishTest() {
+            isRunning = false;
+            stats.endTime = Date.now();
 
-    // ─── Render Spikes ────────────────────────────────────────────────────────
-    function renderSpikes(worst) {
-      const container = document.getElementById('spikeList');
-      if (!worst.length) { container.innerHTML = '<div style="color:var(--muted);font-family:var(--mono);font-size:0.75rem;">Không có spike nào.</div>'; return; }
-      const maxSpike = worst[0];
-      container.innerHTML = worst.map((v, i) => `
+            document.getElementById('startBtn').style.display = 'block';
+            document.getElementById('stopBtn').style.display = 'none';
+            document.getElementById('exportBtn').style.display = 'block';
+            document.getElementById('progressWrap').style.display = 'none';
+
+            const dot = document.getElementById('statusDot');
+            dot.className = 'status-dot done';
+            document.getElementById('statusText').textContent = 'DONE';
+
+            requestLatencies.sort((a, b) => a - b);
+            const p50 = calcP(requestLatencies, 50);
+            const p90 = calcP(requestLatencies, 90);
+            const p95 = calcP(requestLatencies, 95);
+            const p99 = calcP(requestLatencies, 99);
+            const p999 = calcP(requestLatencies, 99.9);
+            const minL = requestLatencies[0] || 0;
+            const maxL = requestLatencies[requestLatencies.length - 1] || 0;
+
+            // Percentile display + sub-label
+            const percData = [
+                { id: 'valP50', subId: 'subP50', val: p50, baseline: p50, label: 'median' },
+                { id: 'valP90', subId: 'subP90', val: p90, baseline: p50, label: '' },
+                { id: 'valP95', subId: 'subP95', val: p95, baseline: p50, label: '' },
+                { id: 'valP99', subId: 'subP99', val: p99, baseline: p50, label: 'tail' },
+                { id: 'valP999', subId: 'subP999', val: p999, baseline: p50, label: '' },
+            ];
+            percData.forEach(({ id, subId, val, baseline }) => {
+                document.getElementById(id).textContent = Math.round(val) + 'ms';
+                const ratio = baseline > 0 ? (val / baseline).toFixed(1) : '–';
+                document.getElementById(subId).textContent = `×${ratio} of P50`;
+            });
+
+            setVal('valMinLatency', Math.round(minL));
+            setVal('valMaxLatency', Math.round(maxL));
+
+            const elapsed = (stats.endTime - stats.startTime) / 1000;
+            const rps = stats.total / elapsed;
+            const avgLat = stats.totalLatencyMs / stats.total;
+            const errRate = (stats.errors / stats.total) * 100;
+
+            setVal('valTotal', stats.total);
+            setVal('valRps', Math.round(rps));
+            setVal('valLatency', Math.round(avgLat));
+
+            logMessage(`[DONE] Total: ${stats.total} | OK: ${stats.success} | Fail: ${stats.errors} | RPS: ${Math.round(rps)}`, 'info');
+
+            // Worst spikes
+            const worst = requestLatencies.slice(-10).reverse();
+            renderSpikes(worst);
+
+            // Error table
+            renderErrorTable();
+
+            // Analysis
+            analyzeResults(rps, avgLat, p50, p95, p99, errRate,
+                document.getElementById('concurrentUsers').value);
+
+            drawSparkline();
+            logMessage('Đang tự động xuất báo cáo JSON…', 'info');
+            exportJsonReport();
+        }
+
+        // ─── Render Spikes ────────────────────────────────────────────────────────
+        function renderSpikes(worst) {
+            const container = document.getElementById('spikeList');
+            if (!worst.length) { container.innerHTML = '<div style="color:var(--muted);font-family:var(--mono);font-size:0.75rem;">Không có spike nào.</div>'; return; }
+            const maxSpike = worst[0];
+            container.innerHTML = worst.map((v, i) => `
       <div class="spike-row">
         <div class="spike-rank">#${i + 1}</div>
         <div class="spike-bar-bg">
@@ -1878,20 +1893,20 @@
         <div class="spike-val">${v.toFixed(1)}ms</div>
       </div>
     `).join('');
-    }
+        }
 
-    // ─── Render Error Table ───────────────────────────────────────────────────
-    function renderErrorTable() {
-      const tbody = document.getElementById('errTableBody');
-      if (!errorLog.length) {
-        tbody.innerHTML = '<tr><td colspan="6" style="color:var(--success);text-align:center;padding:1.5rem 0;">✓ Không có lỗi nào — hệ thống OK</td></tr>';
-        return;
-      }
-      const rows = errorLog.slice(0, 50).map((e, i) => {
-        const badgeClass = e.type === 'HTTP' ? 'badge-warn' : 'badge-net';
-        const typeLabel = e.type === 'HTTP' ? 'HTTP Error' : 'Network';
-        const ts = new Date(e.time).toLocaleTimeString('vi-VN');
-        return `<tr>
+        // ─── Render Error Table ───────────────────────────────────────────────────
+        function renderErrorTable() {
+            const tbody = document.getElementById('errTableBody');
+            if (!errorLog.length) {
+                tbody.innerHTML = '<tr><td colspan="6" style="color:var(--success);text-align:center;padding:1.5rem 0;">✓ Không có lỗi nào — hệ thống OK</td></tr>';
+                return;
+            }
+            const rows = errorLog.slice(0, 50).map((e, i) => {
+                const badgeClass = e.type === 'HTTP' ? 'badge-warn' : 'badge-net';
+                const typeLabel = e.type === 'HTTP' ? 'HTTP Error' : 'Network';
+                const ts = new Date(e.time).toLocaleTimeString('vi-VN');
+                return `<tr>
         <td style="color:var(--muted)">${i + 1}</td>
         <td style="color:var(--muted)">${ts}</td>
         <td><span class="badge ${badgeClass}">${typeLabel}</span></td>
@@ -1899,472 +1914,496 @@
         <td style="color:var(--danger)">${e.latency}ms</td>
         <td style="color:var(--muted2);font-size:0.7rem">${e.detail}</td>
       </tr>`;
-      }).join('');
+            }).join('');
 
-      const more = errorLog.length > 50
-        ? `<tr><td colspan="6" style="color:var(--muted);text-align:center;padding:0.75rem">… và ${errorLog.length - 50} lỗi khác</td></tr>`
-        : '';
-      tbody.innerHTML = rows + more;
-    }
-
-    // ─── Analysis ─────────────────────────────────────────────────────────────
-    function analyzeResults(rps, avgLatency, p50, p95, p99, errRate, concurrency) {
-      const box = document.getElementById('analysisBox');
-      const text = document.getElementById('analysisText');
-      box.style.display = 'block';
-
-      let html = '';
-      if (errRate > 5) {
-        box.style.borderLeftColor = 'var(--danger)';
-        box.style.background = 'rgba(244,63,94,0.07)';
-        box.querySelector('h4').style.color = 'var(--danger)';
-        html = `🔥 <strong>Cảnh Báo Sập (Crash):</strong> Tỷ lệ lỗi cực cao (${errRate.toFixed(1)}%). Dấu hiệu cạn kiệt Connection Pool của Database hoặc Node.js đã sập. Hãy kiểm tra lại log server Node.js.`;
-      } else if (p99 > p50 * 5 && p99 > 800) {
-        box.style.borderLeftColor = 'var(--warn)';
-        box.style.background = 'rgba(251,191,36,0.07)';
-        box.querySelector('h4').style.color = 'var(--warn)';
-        html = `⚠️ <strong>Nghẽn Cổ Chai Cục Bộ (Tail Latency Spikes):</strong> 50% lượng request xử lý RẤT NHANH (${Math.round(p50)}ms), nhưng 1% truy vấn (P99) phải chờ tới <strong>${Math.round(p99)}ms</strong>. Đây là dấu hiệu Node.js Event Loop bị hóc tạm thời hoặc Database quét Full Table Scan cục bộ.`;
-      } else if (p50 > 500) {
-        box.style.borderLeftColor = 'var(--warn)';
-        box.style.background = 'rgba(251,191,36,0.07)';
-        box.querySelector('h4').style.color = 'var(--warn)';
-        html = `⚡ <strong>Hệ Thống Phản Hồi Chậm Toàn Diện:</strong> P50 median quá cao (${Math.round(p50)}ms). Cả hệ thống đang kéo nhau chậm lại. Bạn không thể gánh ${concurrency} users cùng lúc với cấu trúc này.`;
-      } else {
-        box.style.borderLeftColor = 'var(--success)';
-        box.style.background = 'rgba(34,211,160,0.07)';
-        box.querySelector('h4').style.color = 'var(--success)';
-        html = `✅ <strong>Sức Khỏe Hệ Thống Tuyệt Vời:</strong> Độ ổn định hoàn hảo! Mức P99 (~${Math.round(p99)}ms) bám sát mức P50 Trung bình. Hệ thống NestJS & Database hoàn toàn nhàn nhã gồng gánh ${concurrency} lượt truy cập cùng lúc. RPS: ${Math.round(rps)} truy vấn/s.`;
-      }
-      text.innerHTML = html;
-    }
-
-    // ─── Response Preview ─────────────────────────────────────────────────────
-    let lastRespData = null;   // { status, latency, bodyText, parsed, capturedAt }
-    let activeTab = 'pretty';
-    let captureScheduled = false;
-
-    async function captureOnce() {
-      const baseUrl = document.getElementById('apiUrl').value.trim();
-      const keyword = document.getElementById('searchKeyword').value.trim();
-      const httpMethod = document.getElementById('httpMethod').value;
-      const targetUrl = keyword ? `${baseUrl}?q=${encodeURIComponent(keyword)}` : baseUrl;
-
-      const btn = document.getElementById('captureBtn');
-      btn.textContent = '…';
-      btn.disabled = true;
-
-      const t0 = performance.now();
-      try {
-        const res = await fetch(targetUrl, {
-          method: httpMethod,
-          cache: 'no-store',
-          headers: { 'Accept': 'application/json' }
-        });
-        const latency = performance.now() - t0;
-        const bodyText = await res.text();
-        let parsed = null;
-        try { parsed = JSON.parse(bodyText); } catch (_) { }
-
-        lastRespData = {
-          status: res.status,
-          statusText: res.statusText,
-          latency: latency,
-          bodyText: bodyText,
-          parsed: parsed,
-          capturedAt: new Date(),
-          size: new Blob([bodyText]).size
-        };
-        renderRespPreview();
-        logMessage(`[Capture] HTTP ${res.status} — ${latency.toFixed(0)}ms — ${formatBytes(lastRespData.size)}`, 'info');
-      } catch (err) {
-        logMessage(`[Capture] Lỗi: ${err.message}`, 'err');
-        document.getElementById('respBody').innerHTML =
-          `<div style="color:var(--danger);font-family:var(--mono);font-size:0.8rem;">Lỗi capture: ${err.message}<br><br>Kiểm tra CORS hoặc chạy từ file HTML local.</div>`;
-      }
-
-      btn.textContent = '⟳ Capture Now';
-      btn.disabled = false;
-    }
-
-    function formatBytes(b) {
-      if (b < 1024) return b + ' B';
-      if (b < 1024 * 1024) return (b / 1024).toFixed(1) + ' KB';
-      return (b / (1024 * 1024)).toFixed(2) + ' MB';
-    }
-
-    function switchTab(tab) {
-      activeTab = tab;
-      ['pretty', 'raw', 'meta'].forEach(t => {
-        document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1))
-          .classList.toggle('active', t === tab);
-      });
-      if (lastRespData) renderRespPreview();
-    }
-
-    function renderRespPreview() {
-      if (!lastRespData) return;
-      const d = lastRespData;
-
-      // Meta row
-      const statusEl = document.getElementById('respStatus');
-      statusEl.textContent = d.status + ' ' + d.statusText;
-      statusEl.className = 'resp-meta-val ' + (d.status < 300 ? 'ok' : d.status < 500 ? 'slow' : 'fail');
-
-      const latEl = document.getElementById('respLatency');
-      latEl.textContent = Math.round(d.latency) + 'ms';
-      latEl.className = 'resp-meta-val ' + (d.latency > 800 ? 'fail' : d.latency > 300 ? 'slow' : 'ok');
-
-      document.getElementById('respSize').textContent = formatBytes(d.size);
-      document.getElementById('respTime').textContent =
-        d.capturedAt.toLocaleTimeString('vi-VN');
-
-      // Result breakdown
-      if (d.parsed) {
-        if (d.parsed.cacheHit !== undefined) {
-          // Debug Endpoint
-          document.getElementById('lblPosts').textContent = 'Cache Hit';
-          document.getElementById('rtPosts').textContent = d.parsed.cacheHit ? 'TRUE' : 'FALSE';
-          document.getElementById('rtPosts').style.color = d.parsed.cacheHit ? 'var(--success)' : 'var(--danger)';
-
-          document.getElementById('lblTournaments').textContent = 'ES Total Hits';
-          document.getElementById('rtTournaments').textContent = d.parsed.esHits ?? '—';
-
-          document.getElementById('lblHosts').textContent = 'Card Hits';
-          document.getElementById('rtHosts').textContent = d.parsed.cardCacheHits ?? '—';
-
-          document.getElementById('lblUsers').textContent = 'DB Fetches';
-          document.getElementById('rtUsers').textContent = d.parsed.dbFetches ?? '—';
-          document.getElementById('rtUsers').style.color = d.parsed.dbFetches > 0 ? 'var(--danger)' : 'var(--success)';
-        } else {
-          // Normal Endpoint
-          document.getElementById('lblPosts').textContent = 'Posts';
-          document.getElementById('rtPosts').style.color = 'var(--accent)';
-          document.getElementById('rtPosts').textContent = Array.isArray(d.parsed.posts) ? d.parsed.posts.length : '—';
-
-          document.getElementById('lblTournaments').textContent = 'Tournaments';
-          document.getElementById('rtTournaments').textContent = Array.isArray(d.parsed.tournaments) ? d.parsed.tournaments.length : '—';
-
-          document.getElementById('lblHosts').textContent = 'Hosts';
-          document.getElementById('rtHosts').textContent = Array.isArray(d.parsed.hosts) ? d.parsed.hosts.length : '—';
-
-          document.getElementById('lblUsers').textContent = 'Users';
-          document.getElementById('rtUsers').textContent = Array.isArray(d.parsed.users) ? d.parsed.users.length : '—';
-          document.getElementById('rtUsers').style.color = 'var(--accent)';
+            const more = errorLog.length > 50
+                ? `<tr><td colspan="6" style="color:var(--muted);text-align:center;padding:0.75rem">… và ${errorLog.length - 50} lỗi khác</td></tr>`
+                : '';
+            tbody.innerHTML = rows + more;
         }
-      }
 
-      // Body viewer
-      const bodyEl = document.getElementById('respBody');
-      bodyEl.classList.remove('resp-anim');
-      void bodyEl.offsetWidth;
-      bodyEl.classList.add('resp-anim');
+        // ─── Analysis ─────────────────────────────────────────────────────────────
+        function analyzeResults(rps, avgLatency, p50, p95, p99, errRate, concurrency) {
+            const box = document.getElementById('analysisBox');
+            const text = document.getElementById('analysisText');
+            box.style.display = 'block';
 
-      if (activeTab === 'raw') {
-        bodyEl.innerHTML = `<span style="color:var(--muted2)">${escapeHtml(d.bodyText)}</span>`;
-      } else if (activeTab === 'meta') {
-        const meta = {
-          url: activeFullUrl || document.getElementById('apiUrl').value.trim(),
-          method: document.getElementById('httpMethod').value,
-          status: d.status,
-          latency_ms: Math.round(d.latency),
-          size_bytes: d.size,
-          captured_at: d.capturedAt.toISOString(),
-          result_counts: d.parsed ? {
-            posts: (d.parsed.posts || []).length,
-            tournaments: (d.parsed.tournaments || []).length,
-            hosts: (d.parsed.hosts || []).length,
-            users: (d.parsed.users || []).length,
-            meta: d.parsed.meta || null
-          } : null
-        };
-        bodyEl.innerHTML = syntaxHighlight(JSON.stringify(meta, null, 2));
-      } else {
-        // Pretty — full JSON with syntax highlight, truncate large arrays
-        if (d.parsed) {
-          const preview = truncateArrays(JSON.parse(JSON.stringify(d.parsed)), 3);
-          bodyEl.innerHTML = syntaxHighlight(JSON.stringify(preview, null, 2));
-        } else {
-          bodyEl.innerHTML = `<span style="color:var(--muted2)">${escapeHtml(d.bodyText.slice(0, 2000))}</span>`;
+            let html = '';
+            if (errRate > 5) {
+                box.style.borderLeftColor = 'var(--danger)';
+                box.style.background = 'rgba(244,63,94,0.07)';
+                box.querySelector('h4').style.color = 'var(--danger)';
+                html = `🔥 <strong>Cảnh Báo Sập (Crash):</strong> Tỷ lệ lỗi cực cao (${errRate.toFixed(1)}%). Dấu hiệu cạn kiệt Connection Pool của Database hoặc Node.js đã sập. Hãy kiểm tra lại log server Node.js.`;
+            } else if (p99 > p50 * 5 && p99 > 800) {
+                box.style.borderLeftColor = 'var(--warn)';
+                box.style.background = 'rgba(251,191,36,0.07)';
+                box.querySelector('h4').style.color = 'var(--warn)';
+                html = `⚠️ <strong>Nghẽn Cổ Chai Cục Bộ (Tail Latency Spikes):</strong> 50% lượng request xử lý RẤT NHANH (${Math.round(p50)}ms), nhưng 1% truy vấn (P99) phải chờ tới <strong>${Math.round(p99)}ms</strong>. Đây là dấu hiệu Node.js Event Loop bị hóc tạm thời hoặc Database quét Full Table Scan cục bộ.`;
+            } else if (p50 > 500) {
+                box.style.borderLeftColor = 'var(--warn)';
+                box.style.background = 'rgba(251,191,36,0.07)';
+                box.querySelector('h4').style.color = 'var(--warn)';
+                html = `⚡ <strong>Hệ Thống Phản Hồi Chậm Toàn Diện:</strong> P50 median quá cao (${Math.round(p50)}ms). Cả hệ thống đang kéo nhau chậm lại. Bạn không thể gánh ${concurrency} users cùng lúc với cấu trúc này.`;
+            } else {
+                box.style.borderLeftColor = 'var(--success)';
+                box.style.background = 'rgba(34,211,160,0.07)';
+                box.querySelector('h4').style.color = 'var(--success)';
+                html = `✅ <strong>Sức Khỏe Hệ Thống Tuyệt Vời:</strong> Độ ổn định hoàn hảo! Mức P99 (~${Math.round(p99)}ms) bám sát mức P50 Trung bình. Hệ thống NestJS & Database hoàn toàn nhàn nhã gồng gánh ${concurrency} lượt truy cập cùng lúc. RPS: ${Math.round(rps)} truy vấn/s.`;
+            }
+            text.innerHTML = html;
         }
-      }
-    }
 
-    function truncateArrays(obj, maxItems) {
-      if (Array.isArray(obj)) {
-        const sliced = obj.slice(0, maxItems);
-        if (obj.length > maxItems) sliced.push(`… +${obj.length - maxItems} more`);
-        return sliced.map(i => (typeof i === 'object' && i !== null) ? truncateArrays(i, maxItems) : i);
-      }
-      if (typeof obj === 'object' && obj !== null) {
-        const out = {};
-        for (const k of Object.keys(obj)) out[k] = truncateArrays(obj[k], maxItems);
-        return out;
-      }
-      return obj;
-    }
+        // ─── Response Preview ─────────────────────────────────────────────────────
+        let lastRespData = null;   // { status, latency, bodyText, parsed, capturedAt }
+        let activeTab = 'pretty';
+        let captureScheduled = false;
 
-    function syntaxHighlight(json) {
-      return json
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, (match) => {
-          let cls = 'json-num';
-          if (/^"/.test(match)) {
-            cls = /:$/.test(match) ? 'json-key' : 'json-str';
-          } else if (/true|false/.test(match)) {
-            cls = 'json-bool';
-          } else if (/null/.test(match)) {
-            cls = 'json-null';
-          }
-          return `<span class="${cls}">${match}</span>`;
-        });
-    }
+        async function captureOnce() {
+            const baseUrl = document.getElementById('apiUrl').value.trim();
+            const keyword = document.getElementById('searchKeyword').value.trim();
+            const httpMethod = document.getElementById('httpMethod').value;
+            const targetUrl = keyword ? `${baseUrl}?q=${encodeURIComponent(keyword)}` : baseUrl;
 
-    function escapeHtml(str) {
-      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    // Auto-capture once when test starts (after 1.5s warmup)
-    const _origStart = startTest;
-    // Patch startTest to schedule auto-capture
-    window.addEventListener('load', () => { });
-
-    async function exportJsonReport() {
-      if (stats.total === 0) return;
-
-      const exportBtn = document.getElementById('exportBtn');
-      exportBtn.textContent = 'Đang lưu…';
-      exportBtn.disabled = true;
-
-      const reportData = {
-        metadata: {
-          timestamp: new Date().toISOString(),
-          targetUrl: activeFullUrl,
-          httpMethod: document.getElementById('httpMethod').value,
-          concurrentUsers: parseInt(document.getElementById('concurrentUsers').value, 10),
-          durationSeconds: (stats.endTime - stats.startTime) / 1000
-        },
-        summary: {
-          totalRequests: stats.total,
-          successfulRequests: stats.success,
-          failedRequests: stats.errors,
-          requestsPerSecond: stats.total / ((stats.endTime - stats.startTime) / 1000),
-          errorRatePercentage: (stats.errors / stats.total) * 100
-        },
-        latencyMetrics: {
-          unit: 'milliseconds',
-          average: stats.totalLatencyMs / stats.total,
-          p50: calcP(requestLatencies, 50),
-          p90: calcP(requestLatencies, 90),
-          p95: calcP(requestLatencies, 95),
-          p99: calcP(requestLatencies, 99),
-          p999: calcP(requestLatencies, 99.9),
-          max: requestLatencies[requestLatencies.length - 1],
-          min: requestLatencies[0]
-        },
-        worstSpikes: requestLatencies.slice(-10).reverse(),
-        errorBreakdown: {
-          httpErrors: httpErrors,
-          networkErrors: netErrors,
-          errorLog: errorLog.slice(0, 100)
-        }
-      };
-
-      try {
-        const baseUrlObj = new URL(activeFullUrl);
-        const reportEndpoint = `${baseUrlObj.protocol}//${baseUrlObj.host}/benchmarks/report`;
-        const response = await fetch(reportEndpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(reportData)
-        });
-        if (response.ok) {
-          const result = await response.json();
-          logMessage(`✅ Đã lưu báo cáo lên server: /${result.directory}/${result.file}`, 'info');
-          exportBtn.textContent = 'Đã lưu thành công';
-        } else { throw new Error('Server từ chối'); }
-      } catch (err) {
-        logMessage(`❌ Không lưu được lên server (${err.message}) — tải về máy…`, 'err');
-        const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `Tikera_Benchmark_${Date.now()}.json`;
-        document.body.appendChild(a); a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(a.href);
-        exportBtn.textContent = 'Tải lại Báo cáo (JSON)';
-      }
-
-      setTimeout(() => {
-        exportBtn.disabled = false;
-        if (exportBtn.textContent !== 'Tải lại Báo cáo (JSON)') exportBtn.textContent = 'Tải Báo cáo (JSON)';
-      }, 3000);
-    }
-
-    // ─── Multi-Query Comparison ───────────────────────────────────────────────
-    let compareRunning = false;
-    let compareResults = [];
-
-    async function startComparison() {
-      const textarea = document.getElementById('compareQueries');
-      const queries = textarea.value.split('\n').map(q => q.trim()).filter(q => q.length > 0);
-      if (queries.length < 2) {
-        alert('Nhập ít nhất 2 query (mỗi dòng 1 keyword) để so sánh!');
-        return;
-      }
-
-      const baseUrl = document.getElementById('apiUrl').value.trim();
-      const httpMethod = document.getElementById('httpMethod').value;
-      const concurrency = parseInt(document.getElementById('compareConcurrency').value, 10) || 50;
-      const durationSec = parseInt(document.getElementById('compareDuration').value, 10) || 5;
-
-      compareRunning = true;
-      compareResults = [];
-
-      // UI state
-      document.getElementById('compareStartBtn').style.display = 'none';
-      document.getElementById('compareStopBtn').style.display = 'block';
-      document.getElementById('compareProgress').style.display = 'block';
-      document.getElementById('compareResults').innerHTML = '';
-
-      logMessage(`[COMPARE] Bắt đầu so sánh ${queries.length} query × ${concurrency} users × ${durationSec}s`, 'info');
-
-      for (let qi = 0; qi < queries.length; qi++) {
-        if (!compareRunning) break;
-
-        const query = queries[qi];
-        const pct = ((qi) / queries.length * 100).toFixed(0);
-        document.getElementById('compareProgressText').textContent =
-          `Đang chạy query ${qi + 1}/${queries.length}: "${query}"...`;
-        document.getElementById('compareProgressFill').style.width = pct + '%';
-
-        logMessage(`[COMPARE] Query ${qi + 1}/${queries.length}: "${query}"`, 'info');
-
-        const result = await runSingleComparison(baseUrl, query, httpMethod, concurrency, durationSec);
-        if (!compareRunning) break;
-
-        compareResults.push({ query, ...result });
-        renderCompareTable(compareResults);
-      }
-
-      document.getElementById('compareProgressFill').style.width = '100%';
-      document.getElementById('compareProgressText').textContent =
-        compareRunning ? `✅ Hoàn tất ${queries.length} query!` : '⏹ Đã dừng sớm.';
-
-      compareRunning = false;
-      document.getElementById('compareStartBtn').style.display = 'block';
-      document.getElementById('compareStopBtn').style.display = 'none';
-
-      logMessage(`[COMPARE] Hoàn tất so sánh ${compareResults.length} query.`, 'info');
-    }
-
-    function stopComparison() {
-      compareRunning = false;
-      logMessage('[COMPARE] Đã yêu cầu dừng.', 'warn');
-    }
-
-    async function runSingleComparison(baseUrl, query, method, concurrency, durationSec) {
-      // Pre-flight: try to capture result count before load test (may fail due to CORS)
-      let cmpResultCount = null;
-      const targetUrl = query ? `${baseUrl}?q=${encodeURIComponent(query)}` : baseUrl;
-      try {
-        const preRes = await fetch(targetUrl, {
-          method,
-          cache: 'no-store',
-          headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' }
-        });
-        if (preRes.ok) {
-          const text = await preRes.text();
-          const parsed = JSON.parse(text);
-          let count = 0;
-          if (parsed.posts) count += parsed.posts.length;
-          if (parsed.tournaments) count += parsed.tournaments.length;
-          if (parsed.hosts) count += parsed.hosts.length;
-          if (parsed.users) count += parsed.users.length;
-          cmpResultCount = count;
-        }
-      } catch (_) { /* CORS blocked — result count will be unavailable */ }
-
-      return new Promise(resolve => {
-        let cmpStats = { total: 0, success: 0, errors: 0, totalLatencyMs: 0 };
-        let cmpLatencies = [];
-        let cmpWorkers = 0;
-        let cmpRunning = true;
-        const endTime = Date.now() + durationSec * 1000;
-
-        async function cmpWorkerLoop() {
-          cmpWorkers++;
-          while (cmpRunning && compareRunning && Date.now() < endTime) {
-            const bypassUrl = targetUrl.includes('?')
-              ? `${targetUrl}&_t=${Date.now()}_${Math.random()}`
-              : `${targetUrl}?_t=${Date.now()}_${Math.random()}`;
+            const btn = document.getElementById('captureBtn');
+            btn.textContent = '…';
+            btn.disabled = true;
 
             const t0 = performance.now();
             try {
-              const res = await fetch(bypassUrl, {
-                method,
-                cache: 'no-store',
-                headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' }
-              });
-              const latency = performance.now() - t0;
-              cmpLatencies.push(latency);
-              cmpStats.totalLatencyMs += latency;
-              cmpStats.total++;
+                const res = await fetch(targetUrl, {
+                    method: httpMethod,
+                    cache: 'no-store',
+                    headers: { 'Accept': 'application/json' }
+                });
+                const latency = performance.now() - t0;
+                const bodyText = await res.text();
+                let parsed = null;
+                try { parsed = JSON.parse(bodyText); } catch (_) { }
 
-              if (res.ok) {
-                cmpStats.success++;
-              } else {
-                cmpStats.errors++;
-              }
+                lastRespData = {
+                    status: res.status,
+                    statusText: res.statusText,
+                    latency: latency,
+                    bodyText: bodyText,
+                    parsed: parsed,
+                    capturedAt: new Date(),
+                    size: new Blob([bodyText]).size
+                };
+                renderRespPreview();
+                logMessage(`[Capture] HTTP ${res.status} — ${latency.toFixed(0)}ms — ${formatBytes(lastRespData.size)}`, 'info');
             } catch (err) {
-              const latency = performance.now() - t0;
-              cmpLatencies.push(latency);
-              cmpStats.totalLatencyMs += latency;
-              cmpStats.total++;
-              cmpStats.errors++;
+                logMessage(`[Capture] Lỗi: ${err.message}`, 'err');
+                document.getElementById('respBody').innerHTML =
+                    `<div style="color:var(--danger);font-family:var(--mono);font-size:0.8rem;">Lỗi capture: ${err.message}<br><br>Kiểm tra CORS hoặc chạy từ file HTML local.</div>`;
             }
-          }
-          cmpWorkers--;
-          if (cmpWorkers === 0) {
-            cmpRunning = false;
-            cmpLatencies.sort((a, b) => a - b);
-            const elapsed = durationSec;
-            const rps = cmpStats.total / elapsed;
-            const avgLat = cmpStats.total > 0 ? cmpStats.totalLatencyMs / cmpStats.total : 0;
-            const errRate = cmpStats.total > 0 ? (cmpStats.errors / cmpStats.total) * 100 : 0;
 
-            resolve({
-              totalRequests: cmpStats.total,
-              rps: Math.round(rps),
-              avgLatency: Math.round(avgLat),
-              p50: Math.round(calcP(cmpLatencies, 50)),
-              p95: Math.round(calcP(cmpLatencies, 95)),
-              p99: Math.round(calcP(cmpLatencies, 99)),
-              minLatency: Math.round(cmpLatencies[0] || 0),
-              maxLatency: Math.round(cmpLatencies[cmpLatencies.length - 1] || 0),
-              errorRate: errRate.toFixed(2),
-              resultCount: cmpResultCount !== null && cmpResultCount >= 0 ? cmpResultCount : '—'
-            });
-          }
+            btn.textContent = '⟳ Capture Now';
+            btn.disabled = false;
         }
 
-        for (let i = 0; i < concurrency; i++) cmpWorkerLoop();
-      });
-    }
+        function formatBytes(b) {
+            if (b < 1024) return b + ' B';
+            if (b < 1024 * 1024) return (b / 1024).toFixed(1) + ' KB';
+            return (b / (1024 * 1024)).toFixed(2) + ' MB';
+        }
 
-    function renderCompareTable(results) {
-      if (!results.length) return;
-      const container = document.getElementById('compareResults');
+        function switchTab(tab) {
+            activeTab = tab;
+            ['pretty', 'raw', 'meta'].forEach(t => {
+                document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1))
+                    .classList.toggle('active', t === tab);
+            });
+            if (lastRespData) renderRespPreview();
+        }
 
-      // Find best/worst by RPS (higher is better)
-      const rpsValues = results.map(r => r.rps);
-      const bestRps = Math.max(...rpsValues);
-      const worstRps = Math.min(...rpsValues);
+        function renderRespPreview() {
+            if (!lastRespData) return;
+            const d = lastRespData;
 
-      // Sort by RPS descending for ranking
-      const ranked = results.map((r, idx) => ({ ...r, origIdx: idx }))
-        .sort((a, b) => b.rps - a.rps);
+            // Meta row
+            const statusEl = document.getElementById('respStatus');
+            statusEl.textContent = d.status + ' ' + d.statusText;
+            statusEl.className = 'resp-meta-val ' + (d.status < 300 ? 'ok' : d.status < 500 ? 'slow' : 'fail');
 
-      let html = `
+            const latEl = document.getElementById('respLatency');
+            latEl.textContent = Math.round(d.latency) + 'ms';
+            latEl.className = 'resp-meta-val ' + (d.latency > 800 ? 'fail' : d.latency > 300 ? 'slow' : 'ok');
+
+            document.getElementById('respSize').textContent = formatBytes(d.size);
+            document.getElementById('respTime').textContent =
+                d.capturedAt.toLocaleTimeString('vi-VN');
+
+            // Result breakdown
+            if (d.parsed) {
+                if (d.parsed.cacheHit !== undefined) {
+                    // Debug Endpoint
+                    document.getElementById('lblPosts').textContent = 'Cache Hit';
+                    document.getElementById('rtPosts').textContent = d.parsed.cacheHit ? 'TRUE' : 'FALSE';
+                    document.getElementById('rtPosts').style.color = d.parsed.cacheHit ? 'var(--success)' : 'var(--danger)';
+                    
+                    document.getElementById('lblTournaments').textContent = 'ES Total Hits';
+                    document.getElementById('rtTournaments').textContent = d.parsed.esHits ?? '—';
+                    
+                    document.getElementById('lblHosts').textContent = 'Card Hits';
+                    document.getElementById('rtHosts').textContent = d.parsed.cardCacheHits ?? '—';
+                    
+                    document.getElementById('lblUsers').textContent = 'DB Fetches';
+                    document.getElementById('rtUsers').textContent = d.parsed.dbFetches ?? '—';
+                    document.getElementById('rtUsers').style.color = d.parsed.dbFetches > 0 ? 'var(--danger)' : 'var(--success)';
+                } else {
+                    // Normal Endpoint
+                    document.getElementById('lblPosts').textContent = 'Posts';
+                    document.getElementById('rtPosts').style.color = 'var(--accent)';
+                    document.getElementById('rtPosts').textContent = Array.isArray(d.parsed.posts) ? d.parsed.posts.length : '—';
+                    
+                    document.getElementById('lblTournaments').textContent = 'Tournaments';
+                    document.getElementById('rtTournaments').textContent = Array.isArray(d.parsed.tournaments) ? d.parsed.tournaments.length : '—';
+                    
+                    document.getElementById('lblHosts').textContent = 'Hosts';
+                    document.getElementById('rtHosts').textContent = Array.isArray(d.parsed.hosts) ? d.parsed.hosts.length : '—';
+                    
+                    document.getElementById('lblUsers').textContent = 'Users';
+                    document.getElementById('rtUsers').textContent = Array.isArray(d.parsed.users) ? d.parsed.users.length : '—';
+                    document.getElementById('rtUsers').style.color = 'var(--accent)';
+                }
+            }
+
+            // Body viewer
+            const bodyEl = document.getElementById('respBody');
+            bodyEl.classList.remove('resp-anim');
+            void bodyEl.offsetWidth;
+            bodyEl.classList.add('resp-anim');
+
+            if (activeTab === 'raw') {
+                bodyEl.innerHTML = `<span style="color:var(--muted2)">${escapeHtml(d.bodyText)}</span>`;
+            } else if (activeTab === 'meta') {
+                const meta = {
+                    url: activeFullUrl || document.getElementById('apiUrl').value.trim(),
+                    method: document.getElementById('httpMethod').value,
+                    status: d.status,
+                    latency_ms: Math.round(d.latency),
+                    size_bytes: d.size,
+                    captured_at: d.capturedAt.toISOString(),
+                    result_counts: d.parsed ? {
+                        posts: (d.parsed.posts || []).length,
+                        tournaments: (d.parsed.tournaments || []).length,
+                        hosts: (d.parsed.hosts || []).length,
+                        users: (d.parsed.users || []).length,
+                        meta: d.parsed.meta || null
+                    } : null
+                };
+                bodyEl.innerHTML = syntaxHighlight(JSON.stringify(meta, null, 2));
+            } else {
+                // Pretty — full JSON with syntax highlight, truncate large arrays
+                if (d.parsed) {
+                    const preview = truncateArrays(JSON.parse(JSON.stringify(d.parsed)), 3);
+                    bodyEl.innerHTML = syntaxHighlight(JSON.stringify(preview, null, 2));
+                } else {
+                    bodyEl.innerHTML = `<span style="color:var(--muted2)">${escapeHtml(d.bodyText.slice(0, 2000))}</span>`;
+                }
+            }
+        }
+
+        function truncateArrays(obj, maxItems) {
+            if (Array.isArray(obj)) {
+                const sliced = obj.slice(0, maxItems);
+                if (obj.length > maxItems) sliced.push(`… +${obj.length - maxItems} more`);
+                return sliced.map(i => (typeof i === 'object' && i !== null) ? truncateArrays(i, maxItems) : i);
+            }
+            if (typeof obj === 'object' && obj !== null) {
+                const out = {};
+                for (const k of Object.keys(obj)) out[k] = truncateArrays(obj[k], maxItems);
+                return out;
+            }
+            return obj;
+        }
+
+        function syntaxHighlight(json) {
+            return json
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, (match) => {
+                    let cls = 'json-num';
+                    if (/^"/.test(match)) {
+                        cls = /:$/.test(match) ? 'json-key' : 'json-str';
+                    } else if (/true|false/.test(match)) {
+                        cls = 'json-bool';
+                    } else if (/null/.test(match)) {
+                        cls = 'json-null';
+                    }
+                    return `<span class="${cls}">${match}</span>`;
+                });
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        // Auto-capture once when test starts (after 1.5s warmup)
+        const _origStart = startTest;
+        // Patch startTest to schedule auto-capture
+        window.addEventListener('load', () => { });
+
+        async function clearCache() {
+            try {
+                const btn = document.getElementById('clearCacheBtn');
+                btn.textContent = '...';
+                const baseUrl = document.getElementById('apiUrl').value.trim() || 'http://localhost:5555/api/v1/search';
+                // assume clear-cache is at /api/v1/search/clear-cache
+                const clearUrl = baseUrl.split('?')[0] + '/clear-cache';
+                
+                const res = await fetch(clearUrl, { method: 'POST' });
+                const data = await res.json();
+                btn.textContent = '🗑️ Clear Cache';
+                
+                if (data.success) {
+                    logMessage('[Cache] Đã xóa toàn bộ Redis Search Cache!', 'info');
+                } else {
+                    logMessage('[Cache] Lỗi: ' + JSON.stringify(data), 'err');
+                }
+            } catch (err) {
+                logMessage('[Cache] Yêu cầu xóa lỗi: ' + err.message, 'err');
+                document.getElementById('clearCacheBtn').textContent = '🗑️ Clear Cache';
+            }
+        }
+
+        async function exportJsonReport() {
+            if (stats.total === 0) return;
+
+            const exportBtn = document.getElementById('exportBtn');
+            exportBtn.textContent = 'Đang lưu…';
+            exportBtn.disabled = true;
+
+            const reportData = {
+                metadata: {
+                    timestamp: new Date().toISOString(),
+                    targetUrl: activeFullUrl,
+                    httpMethod: document.getElementById('httpMethod').value,
+                    concurrentUsers: parseInt(document.getElementById('concurrentUsers').value, 10),
+                    durationSeconds: (stats.endTime - stats.startTime) / 1000
+                },
+                summary: {
+                    totalRequests: stats.total,
+                    successfulRequests: stats.success,
+                    failedRequests: stats.errors,
+                    requestsPerSecond: stats.total / ((stats.endTime - stats.startTime) / 1000),
+                    errorRatePercentage: (stats.errors / stats.total) * 100
+                },
+                latencyMetrics: {
+                    unit: 'milliseconds',
+                    average: stats.totalLatencyMs / stats.total,
+                    p50: calcP(requestLatencies, 50),
+                    p90: calcP(requestLatencies, 90),
+                    p95: calcP(requestLatencies, 95),
+                    p99: calcP(requestLatencies, 99),
+                    p999: calcP(requestLatencies, 99.9),
+                    max: requestLatencies[requestLatencies.length - 1],
+                    min: requestLatencies[0]
+                },
+                worstSpikes: requestLatencies.slice(-10).reverse(),
+                errorBreakdown: {
+                    httpErrors: httpErrors,
+                    networkErrors: netErrors,
+                    errorLog: errorLog.slice(0, 100)
+                }
+            };
+
+            try {
+                const baseUrlObj = new URL(activeFullUrl);
+                const reportEndpoint = `${baseUrlObj.protocol}//${baseUrlObj.host}/benchmarks/report`;
+                const response = await fetch(reportEndpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(reportData)
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    logMessage(`✅ Đã lưu báo cáo lên server: /${result.directory}/${result.file}`, 'info');
+                    exportBtn.textContent = 'Đã lưu thành công';
+                } else { throw new Error('Server từ chối'); }
+            } catch (err) {
+                logMessage(`❌ Không lưu được lên server (${err.message}) — tải về máy…`, 'err');
+                const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `Tikera_Benchmark_${Date.now()}.json`;
+                document.body.appendChild(a); a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(a.href);
+                exportBtn.textContent = 'Tải lại Báo cáo (JSON)';
+            }
+
+            setTimeout(() => {
+                exportBtn.disabled = false;
+                if (exportBtn.textContent !== 'Tải lại Báo cáo (JSON)') exportBtn.textContent = 'Tải Báo cáo (JSON)';
+            }, 3000);
+        }
+
+        // ─── Multi-Query Comparison ───────────────────────────────────────────────
+        let compareRunning = false;
+        let compareResults = [];
+
+        async function startComparison() {
+            const textarea = document.getElementById('compareQueries');
+            const queries = textarea.value.split('\n').map(q => q.trim()).filter(q => q.length > 0);
+            if (queries.length < 2) {
+                alert('Nhập ít nhất 2 query (mỗi dòng 1 keyword) để so sánh!');
+                return;
+            }
+
+            const baseUrl = document.getElementById('apiUrl').value.trim();
+            const httpMethod = document.getElementById('httpMethod').value;
+            const concurrency = parseInt(document.getElementById('compareConcurrency').value, 10) || 50;
+            const durationSec = parseInt(document.getElementById('compareDuration').value, 10) || 5;
+
+            compareRunning = true;
+            compareResults = [];
+
+            // UI state
+            document.getElementById('compareStartBtn').style.display = 'none';
+            document.getElementById('compareStopBtn').style.display = 'block';
+            document.getElementById('compareProgress').style.display = 'block';
+            document.getElementById('compareResults').innerHTML = '';
+
+            logMessage(`[COMPARE] Bắt đầu so sánh ${queries.length} query × ${concurrency} users × ${durationSec}s`, 'info');
+
+            for (let qi = 0; qi < queries.length; qi++) {
+                if (!compareRunning) break;
+
+                const query = queries[qi];
+                const pct = ((qi) / queries.length * 100).toFixed(0);
+                document.getElementById('compareProgressText').textContent =
+                    `Đang chạy query ${qi + 1}/${queries.length}: "${query}"...`;
+                document.getElementById('compareProgressFill').style.width = pct + '%';
+
+                logMessage(`[COMPARE] Query ${qi + 1}/${queries.length}: "${query}"`, 'info');
+
+                const result = await runSingleComparison(baseUrl, query, httpMethod, concurrency, durationSec);
+                if (!compareRunning) break;
+
+                compareResults.push({ query, ...result });
+                renderCompareTable(compareResults);
+            }
+
+            document.getElementById('compareProgressFill').style.width = '100%';
+            document.getElementById('compareProgressText').textContent =
+                compareRunning ? `✅ Hoàn tất ${queries.length} query!` : '⏹ Đã dừng sớm.';
+
+            compareRunning = false;
+            document.getElementById('compareStartBtn').style.display = 'block';
+            document.getElementById('compareStopBtn').style.display = 'none';
+
+            logMessage(`[COMPARE] Hoàn tất so sánh ${compareResults.length} query.`, 'info');
+        }
+
+        function stopComparison() {
+            compareRunning = false;
+            logMessage('[COMPARE] Đã yêu cầu dừng.', 'warn');
+        }
+
+        async function runSingleComparison(baseUrl, query, method, concurrency, durationSec) {
+            // Pre-flight: try to capture result count before load test (may fail due to CORS)
+            let cmpResultCount = null;
+            const targetUrl = query ? `${baseUrl}?q=${encodeURIComponent(query)}` : baseUrl;
+            try {
+                const preRes = await fetch(targetUrl, {
+                    method,
+                    cache: 'no-store',
+                    headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' }
+                });
+                if (preRes.ok) {
+                    const text = await preRes.text();
+                    const parsed = JSON.parse(text);
+                    let count = 0;
+                    if (parsed.posts) count += parsed.posts.length;
+                    if (parsed.tournaments) count += parsed.tournaments.length;
+                    if (parsed.hosts) count += parsed.hosts.length;
+                    if (parsed.users) count += parsed.users.length;
+                    cmpResultCount = count;
+                }
+            } catch(_) { /* CORS blocked — result count will be unavailable */ }
+
+            return new Promise(resolve => {
+                let cmpStats = { total: 0, success: 0, errors: 0, totalLatencyMs: 0 };
+                let cmpLatencies = [];
+                let cmpWorkers = 0;
+                let cmpRunning = true;
+                const endTime = Date.now() + durationSec * 1000;
+
+                async function cmpWorkerLoop() {
+                    cmpWorkers++;
+                    while (cmpRunning && compareRunning && Date.now() < endTime) {
+                        const bypassUrl = targetUrl.includes('?')
+                            ? `${targetUrl}&_t=${Date.now()}_${Math.random()}`
+                            : `${targetUrl}?_t=${Date.now()}_${Math.random()}`;
+
+                        const t0 = performance.now();
+                        try {
+                            const res = await fetch(bypassUrl, {
+                                method,
+                                cache: 'no-store',
+                                headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' }
+                            });
+                            await res.text(); // Fix: consume body to prevent HTTP/1.1 connection leak
+                            const latency = performance.now() - t0;
+                            cmpLatencies.push(latency);
+                            cmpStats.totalLatencyMs += latency;
+                            cmpStats.total++;
+
+                            if (res.ok) {
+                                cmpStats.success++;
+                            } else {
+                                cmpStats.errors++;
+                            }
+                        } catch (err) {
+                            const latency = performance.now() - t0;
+                            cmpLatencies.push(latency);
+                            cmpStats.totalLatencyMs += latency;
+                            cmpStats.total++;
+                            cmpStats.errors++;
+                        }
+                    }
+                    cmpWorkers--;
+                    if (cmpWorkers === 0) {
+                        cmpRunning = false;
+                        cmpLatencies.sort((a, b) => a - b);
+                        const elapsed = durationSec;
+                        const rps = cmpStats.total / elapsed;
+                        const avgLat = cmpStats.total > 0 ? cmpStats.totalLatencyMs / cmpStats.total : 0;
+                        const errRate = cmpStats.total > 0 ? (cmpStats.errors / cmpStats.total) * 100 : 0;
+
+                        resolve({
+                            totalRequests: cmpStats.total,
+                            rps: Math.round(rps),
+                            avgLatency: Math.round(avgLat),
+                            p50: Math.round(calcP(cmpLatencies, 50)),
+                            p95: Math.round(calcP(cmpLatencies, 95)),
+                            p99: Math.round(calcP(cmpLatencies, 99)),
+                            minLatency: Math.round(cmpLatencies[0] || 0),
+                            maxLatency: Math.round(cmpLatencies[cmpLatencies.length - 1] || 0),
+                            errorRate: errRate.toFixed(2),
+                            resultCount: cmpResultCount !== null && cmpResultCount >= 0 ? cmpResultCount : '—'
+                        });
+                    }
+                }
+
+                for (let i = 0; i < concurrency; i++) cmpWorkerLoop();
+            });
+        }
+
+        function renderCompareTable(results) {
+            if (!results.length) return;
+            const container = document.getElementById('compareResults');
+
+            // Find best/worst by RPS (higher is better)
+            const rpsValues = results.map(r => r.rps);
+            const bestRps = Math.max(...rpsValues);
+            const worstRps = Math.min(...rpsValues);
+
+            // Sort by RPS descending for ranking
+            const ranked = results.map((r, idx) => ({ ...r, origIdx: idx }))
+                .sort((a, b) => b.rps - a.rps);
+
+            let html = `
             <table class="compare-table">
                 <thead>
                     <tr>
@@ -2383,16 +2422,16 @@
                 </thead>
                 <tbody>`;
 
-      ranked.forEach((r, i) => {
-        const isBest = r.rps === bestRps && results.length > 1;
-        const isWorst = r.rps === worstRps && results.length > 1 && bestRps !== worstRps;
-        const rowClass = isBest ? 'best-row' : isWorst ? 'worst-row' : '';
-        const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
-        const barPct = bestRps > 0 ? Math.round((r.rps / bestRps) * 100) : 0;
-        const barColor = isBest ? 'var(--success)' : isWorst ? 'var(--danger)' : 'var(--accent)';
-        const errClass = parseFloat(r.errorRate) > 5 ? 'cmp-worst' : parseFloat(r.errorRate) > 0 ? '' : 'cmp-best';
+            ranked.forEach((r, i) => {
+                const isBest = r.rps === bestRps && results.length > 1;
+                const isWorst = r.rps === worstRps && results.length > 1 && bestRps !== worstRps;
+                const rowClass = isBest ? 'best-row' : isWorst ? 'worst-row' : '';
+                const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+                const barPct = bestRps > 0 ? Math.round((r.rps / bestRps) * 100) : 0;
+                const barColor = isBest ? 'var(--success)' : isWorst ? 'var(--danger)' : 'var(--accent)';
+                const errClass = parseFloat(r.errorRate) > 5 ? 'cmp-worst' : parseFloat(r.errorRate) > 0 ? '' : 'cmp-best';
 
-        html += `
+                html += `
                     <tr class="${rowClass}">
                         <td><span class="cmp-rank ${rankClass}">${i + 1}</span></td>
                         <td class="cmp-query">${escapeHtml(r.query)}</td>
@@ -2412,16 +2451,16 @@
                         <td class="${errClass}">${r.errorRate}%</td>
                         <td>${r.resultCount}</td>
                     </tr>`;
-      });
+            });
 
-      html += `</tbody></table>`;
+            html += `</tbody></table>`;
 
-      // Summary below table
-      if (results.length >= 2) {
-        const fastest = ranked[0];
-        const slowest = ranked[ranked.length - 1];
-        const speedup = slowest.rps > 0 ? (fastest.rps / slowest.rps).toFixed(1) : '∞';
-        html += `
+            // Summary below table
+            if (results.length >= 2) {
+                const fastest = ranked[0];
+                const slowest = ranked[ranked.length - 1];
+                const speedup = slowest.rps > 0 ? (fastest.rps / slowest.rps).toFixed(1) : '∞';
+                html += `
                 <div style="margin-top:1rem;padding:1rem 1.2rem;border-radius:8px;background:rgba(0,229,255,0.05);border-left:3px solid var(--accent);font-size:0.85rem;line-height:1.7;">
                     <strong style="color:var(--accent);">📊 Kết luận:</strong>
                     Query <strong style="color:var(--success);">"${escapeHtml(fastest.query)}"</strong> nhanh nhất với
@@ -2430,195 +2469,195 @@
                     <strong>${slowest.rps} RPS</strong> (P50: ${slowest.p50}ms).
                     Chênh lệch tốc độ: <strong style="color:var(--warn);">${speedup}×</strong>.
                 </div>`;
-      }
+            }
 
-      container.innerHTML = html;
-    }
+            container.innerHTML = html;
+        }
 
-    // ─── Server Resource Monitor ───────────────────────────────────────────────
-    let monitorInterval = null;
-    let monitorActive = false;
-    let cpuHistory = [];
-    let ramHistory = [];
+        // ─── Server Resource Monitor ───────────────────────────────────────────────
+        let monitorInterval = null;
+        let monitorActive = false;
+        let cpuHistory = [];
+        let ramHistory = [];
 
-    function getStatsUrl() {
-      const apiUrl = document.getElementById('apiUrl').value.trim();
-      try {
-        const u = new URL(apiUrl);
-        return `${u.protocol}//${u.host}/benchmarks/system-stats`;
-      } catch (_) {
-        return '/benchmarks/system-stats';
-      }
-    }
+        function getStatsUrl() {
+            const apiUrl = document.getElementById('apiUrl').value.trim();
+            try {
+                const u = new URL(apiUrl);
+                return `${u.protocol}//${u.host}/benchmarks/system-stats`;
+            } catch (_) {
+                return '/benchmarks/system-stats';
+            }
+        }
 
-    function toggleMonitor() {
-      if (monitorActive) {
-        stopMonitor();
-      } else {
-        startMonitor();
-      }
-    }
+        function toggleMonitor() {
+            if (monitorActive) {
+                stopMonitor();
+            } else {
+                startMonitor();
+            }
+        }
 
-    function startMonitor() {
-      if (monitorActive) return;
-      monitorActive = true;
-      const btn = document.getElementById('monitorToggleBtn');
-      btn.textContent = '■ Stop Monitor';
-      btn.classList.add('active');
-      document.getElementById('monitorStatus').textContent = 'CONNECTING...';
-      document.getElementById('monitorStatus').className = 'monitor-status';
-      pollStats();
-      monitorInterval = setInterval(pollStats, 2000);
-      logMessage('[MONITOR] Server resource monitoring started', 'info');
-    }
+        function startMonitor() {
+            if (monitorActive) return;
+            monitorActive = true;
+            const btn = document.getElementById('monitorToggleBtn');
+            btn.textContent = '■ Stop Monitor';
+            btn.classList.add('active');
+            document.getElementById('monitorStatus').textContent = 'CONNECTING...';
+            document.getElementById('monitorStatus').className = 'monitor-status';
+            pollStats();
+            monitorInterval = setInterval(pollStats, 2000);
+            logMessage('[MONITOR] Server resource monitoring started', 'info');
+        }
 
-    function stopMonitor() {
-      monitorActive = false;
-      if (monitorInterval) {
-        clearInterval(monitorInterval);
-        monitorInterval = null;
-      }
-      const btn = document.getElementById('monitorToggleBtn');
-      btn.textContent = '▶ Start Monitor';
-      btn.classList.remove('active');
-      document.getElementById('monitorStatus').textContent = 'OFFLINE';
-      document.getElementById('monitorStatus').className = 'monitor-status';
-      logMessage('[MONITOR] Monitoring stopped', 'info');
-    }
+        function stopMonitor() {
+            monitorActive = false;
+            if (monitorInterval) {
+                clearInterval(monitorInterval);
+                monitorInterval = null;
+            }
+            const btn = document.getElementById('monitorToggleBtn');
+            btn.textContent = '▶ Start Monitor';
+            btn.classList.remove('active');
+            document.getElementById('monitorStatus').textContent = 'OFFLINE';
+            document.getElementById('monitorStatus').className = 'monitor-status';
+            logMessage('[MONITOR] Monitoring stopped', 'info');
+        }
 
-    async function pollStats() {
-      if (!monitorActive) return;
-      try {
-        const res = await fetch(getStatsUrl(), {
-          cache: 'no-store',
-          headers: { 'Accept': 'application/json' }
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
+        async function pollStats() {
+            if (!monitorActive) return;
+            try {
+                const res = await fetch(getStatsUrl(), {
+                    cache: 'no-store',
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
 
-        document.getElementById('monitorStatus').textContent = 'LIVE';
-        document.getElementById('monitorStatus').className = 'monitor-status connected';
+                document.getElementById('monitorStatus').textContent = 'LIVE';
+                document.getElementById('monitorStatus').className = 'monitor-status connected';
 
-        // CPU
-        const cpuPct = data.cpu.usagePercent;
-        const cpuEl = document.getElementById('monCpu');
-        cpuEl.textContent = cpuPct + '%';
-        cpuEl.style.color = cpuPct > 80 ? 'var(--danger)' : cpuPct > 50 ? 'var(--warn)' : 'var(--accent2)';
-        document.getElementById('monCpuSub').textContent =
-          `${data.cpu.cores} cores · load ${data.cpu.loadAvg['1m']}`;
+                // CPU
+                const cpuPct = data.cpu.usagePercent;
+                const cpuEl = document.getElementById('monCpu');
+                cpuEl.textContent = cpuPct + '%';
+                cpuEl.style.color = cpuPct > 80 ? 'var(--danger)' : cpuPct > 50 ? 'var(--warn)' : 'var(--accent2)';
+                document.getElementById('monCpuSub').textContent =
+                    `${data.cpu.cores} cores · load ${data.cpu.loadAvg['1m']}`;
 
-        // RAM
-        const ramPct = data.memory.usagePercent;
-        const ramEl = document.getElementById('monRam');
-        ramEl.textContent = ramPct + '%';
-        ramEl.style.color = ramPct > 85 ? 'var(--danger)' : ramPct > 70 ? 'var(--warn)' : 'var(--accent3)';
-        document.getElementById('monRamSub').textContent =
-          `${data.memory.usedMB} / ${data.memory.totalMB} MB`;
+                // RAM
+                const ramPct = data.memory.usagePercent;
+                const ramEl = document.getElementById('monRam');
+                ramEl.textContent = ramPct + '%';
+                ramEl.style.color = ramPct > 85 ? 'var(--danger)' : ramPct > 70 ? 'var(--warn)' : 'var(--accent3)';
+                document.getElementById('monRamSub').textContent =
+                    `${data.memory.usedMB} / ${data.memory.totalMB} MB`;
 
-        document.getElementById('monRamUsed').textContent = data.memory.usedMB + ' MB';
-        document.getElementById('monRamFree').textContent = data.memory.freeMB + ' MB';
+                document.getElementById('monRamUsed').textContent = data.memory.usedMB + ' MB';
+                document.getElementById('monRamFree').textContent = data.memory.freeMB + ' MB';
 
-        // Heap
-        document.getElementById('monHeap').textContent = data.process.heapUsedMB + ' MB';
-        document.getElementById('monHeapSub').textContent =
-          `of ${data.process.heapTotalMB} MB · RSS ${data.process.rssMB} MB`;
+                // Heap
+                document.getElementById('monHeap').textContent = data.process.heapUsedMB + ' MB';
+                document.getElementById('monHeapSub').textContent =
+                    `of ${data.process.heapTotalMB} MB · RSS ${data.process.rssMB} MB`;
 
-        // Uptime
-        const ut = data.os.uptimeSeconds;
-        const days = Math.floor(ut / 86400);
-        const hrs = Math.floor((ut % 86400) / 3600);
-        const mins = Math.floor((ut % 3600) / 60);
-        document.getElementById('monUptime').textContent =
-          days > 0 ? `${days}d ${hrs}h` : `${hrs}h ${mins}m`;
+                // Uptime
+                const ut = data.os.uptimeSeconds;
+                const days = Math.floor(ut / 86400);
+                const hrs = Math.floor((ut % 86400) / 3600);
+                const mins = Math.floor((ut % 3600) / 60);
+                document.getElementById('monUptime').textContent =
+                    days > 0 ? `${days}d ${hrs}h` : `${hrs}h ${mins}m`;
 
-        // History for sparklines
-        cpuHistory.push(cpuPct);
-        ramHistory.push(ramPct);
-        if (cpuHistory.length > 60) cpuHistory.shift();
-        if (ramHistory.length > 60) ramHistory.shift();
+                // History for sparklines
+                cpuHistory.push(cpuPct);
+                ramHistory.push(ramPct);
+                if (cpuHistory.length > 60) cpuHistory.shift();
+                if (ramHistory.length > 60) ramHistory.shift();
 
-        document.getElementById('monCpuLive').textContent = cpuPct + '%';
-        document.getElementById('monRamLive').textContent = ramPct + '%';
+                document.getElementById('monCpuLive').textContent = cpuPct + '%';
+                document.getElementById('monRamLive').textContent = ramPct + '%';
 
-        drawMonitorChart('cpuCanvas', cpuHistory, 'rgba(255,107,53,', 100);
-        drawMonitorChart('ramCanvas', ramHistory, 'rgba(168,85,247,', 100);
+                drawMonitorChart('cpuCanvas', cpuHistory, 'rgba(255,107,53,', 100);
+                drawMonitorChart('ramCanvas', ramHistory, 'rgba(168,85,247,', 100);
 
-      } catch (err) {
-        document.getElementById('monitorStatus').textContent = 'ERROR';
-        document.getElementById('monitorStatus').className = 'monitor-status error';
-      }
-    }
+            } catch (err) {
+                document.getElementById('monitorStatus').textContent = 'ERROR';
+                document.getElementById('monitorStatus').className = 'monitor-status error';
+            }
+        }
 
-    function drawMonitorChart(canvasId, history, colorBase, maxVal) {
-      const canvas = document.getElementById(canvasId);
-      if (!canvas || !history.length) return;
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      const c = canvas.getContext('2d');
-      const W = canvas.width, H = canvas.height;
+        function drawMonitorChart(canvasId, history, colorBase, maxVal) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas || !history.length) return;
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            const c = canvas.getContext('2d');
+            const W = canvas.width, H = canvas.height;
 
-      c.clearRect(0, 0, W, H);
+            c.clearRect(0, 0, W, H);
 
-      // Threshold lines
-      [50, 80].forEach(threshold => {
-        const y = H - (threshold / maxVal) * (H - 10) - 5;
-        c.strokeStyle = threshold === 80 ? 'rgba(244,63,94,0.2)' : 'rgba(255,255,255,0.05)';
-        c.lineWidth = 1;
-        c.setLineDash([4, 4]);
-        c.beginPath();
-        c.moveTo(0, y);
-        c.lineTo(W, y);
-        c.stroke();
-        c.setLineDash([]);
-      });
+            // Threshold lines
+            [50, 80].forEach(threshold => {
+                const y = H - (threshold / maxVal) * (H - 10) - 5;
+                c.strokeStyle = threshold === 80 ? 'rgba(244,63,94,0.2)' : 'rgba(255,255,255,0.05)';
+                c.lineWidth = 1;
+                c.setLineDash([4, 4]);
+                c.beginPath();
+                c.moveTo(0, y);
+                c.lineTo(W, y);
+                c.stroke();
+                c.setLineDash([]);
+            });
 
-      const pts = history.map((v, i) => ({
-        x: (i / Math.max(history.length - 1, 1)) * W,
-        y: H - (Math.min(v, maxVal) / maxVal) * (H - 10) - 5
-      }));
+            const pts = history.map((v, i) => ({
+                x: (i / Math.max(history.length - 1, 1)) * W,
+                y: H - (Math.min(v, maxVal) / maxVal) * (H - 10) - 5
+            }));
 
-      // Fill
-      const grad = c.createLinearGradient(0, 0, 0, H);
-      grad.addColorStop(0, colorBase + '0.2)');
-      grad.addColorStop(1, colorBase + '0)');
-      c.beginPath();
-      c.moveTo(pts[0].x, H);
-      pts.forEach(p => c.lineTo(p.x, p.y));
-      c.lineTo(pts[pts.length - 1].x, H);
-      c.closePath();
-      c.fillStyle = grad;
-      c.fill();
+            // Fill
+            const grad = c.createLinearGradient(0, 0, 0, H);
+            grad.addColorStop(0, colorBase + '0.2)');
+            grad.addColorStop(1, colorBase + '0)');
+            c.beginPath();
+            c.moveTo(pts[0].x, H);
+            pts.forEach(p => c.lineTo(p.x, p.y));
+            c.lineTo(pts[pts.length - 1].x, H);
+            c.closePath();
+            c.fillStyle = grad;
+            c.fill();
 
-      // Line
-      c.beginPath();
-      pts.forEach((p, i) => i === 0 ? c.moveTo(p.x, p.y) : c.lineTo(p.x, p.y));
-      c.strokeStyle = colorBase + '1)';
-      c.lineWidth = 1.5;
-      c.stroke();
+            // Line
+            c.beginPath();
+            pts.forEach((p, i) => i === 0 ? c.moveTo(p.x, p.y) : c.lineTo(p.x, p.y));
+            c.strokeStyle = colorBase + '1)';
+            c.lineWidth = 1.5;
+            c.stroke();
 
-      // Last dot
-      const last = pts[pts.length - 1];
-      c.beginPath();
-      c.arc(last.x, last.y, 3, 0, Math.PI * 2);
-      c.fillStyle = colorBase + '1)';
-      c.fill();
-    }
+            // Last dot
+            const last = pts[pts.length - 1];
+            c.beginPath();
+            c.arc(last.x, last.y, 3, 0, Math.PI * 2);
+            c.fillStyle = colorBase + '1)';
+            c.fill();
+        }
 
-    // Auto-start/stop monitor with benchmark
-    const _origStartForMonitor = startTest;
-    startTest = function () {
-      _origStartForMonitor();
-      if (!monitorActive) startMonitor();
-    };
-    const _origFinishForMonitor = finishTest;
-    finishTest = function () {
-      _origFinishForMonitor();
-      // Keep monitor running for 10s after test ends
-      setTimeout(() => {
-        if (monitorActive && !isRunning) stopMonitor();
-      }, 10000);
-    };
-  </script>
+        // Auto-start/stop monitor with benchmark
+        const _origStartForMonitor = startTest;
+        startTest = function() {
+            _origStartForMonitor();
+            if (!monitorActive) startMonitor();
+        };
+        const _origFinishForMonitor = finishTest;
+        finishTest = function() {
+            _origFinishForMonitor();
+            // Keep monitor running for 10s after test ends
+            setTimeout(() => {
+                if (monitorActive && !isRunning) stopMonitor();
+            }, 10000);
+        };
+    </script>
 </body>
 
 </html>
