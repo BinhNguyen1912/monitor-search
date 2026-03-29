@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>B+ Tree Visualization: Search, Insert, Delete | Step-by-Step Animation</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            /* slightly better drag-free */
+        }
+
+        body {
+            background: linear-gradient(145deg, #1a2a3a 0%, #0f1a24 100%);
+            font-family: 'Segoe UI', 'Fira Code', 'Inter', system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* main card */
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(22, 34, 48, 0.7);
+            backdrop-filter: blur(2px);
+            border-radius: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            padding: 20px 24px 32px;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin: 0 0 0.25rem 0;
+            background: linear-gradient(135deg, #E0F2FE, #A5F3FC);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            display: inline-block;
+        }
+
+        .sub {
+            color: #8AAEC0;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid #3b82f6;
+            padding-left: 12px;
+            font-size: 0.9rem;
+        }
+
+        /* control panel */
+        .control-panel {
+            background: #0E1A24CC;
+            border-radius: 2rem;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 16px;
+            backdrop-filter: blur(8px);
+            border: 1px solid #2c4b66;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #9bbfd1;
+        }
+
+        .number-input {
+            background: #07121c;
+            border: 1px solid #2f5f7a;
+            padding: 10px 16px;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            width: 140px;
+            color: #eef4ff;
+            outline: none;
+            transition: 0.2s;
+            font-family: monospace;
+        }
+
+        .number-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px #3b82f640;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: #1e2f3c;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: #2c6280;
+            border-bottom: 2px solid #4ea8d4;
+        }
+
+        .btn-primary:hover {
+            background: #3b7b9e;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #7f3a3a;
+            border-bottom: 2px solid #c95a5a;
+        }
+
+        .btn-danger:hover {
+            background: #9e4b4b;
+        }
+
+        .btn-warning {
+            background: #7a632c;
+            border-bottom: 2px solid #e2b13b;
+        }
+
+        .btn-step {
+            background: #1a3f52;
+            border: 1px solid #397e9e;
+            font-weight: bold;
+        }
+
+        .btn-step:active {
+            transform: scale(0.96);
+        }
+
+        .step-controls {
+            display: flex;
+            gap: 12px;
+            margin-left: auto;
+            align-items: center;
+        }
+
+        .step-counter {
+            background: #07121c;
+            padding: 6px 14px;
+            border-radius: 32px;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #aad0f0;
+        }
+
+        /* explanation box */
+        .explanation {
+            background: #071823c9;
+            border-radius: 1.5rem;
+            padding: 14px 20px;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+            border-left: 5px solid #3b82f6;
+            backdrop-filter: blur(4px);
+            color: #e2edf7;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        /* canvas tree area */
+        .tree-canvas {
+            background: #061018;
+            border-radius: 2rem;
+            padding: 20px 12px;
+            overflow-x: auto;
+            min-height: 540px;
+            display: flex;
+            justify-content: center;
+            box-shadow: inset 0 0 0 1px #2d4a60, 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        svg {
+            background: transparent;
+            font-family: 'Segoe UI', monospace;
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .node-rect {
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .leaf-node {
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        .highlight {
+            filter: drop-shadow(0 0 12px #ffd966);
+            transition: 0.1s;
+        }
+
+        .step-badge {
+            background: #ffb347;
+            color: #1e2a32;
+            border-radius: 20px;
+            padding: 2px 10px;
+            font-weight: bold;
+            font-size: 0.7rem;
+        }
+
+        @keyframes gentlePulse {
+            0% {
+                stroke-width: 2px;
+                filter: brightness(1);
+            }
+
+            100% {
+                stroke-width: 4px;
+                filter: brightness(1.2);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;">
+            <div>
+                <h1>🌿 B+ Tree Visualizer</h1>
+                <div class="sub">SEARCH · INSERT · DELETE | Step-by-step với Animation & Giải thích</div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <div class="input-group">
+                <label>🔢 Giá trị số (integer)</label>
+                <input type="number" id="valueInput" class="number-input" placeholder="VD: 27" value="42">
+            </div>
+            <div class="action-buttons">
+                <button id="insertBtn" class="btn btn-primary">➕ INSERT</button>
+                <button id="deleteBtn" class="btn btn-danger">🗑️ DELETE</button>
+                <button id="searchBtn" class="btn btn-warning">🔍 SEARCH</button>
+                <button id="resetBtn" class="btn">⟳ Reset Tree</button>
+            </div>
+            <div class="step-controls">
+                <button id="prevStepBtn" class="btn btn-step" disabled>◀ Bước trước</button>
+                <span id="stepIndexDisplay" class="step-counter">Bước 0/0</span>
+                <button id="nextStepBtn" class="btn btn-step" disabled>Bước sau ▶</button>
+            </div>
+        </div>
+
+        <div id="explanationBox" class="explanation">
+            💡 Nhập số và nhấn INSERT / DELETE / SEARCH. Hệ thống sẽ tạo các bước trực quan. Dùng nút Trước/Sau để xem
+            từng hành động.
+        </div>
+
+        <div class="tree-canvas" id="treeCanvas">
+            <svg id="treeSvg" width="1000" height="500" viewBox="0 0 1000 500"></svg>
+        </div>
+    </div>
+
+    <script>
+        // ---------- B+ Tree Implementation (Order = 3) ----------
+        // Mỗi node nội bộ: keys[], children[] 
+        // Node lá: keys[], next (con trỏ đến lá kế), parentRef, isLeaf = true
+        const ORDER = 3;   // số key tối đa = 2, min key = 1 (trừ root)
+
+        class BPlusNode {
+            constructor(isLeaf = true) {
+                this.isLeaf = isLeaf;
+                this.keys = [];          // sorted
+                this.children = [];      // chỉ internal node dùng
+                this.next = null;        // dùng cho leaf chain
+                this.parent = null;
+            }
+        }
+
+        class BPlusTree {
+            constructor() {
+                this.root = new BPlusNode(true);
+            }
+
+            // Tìm kiếm: trả về {node, index, pathNodes[] } để dễ step animation
+            search(key, recordPath = true) {
+                let path = [];
+                let current = this.root;
+                if (recordPath) path.push(current);
+                while (!current.isLeaf) {
+                    let i = 0;
+                    while (i < current.keys.length && key >= current.keys[i]) i++;
+                    current = current.children[i];
+                    if (recordPath) path.push(current);
+                }
+                // tìm trong lá
+                let idx = current.keys.indexOf(key);
+                let found = idx !== -1;
+                if (recordPath) return { found, leaf: current, index: idx, pathNodes: path };
+                return found;
+            }
+
+            // Helper: chèn vào node lá chưa đầy
+            insertIntoLeaf(leaf, key) {
+                let pos = leaf.keys.findIndex(k => key < k);
+                if (pos === -1) pos = leaf.keys.length;
+                leaf.keys.splice(pos, 0, key);
+            }
+
+            // split leaf node
+            splitLeaf(leaf) {
+                let mid = Math.floor(leaf.keys.length / 2);
+                let newLeaf = new BPlusNode(true);
+                newLeaf.keys = leaf.keys.slice(mid);
+                leaf.keys = leaf.keys.slice(0, mid);
+                newLeaf.next = leaf.next;
+                leaf.next = newLeaf;
+                newLeaf.parent = leaf.parent;
+                // cập nhật parent child
+                let upKey = newLeaf.keys[0];
+                return { newLeaf, upKey };
+            }
+
+            splitInternal(node) {
+                let mid = Math.floor(node.keys.length / 2);
+                let upKey = node.keys[mid];
+                let rightNode = new BPlusNode(false);
+                rightNode.keys = node.keys.slice(mid + 1);
+                rightNode.children = node.children.slice(mid + 1);
+                node.keys = node.keys.slice(0, mid);
+                node.children = node.children.slice(0, mid + 1);
+                // cập nhật parent cho children
+                for (let child of rightNode.children) child.parent = rightNode;
+                for (let child of node.children) child.parent = node;
+                rightNode.parent = node.parent;
+                return { rightNode, upKey };
+            }
+
+            insertInternal(parent, leftChild, upKey, rightChild) {
+                if (!parent) {
+                    let newRoot = new BPlusNode(false);
+                    newRoot.keys = [upKey];
+                    newRoot.children = [leftChild, rightChild];
+                    leftChild.parent = newRoot;
+                    rightChild.parent = newRoot;
+                    this.root = newRoot;
+                    return;
+                }
+                let idx = parent.children.findIndex(ch => ch === leftChild);
+                parent.keys.splice(idx, 0, upKey);
+                parent.children.splice(idx + 1, 0, rightChild);
+                rightChild.parent = parent;
+                if (parent.keys.length > ORDER - 1) {
+                    let { rightNode, upKey: newUp } = this.splitInternal(parent);
+                    let parentParent = parent.parent;
+                    this.insertInternal(parentParent, parent, newUp, rightNode);
+                }
+            }
+
+            insert(key, recordSteps = true) {
+                let steps = [];
+                let snap = (desc, highlightNode = null) => {
+                    if (recordSteps) steps.push({ desc, highlight: highlightNode, treeClone: this.cloneStructure() });
+                };
+                snap(`Bắt đầu chèn ${key}`);
+                if (this.root.isLeaf && this.root.keys.length === 0) {
+                    this.root.keys.push(key);
+                    snap(`Cây rỗng, tạo node lá chứa [${key}]`, this.root);
+                    if (recordSteps) return steps;
+                    return;
+                }
+                let current = this.root;
+                let path = [];
+                while (!current.isLeaf) {
+                    path.push(current);
+                    let i = 0;
+                    while (i < current.keys.length && key >= current.keys[i]) i++;
+                    current = current.children[i];
+                }
+                // current là lá
+                path.push(current);
+                snap(`Duyệt đến lá [${current.keys.join(',')}] sẽ chèn ${key}`, current);
+                // kiểm tra nếu key tồn tại -> không chèn trùng (B+ tree thường không trùng)
+                if (current.keys.includes(key)) {
+                    snap(`⚠️ Giá trị ${key} đã tồn tại trong cây, không chèn trùng.`, current);
+                    if (recordSteps) return steps;
+                    return;
+                }
+                this.insertIntoLeaf(current, key);
+                snap(`Chèn ${key} vào lá -> [${current.keys.join(',')}]`, current);
+                if (current.keys.length <= ORDER - 1) {
+                    snap(`Lá chưa vượt quá sức chứa, kết thúc.`, current);
+                    if (recordSteps) return steps;
+                    return;
+                }
+                // split leaf
+                snap(`Lá đã đầy (max ${ORDER - 1} keys), cần split!`, current);
+                let { newLeaf, upKey } = this.splitLeaf(current);
+                snap(`Tách lá: giữ lại [${current.keys.join(',')}], tạo lá mới [${newLeaf.keys.join(',')}], key đẩy lên = ${upKey}`, newLeaf);
+                // chèn vào parent
+                let parent = current.parent;
+                if (!parent) {
+                    let newRoot = new BPlusNode(false);
+                    newRoot.keys = [upKey];
+                    newRoot.children = [current, newLeaf];
+                    current.parent = newRoot;
+                    newLeaf.parent = newRoot;
+                    this.root = newRoot;
+                    snap(`Tạo root mới với key [${upKey}]`, newRoot);
+                    if (recordSteps) return steps;
+                    return;
+                }
+                let idx = parent.children.findIndex(ch => ch === current);
+                parent.keys.splice(idx, 0, upKey);
+                parent.children.splice(idx + 1, 0, newLeaf);
+                newLeaf.parent = parent;
+                snap(`Đưa key ${upKey} lên node cha [${parent.keys.join(',')}]`, parent);
+                // kiểm tra internal split
+                let nodeUp = parent;
+                while (nodeUp && nodeUp.keys.length > ORDER - 1) {
+                    snap(`Node internal [${nodeUp.keys.join(',')}] quá tải, tiếp tục split internal`, nodeUp);
+                    let { rightNode, upKey: promoteKey } = this.splitInternal(nodeUp);
+                    let grand = nodeUp.parent;
+                    snap(`Split internal: left [${nodeUp.keys.join(',')}], right [${rightNode.keys.join(',')}], thăng hoa key ${promoteKey}`, nodeUp);
+                    if (!grand) {
+                        let newR = new BPlusNode(false);
+                        newR.keys = [promoteKey];
+                        newR.children = [nodeUp, rightNode];
+                        nodeUp.parent = newR;
+                        rightNode.parent = newR;
+                        this.root = newR;
+                        snap(`Tạo root mới sau split internal [${promoteKey}]`, newR);
+                        break;
+                    } else {
+                        let posG = grand.children.findIndex(ch => ch === nodeUp);
+                        grand.keys.splice(posG, 0, promoteKey);
+                        grand.children.splice(posG + 1, 0, rightNode);
+                        rightNode.parent = grand;
+                        snap(`Thăng key ${promoteKey} lên node cha [${grand.keys.join(',')}]`, grand);
+                        nodeUp = grand;
+                    }
+                }
+                if (recordSteps) return steps;
+            }
+
+            // xóa đơn giản: tìm và xóa khỏi lá, nếu lá rỗng thì xóa lá (merge cơ bản)
+            deleteKey(key, recordSteps = true) {
+                let steps = [];
+                let snap = (desc, highlight = null) => {
+                    if (recordSteps) steps.push({ desc, highlight, treeClone: this.cloneStructure() });
+                };
+                snap(`Bắt đầu xóa giá trị ${key}`);
+                let { found, leaf, pathNodes } = this.search(key, true);
+                if (!found) {
+                    snap(`❌ Không tìm thấy ${key} trong cây, không thể xóa.`);
+                    if (recordSteps) return steps;
+                    return;
+                }
+                snap(`Tìm thấy ${key} tại lá [${leaf.keys.join(',')}]`, leaf);
+                let idx = leaf.keys.indexOf(key);
+                leaf.keys.splice(idx, 1);
+                snap(`Xóa ${key} khỏi lá -> còn [${leaf.keys.join(',')}]`, leaf);
+                if (leaf.keys.length === 0 && leaf !== this.root) {
+                    snap(`Lá trở nên rỗng, cần xóa lá khỏi cấu trúc`, leaf);
+                    let parent = leaf.parent;
+                    if (parent) {
+                        let childIdx = parent.children.findIndex(ch => ch === leaf);
+                        parent.children.splice(childIdx, 1);
+                        parent.keys.splice(Math.max(0, childIdx - 1), 1);
+                        snap(`Xóa lá rỗng khỏi parent, parent keys hiện: [${parent.keys.join(',')}]`, parent);
+                        // đơn giản hóa: nếu parent trở thành rỗng và không phải root -> co cụm
+                        if (parent !== this.root && parent.keys.length === 0) {
+                            // thực hiện xóa node internal rỗng, gắn lại children
+                            let grand = parent.parent;
+                            if (grand) {
+                                let idxP = grand.children.findIndex(ch => ch === parent);
+                                grand.children.splice(idxP, 1);
+                                if (parent.children.length) {
+                                    let orphan = parent.children[0];
+                                    orphan.parent = grand;
+                                    grand.children.splice(idxP, 0, orphan);
+                                }
+                                snap(`Node internal rỗng bị loại bỏ, cập nhật lại liên kết`, grand);
+                            } else {
+                                if (parent.children.length > 0) this.root = parent.children[0];
+                                else this.root = new BPlusNode(true);
+                                this.root.parent = null;
+                                snap(`Cập nhật root mới sau xóa`, this.root);
+                            }
+                        } else if (parent === this.root && parent.keys.length === 0 && !parent.isLeaf) {
+                            this.root = parent.children[0];
+                            this.root.parent = null;
+                            snap(`Root rỗng, cập nhật root mới là ${this.root.isLeaf ? 'lá' : 'internal'}`, this.root);
+                        }
+                    } else {
+                        this.root = new BPlusNode(true);
+                        snap(`Xóa toàn bộ cây, reset root rỗng`, this.root);
+                    }
+                }
+                if (recordSteps) return steps;
+            }
+
+            // helper clone cấu trúc để snapshot (lưu steps)
+            cloneStructure() {
+                function cloneNode(node) {
+                    let newNode = new BPlusNode(node.isLeaf);
+                    newNode.keys = [...node.keys];
+                    if (!node.isLeaf) {
+                        newNode.children = node.children.map(ch => cloneNode(ch));
+                        for (let ch of newNode.children) ch.parent = newNode;
+                    } else {
+                        newNode.next = node.next ? "link" : null; // không cần clone sâu next
+                    }
+                    return newNode;
+                }
+                let newRoot = cloneNode(this.root);
+                // rebuild next links cho leaf (đơn giản)
+                let leavesOriginal = [];
+                let leavesNew = [];
+                function collectLeaf(node, arr) { if (node.isLeaf) arr.push(node); else node.children.forEach(c => collectLeaf(c, arr)); }
+                collectLeaf(this.root, leavesOriginal);
+                collectLeaf(newRoot, leavesNew);
+                for (let i = 0; i < leavesOriginal.length - 1; i++) leavesNew[i].next = leavesNew[i + 1];
+                let treeCopy = new BPlusTree();
+                treeCopy.root = newRoot;
+                return treeCopy;
+            }
+
+            // apply snapshot để hiển thị
+            applySnapshot(snapshotTree) {
+                this.root = snapshotTree.root;
+            }
+        }
+
+        // ---------------- Visualization & Step Manager ----------------
+        let bTree = new BPlusTree();
+        let currentSteps = [];    // lưu các step {desc, highlight, treeClone}
+        let stepIndex = -1;
+
+        const svg = document.getElementById('treeSvg');
+        const explanationDiv = document.getElementById('explanationBox');
+        const prevBtn = document.getElementById('prevStepBtn');
+        const nextBtn = document.getElementById('nextStepBtn');
+        const stepDisplay = document.getElementById('stepIndexDisplay');
+        const insertBtn = document.getElementById('insertBtn');
+        const deleteBtn = document.getElementById('deleteBtn');
+        const searchBtn = document.getElementById('searchBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const valueInput = document.getElementById('valueInput');
+
+        function getIntValue() { return parseInt(valueInput.value, 10); }
+
+        function clearSteps() {
+            currentSteps = [];
+            stepIndex = -1;
+            updateStepButtons();
+            stepDisplay.innerText = `Bước 0/0`;
+        }
+
+        function updateStepButtons() {
+            if (currentSteps.length === 0) {
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+            } else {
+                prevBtn.disabled = (stepIndex <= 0);
+                nextBtn.disabled = (stepIndex >= currentSteps.length - 1);
+            }
+            stepDisplay.innerText = `Bước ${stepIndex + 1}/${currentSteps.length}`;
+            if (currentSteps.length > 0 && stepIndex >= 0) {
+                explanationDiv.innerHTML = `📘 <strong>Giải thích bước ${stepIndex + 1}:</strong> ${currentSteps[stepIndex].desc}`;
+            } else {
+                explanationDiv.innerHTML = `💡 Thực hiện INSERT, DELETE hoặc SEARCH để tạo các bước. Dùng nút Trước/Sau xem chi tiết.`;
+            }
+        }
+
+        function renderTreeFromCurrentStep() {
+            if (currentSteps.length > 0 && stepIndex >= 0 && stepIndex < currentSteps.length) {
+                let step = currentSteps[stepIndex];
+                let treeToRender = step.treeClone;
+                bTree.applySnapshot(treeToRender);
+                let highlightNode = step.highlight;
+                drawTree(bTree.root, highlightNode);
+            } else if (currentSteps.length === 0) {
+                drawTree(bTree.root, null);
+            } else {
+                drawTree(bTree.root, null);
+            }
+        }
+
+        function drawTree(root, highlightNodeRef) {
+            // Simple render SVG with d3-like style
+            let width = 1000, height = 500;
+            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            svg.innerHTML = '';
+            if (!root) return;
+            let levels = [];
+            function traverse(node, depth, xRange = [0, width], xPos = null) {
+                if (!levels[depth]) levels[depth] = [];
+                let assignedX = xPos;
+                if (!node.isLeaf && node.children.length) {
+                    let step = (xRange[1] - xRange[0]) / (node.children.length);
+                    let childX = xRange[0] + step / 2;
+                    for (let i = 0; i < node.children.length; i++) {
+                        let leftBound = i === 0 ? xRange[0] : (xRange[0] + step * i);
+                        let rightBound = i === node.children.length - 1 ? xRange[1] : (xRange[0] + step * (i + 1));
+                        traverse(node.children[i], depth + 1, [leftBound, rightBound], childX);
+                        childX += step;
+                    }
+                    assignedX = (xRange[0] + xRange[1]) / 2;
+                } else {
+                    assignedX = (xRange[0] + xRange[1]) / 2;
+                }
+                levels[depth].push({ node, x: assignedX, y: 50 + depth * 70, keyStr: node.keys.join(' | ') });
+            }
+            traverse(root, 0);
+            // Draw edges
+            for (let d = 0; d < levels.length - 1; d++) {
+                for (let item of levels[d]) {
+                    let parentNode = item.node;
+                    if (!parentNode.isLeaf) {
+                        for (let child of parentNode.children) {
+                            let childLevel = levels[d + 1]?.find(l => l.node === child);
+                            if (childLevel) {
+                                let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                                line.setAttribute('x1', item.x); line.setAttribute('y1', item.y + 15);
+                                line.setAttribute('x2', childLevel.x); line.setAttribute('y2', childLevel.y - 10);
+                                line.setAttribute('stroke', '#6c9ebf'); line.setAttribute('stroke-width', '2');
+                                line.setAttribute('stroke-dasharray', '4 2');
+                                svg.appendChild(line);
+                            }
+                        }
+                    }
+                }
+            }
+            // Draw nodes
+            for (let level of levels) {
+                for (let item of level) {
+                    let isHighlight = (highlightNodeRef && item.node === highlightNodeRef);
+                    let g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                    let rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                    let w = Math.max(70, item.keyStr.length * 12);
+                    rect.setAttribute('x', item.x - w / 2); rect.setAttribute('y', item.y - 15);
+                    rect.setAttribute('width', w); rect.setAttribute('height', 32);
+                    rect.setAttribute('rx', '12'); rect.setAttribute('fill', item.node.isLeaf ? '#1f5e42' : '#1f4568');
+                    rect.setAttribute('stroke', isHighlight ? '#FFD966' : '#aad0f0');
+                    rect.setAttribute('stroke-width', isHighlight ? '3' : '1.5');
+                    if (isHighlight) rect.setAttribute('filter', 'url(#glow)');
+                    let text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', item.x); text.setAttribute('y', item.y + 4);
+                    text.setAttribute('text-anchor', 'middle'); text.setAttribute('fill', 'white');
+                    text.setAttribute('font-size', '13px'); text.setAttribute('font-weight', 'bold');
+                    text.textContent = item.keyStr || (item.node.isLeaf ? '∅' : '∅');
+                    g.appendChild(rect); g.appendChild(text);
+                    svg.appendChild(g);
+                }
+            }
+            if (levels.length === 0) {
+                let txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                txt.setAttribute('x', width / 2); txt.setAttribute('y', height / 2);
+                txt.textContent = '🌿 Cây rỗng'; txt.setAttribute('fill', '#bfd9ff');
+                svg.appendChild(txt);
+            }
+        }
+
+        function execAndMakeSteps(operation, value) {
+            if (isNaN(value)) { explanationDiv.innerHTML = '⚠️ Nhập số hợp lệ!'; return; }
+            clearSteps();
+            let steps = [];
+            if (operation === 'insert') steps = bTree.insert(value, true);
+            else if (operation === 'delete') steps = bTree.deleteKey(value, true);
+            else if (operation === 'search') {
+                let { found, pathNodes } = bTree.search(value, true);
+                steps.push({ desc: `🔎 Tìm kiếm ${value}: ${found ? 'TÌM THẤY ✔️' : 'KHÔNG TÌM THẤY ❌'}`, highlight: pathNodes?.[pathNodes.length - 1], treeClone: bTree.cloneStructure() });
+            }
+            if (steps && steps.length) {
+                currentSteps = steps;
+                stepIndex = 0;
+                updateStepButtons();
+                renderTreeFromCurrentStep();
+            } else {
+                currentSteps = [];
+                stepIndex = -1;
+                updateStepButtons();
+                renderTreeFromCurrentStep();
+                if (operation !== 'search') explanationDiv.innerHTML = `✅ ${operation.toUpperCase()} ${value} hoàn tất (không thay đổi cấu trúc phức tạp).`;
+            }
+        }
+
+        function resetTree() {
+            bTree = new BPlusTree();
+            clearSteps();
+            renderTreeFromCurrentStep();
+            explanationDiv.innerHTML = '🌱 Đã reset về cây B+ trống. Thử INSERT nhé!';
+        }
+
+        insertBtn.onclick = () => { let v = getIntValue(); if (!isNaN(v)) execAndMakeSteps('insert', v); };
+        deleteBtn.onclick = () => { let v = getIntValue(); if (!isNaN(v)) execAndMakeSteps('delete', v); };
+        searchBtn.onclick = () => { let v = getIntValue(); if (!isNaN(v)) execAndMakeSteps('search', v); };
+        resetBtn.onclick = resetTree;
+        prevBtn.onclick = () => { if (stepIndex > 0) { stepIndex--; updateStepButtons(); renderTreeFromCurrentStep(); } };
+        nextBtn.onclick = () => { if (stepIndex < currentSteps.length - 1) { stepIndex++; updateStepButtons(); renderTreeFromCurrentStep(); } };
+
+        // init
+        resetTree();
+    </script>
+</body>
+
+</html>

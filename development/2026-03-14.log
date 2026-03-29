@@ -1,0 +1,38 @@
+[2026-03-14 06:41:40] INFO: {"method":"GET","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"2ms","timestamp":"2026-03-14T06:41:40.085Z","status":"success"}
+[2026-03-14 07:07:01] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"311ms","timestamp":"2026-03-14T07:07:01.228Z"}
+[2026-03-14 07:07:02] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"275ms","timestamp":"2026-03-14T07:07:02.823Z"}
+[2026-03-14 07:07:24] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"277ms","timestamp":"2026-03-14T07:07:24.978Z"}
+[2026-03-14 07:07:25] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"251ms","timestamp":"2026-03-14T07:07:25.231Z"}
+[2026-03-14 07:34:34] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"277ms","timestamp":"2026-03-14T07:34:34.040Z"}
+[2026-03-14 09:03:37] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"264ms","timestamp":"2026-03-14T09:03:37.672Z"}
+[2026-03-14 15:11:44] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"360ms","timestamp":"2026-03-14T15:11:44.510Z"}
+[2026-03-14 16:08:29] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"285ms","timestamp":"2026-03-14T16:08:29.731Z"}
+[2026-03-14 16:08:43] INFO: {"method":"GET","url":"/onboardings?page=1&entry=10","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"6ms","timestamp":"2026-03-14T16:08:43.018Z","status":"success"}
+[2026-03-14 16:09:45] INFO: {"method":"GET","url":"/community-posts/feed?entry=10&direction=next","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"105ms","timestamp":"2026-03-14T16:09:45.277Z","status":"success"}
+[2026-03-14 16:09:45] INFO: {"method":"GET","url":"/community-posts/video/492/playlist.m3u8","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":302,"duration":"8ms","timestamp":"2026-03-14T16:09:45.733Z","status":"success"}
+[2026-03-14 16:09:45] INFO: {"method":"GET","url":"/community-posts/video/556/playlist.m3u8","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":302,"duration":"7ms","timestamp":"2026-03-14T16:09:45.761Z","status":"success"}
+[2026-03-14 16:09:45] INFO: {"method":"GET","url":"/community-posts/video/507/playlist.m3u8","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":302,"duration":"10ms","timestamp":"2026-03-14T16:09:45.775Z","status":"success"}
+[2026-03-14 16:09:45] INFO: {"method":"GET","url":"/community-posts/492","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"10ms","timestamp":"2026-03-14T16:09:45.825Z","status":"success"}
+[2026-03-14 16:10:03] INFO: {"method":"POST","url":"/users/auth/login","role":"Anonymous","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"187ms","timestamp":"2026-03-14T16:10:03.446Z","status":"create_success","createdId":18}
+[2026-03-14 16:10:07] INFO: {"method":"GET","url":"/users/18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"8ms","timestamp":"2026-03-14T16:10:07.531Z","status":"success"}
+[2026-03-14 16:10:08] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"47ms","timestamp":"2026-03-14T16:10:08.724Z","status":"success"}
+[2026-03-14 16:10:08] INFO: ⚡ New connection attempt ulzCFyBCXdsjvxvbAAAB
+[2026-03-14 16:10:08] INFO: userid57 18
+[2026-03-14 16:10:08] INFO: ✅ Joining room: user_18
+[2026-03-14 16:10:09] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=20&sort=DESC&field=id&conversationId=7","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"69ms","timestamp":"2026-03-14T16:10:09.947Z","status":"success"}
+[2026-03-14 16:10:12] INFO: 📡 Emitting 'new_message' to user_18
+[2026-03-14 16:10:12] INFO: 📡 Emitting 'new_message' to user_19
+[2026-03-14 16:10:12] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"48ms","timestamp":"2026-03-14T16:10:12.146Z","status":"create_success","createdId":346}
+[2026-03-14 16:10:12] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"21ms","timestamp":"2026-03-14T16:10:12.357Z","status":"success"}
+[2026-03-14 16:11:59] INFO: {"method":"GET","url":"/chat-messages?page=2&entry=20&sort=DESC&field=id&conversationId=7","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"77ms","timestamp":"2026-03-14T16:11:59.545Z","status":"success"}
+[2026-03-14 16:12:09] INFO: {"method":"GET","url":"/chat-messages?page=3&entry=20&sort=DESC&field=id&conversationId=7","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"61ms","timestamp":"2026-03-14T16:12:09.525Z","status":"success"}
+[2026-03-14 16:12:16] INFO: 📡 Emitting 'new_message' to user_18
+[2026-03-14 16:12:16] INFO: 📡 Emitting 'new_message' to user_19
+[2026-03-14 16:12:16] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"49ms","timestamp":"2026-03-14T16:12:16.638Z","status":"create_success","createdId":347}
+[2026-03-14 16:12:16] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"36ms","timestamp":"2026-03-14T16:12:16.854Z","status":"success"}
+[2026-03-14 16:25:07] INFO: ⚡ New connection attempt ZebA0PM8S1NCN-6pAAAD
+[2026-03-14 16:25:07] INFO: userid57 18
+[2026-03-14 16:25:07] INFO: ✅ Joining room: user_18
+[2026-03-14 18:44:49] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"333ms","timestamp":"2026-03-14T18:44:49.531Z"}
+[2026-03-14 19:40:13] INFO: {"method":"GET","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"2ms","timestamp":"2026-03-14T19:40:13.166Z","status":"success"}
+[2026-03-14 20:27:51] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"331ms","timestamp":"2026-03-14T20:27:51.889Z"}

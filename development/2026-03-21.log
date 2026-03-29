@@ -1,0 +1,39 @@
+[2026-03-21 00:03:24] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 00:03:24] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 00:03:24] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 02:40:11] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 02:40:11] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 02:40:11] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 04:46:13] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"370ms","timestamp":"2026-03-21T04:46:13.531Z"}
+[2026-03-21 07:10:27] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"314ms","timestamp":"2026-03-21T07:10:27.958Z"}
+[2026-03-21 07:10:28] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"284ms","timestamp":"2026-03-21T07:10:28.247Z"}
+[2026-03-21 08:10:38] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 08:10:38] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 08:10:38] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 08:40:11] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"322ms","timestamp":"2026-03-21T08:40:11.792Z"}
+[2026-03-21 08:40:12] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"246ms","timestamp":"2026-03-21T08:40:12.795Z"}
+[2026-03-21 08:40:19] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"305ms","timestamp":"2026-03-21T08:40:19.369Z"}
+[2026-03-21 09:40:41] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 09:40:41] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 09:40:41] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 11:21:59] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"307ms","timestamp":"2026-03-21T11:21:59.318Z"}
+[2026-03-21 11:21:59] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"272ms","timestamp":"2026-03-21T11:21:59.595Z"}
+[2026-03-21 11:22:05] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"246ms","timestamp":"2026-03-21T11:22:05.968Z"}
+[2026-03-21 11:41:13] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 11:41:13] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 11:41:13] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 11:43:11] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"333ms","timestamp":"2026-03-21T11:43:11.056Z"}
+[2026-03-21 11:43:12] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"261ms","timestamp":"2026-03-21T11:43:12.464Z"}
+[2026-03-21 11:43:19] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"253ms","timestamp":"2026-03-21T11:43:19.069Z"}
+[2026-03-21 14:26:52] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"318ms","timestamp":"2026-03-21T14:26:52.294Z"}
+[2026-03-21 14:27:00] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"261ms","timestamp":"2026-03-21T14:27:00.639Z"}
+[2026-03-21 14:27:01] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"192ms","timestamp":"2026-03-21T14:27:01.657Z"}
+[2026-03-21 15:41:46] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 15:41:46] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 15:41:46] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 20:16:01] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"291ms","timestamp":"2026-03-21T20:16:01.856Z"}
+[2026-03-21 20:55:04] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"257ms","timestamp":"2026-03-21T20:55:04.883Z"}
+[2026-03-21 21:37:41] INFO: {"method":"HEAD","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"4ms","timestamp":"2026-03-21T21:37:41.171Z"}
+[2026-03-21 21:42:23] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 21:42:23] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-21 21:42:23] INFO: ✅ Community Socket - User 3 joined room: user_3

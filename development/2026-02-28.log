@@ -1,0 +1,430 @@
+[2026-02-28 01:31:24] INFO: {"method":"GET","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"2ms","timestamp":"2026-02-28T01:31:24.429Z","status":"success"}
+[2026-02-28 03:15:36] INFO: {"method":"GET","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"1ms","timestamp":"2026-02-28T03:15:36.456Z","status":"success"}
+[2026-02-28 03:27:12] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"293ms","timestamp":"2026-02-28T03:27:12.213Z"}
+[2026-02-28 08:43:35] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"299ms","timestamp":"2026-02-28T08:43:35.584Z"}
+[2026-02-28 08:44:16] INFO: {"method":"GET","url":"/onboardings?page=1&entry=10","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"23ms","timestamp":"2026-02-28T08:44:16.756Z","status":"success"}
+[2026-02-28 08:48:31] INFO: {"method":"POST","url":"/users/auth/login","role":"Anonymous","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"185ms","timestamp":"2026-02-28T08:48:31.571Z","status":"create_success","createdId":18}
+[2026-02-28 08:48:32] ERROR: {"method":"POST","url":"/user-devices","role":"USER","userId":18,"customHeader":"vi_VN","message":"Bad Request Exception","statusCode":400,"duration":"3ms","timestamp":"2026-02-28T08:48:32.096Z"}
+[2026-02-28 08:48:35] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"5ms","timestamp":"2026-02-28T08:48:35.682Z","status":"success"}
+[2026-02-28 08:48:35] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"34ms","timestamp":"2026-02-28T08:48:35.750Z","status":"success"}
+[2026-02-28 08:48:37] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"3ms","timestamp":"2026-02-28T08:48:37.232Z","status":"success"}
+[2026-02-28 08:49:14] INFO: ⚡ New connection attempt IpIODkdn8gUL_a9oAAAT
+[2026-02-28 08:49:14] INFO: userid57 18
+[2026-02-28 08:49:14] INFO: ✅ Joining room: user_18
+[2026-02-28 08:49:14] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=3","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"52ms","timestamp":"2026-02-28T08:49:14.098Z","status":"success"}
+[2026-02-28 08:49:14] INFO: {"method":"GET","url":"/chat-messages?page=2&entry=10&sort=DESC&field=id&conversationId=3","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"37ms","timestamp":"2026-02-28T08:49:14.974Z","status":"success"}
+[2026-02-28 08:49:15] INFO: {"method":"GET","url":"/chat-messages?page=3&entry=10&sort=DESC&field=id&conversationId=3","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"34ms","timestamp":"2026-02-28T08:49:15.256Z","status":"success"}
+[2026-02-28 08:49:21] INFO: {"method":"GET","url":"/chat-messages?page=4&entry=10&sort=DESC&field=id&conversationId=3","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"9ms","timestamp":"2026-02-28T08:49:21.613Z","status":"success"}
+[2026-02-28 08:54:55] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"308ms","timestamp":"2026-02-28T08:54:55.194Z"}
+[2026-02-28 08:55:10] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"272ms","timestamp":"2026-02-28T08:55:10.384Z"}
+[2026-02-28 08:58:45] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"301ms","timestamp":"2026-02-28T08:58:45.942Z"}
+[2026-02-28 08:59:01] INFO: {"method":"GET","url":"/onboardings?page=1&entry=10","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T08:59:01.920Z","status":"success"}
+[2026-02-28 08:59:20] INFO: {"method":"POST","url":"/users/auth/login","role":"Anonymous","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":201,"duration":"183ms","timestamp":"2026-02-28T08:59:20.611Z","status":"create_success","createdId":19}
+[2026-02-28 08:59:21] ERROR: {"method":"POST","url":"/user-devices","role":"USER","userId":19,"customHeader":"vi_VN","message":"Bad Request Exception","statusCode":400,"duration":"2ms","timestamp":"2026-02-28T08:59:21.063Z"}
+[2026-02-28 08:59:24] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"5ms","timestamp":"2026-02-28T08:59:24.553Z","status":"success"}
+[2026-02-28 08:59:24] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"24ms","timestamp":"2026-02-28T08:59:24.635Z","status":"success"}
+[2026-02-28 08:59:31] INFO: {"method":"POST","url":"/chat-message-reads","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":201,"duration":"16ms","timestamp":"2026-02-28T08:59:31.137Z","status":"create_success","createdId":16}
+[2026-02-28 08:59:31] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"26ms","timestamp":"2026-02-28T08:59:31.380Z","status":"success"}
+[2026-02-28 08:59:31] INFO: ⚡ New connection attempt i6UjiLDLJJDIq2QfAAAV
+[2026-02-28 08:59:31] INFO: userid57 19
+[2026-02-28 08:59:31] INFO: ✅ Joining room: user_19
+[2026-02-28 08:59:36] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"22ms","timestamp":"2026-02-28T08:59:36.107Z","status":"success"}
+[2026-02-28 08:59:37] INFO: {"method":"GET","url":"/user-profiles/info/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"39ms","timestamp":"2026-02-28T08:59:37.273Z","status":"success"}
+[2026-02-28 08:59:37] INFO: {"method":"GET","url":"/user-profiles/info/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"11ms","timestamp":"2026-02-28T08:59:37.383Z","status":"success"}
+[2026-02-28 08:59:39] INFO: {"method":"GET","url":"/user-profiles/recent-matches/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"2018ms","timestamp":"2026-02-28T08:59:39.502Z","status":"success"}
+[2026-02-28 08:59:42] INFO: {"method":"GET","url":"/settings/16","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"3ms","timestamp":"2026-02-28T08:59:42.668Z","status":"success"}
+[2026-02-28 08:59:51] INFO: {"method":"POST","url":"/users/auth/login","role":"Anonymous","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"174ms","timestamp":"2026-02-28T08:59:51.838Z","status":"create_success","createdId":18}
+[2026-02-28 08:59:52] ERROR: {"method":"POST","url":"/user-devices","role":"USER","userId":18,"customHeader":"vi_VN","message":"Bad Request Exception","statusCode":400,"duration":"2ms","timestamp":"2026-02-28T08:59:52.383Z"}
+[2026-02-28 08:59:55] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T08:59:55.764Z","status":"success"}
+[2026-02-28 08:59:55] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"25ms","timestamp":"2026-02-28T08:59:55.861Z","status":"success"}
+[2026-02-28 09:00:01] INFO: ⚡ New connection attempt 6hHX96rfTXt-08JeAAAX
+[2026-02-28 09:00:01] INFO: userid57 18
+[2026-02-28 09:00:01] INFO: ✅ Joining room: user_18
+[2026-02-28 09:00:01] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=3","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"32ms","timestamp":"2026-02-28T09:00:01.841Z","status":"success"}
+[2026-02-28 09:00:04] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:00:04] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:00:04] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"574ms","timestamp":"2026-02-28T09:00:04.810Z","status":"create_success","createdId":82}
+[2026-02-28 09:00:04] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"24ms","timestamp":"2026-02-28T09:00:04.955Z","status":"success"}
+[2026-02-28 09:10:48] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:10:48.353Z","status":"success"}
+[2026-02-28 09:10:48] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"31ms","timestamp":"2026-02-28T09:10:48.447Z","status":"success"}
+[2026-02-28 09:10:52] INFO: {"method":"POST","url":"/chat-message-reads","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"16ms","timestamp":"2026-02-28T09:10:52.631Z","status":"create_success","createdId":17}
+[2026-02-28 09:10:53] INFO: ⚡ New connection attempt 82wtEq19wuIlV8plAAAZ
+[2026-02-28 09:10:53] INFO: userid57 18
+[2026-02-28 09:10:53] INFO: ✅ Joining room: user_18
+[2026-02-28 09:10:53] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=3","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"34ms","timestamp":"2026-02-28T09:10:53.108Z","status":"success"}
+[2026-02-28 09:10:56] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:10:56] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:10:56] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"373ms","timestamp":"2026-02-28T09:10:56.366Z","status":"create_success","createdId":83}
+[2026-02-28 09:10:56] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"27ms","timestamp":"2026-02-28T09:10:56.592Z","status":"success"}
+[2026-02-28 09:11:16] INFO: {"method":"GET","url":"/user-relations/ranking/18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"21ms","timestamp":"2026-02-28T09:11:16.634Z","status":"success"}
+[2026-02-28 09:11:35] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"47ms","timestamp":"2026-02-28T09:11:35.164Z","status":"success"}
+[2026-02-28 09:11:35] INFO: {"method":"GET","url":"/user-profiles/info/18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"32ms","timestamp":"2026-02-28T09:11:35.964Z","status":"success"}
+[2026-02-28 09:11:36] INFO: {"method":"GET","url":"/user-profiles/info/18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"11ms","timestamp":"2026-02-28T09:11:36.092Z","status":"success"}
+[2026-02-28 09:11:38] INFO: {"method":"GET","url":"/user-profiles/recent-matches/18","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":200,"duration":"2130ms","timestamp":"2026-02-28T09:11:38.313Z","status":"success"}
+[2026-02-28 09:11:40] INFO: {"method":"GET","url":"/settings/15","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"3ms","timestamp":"2026-02-28T09:11:40.295Z","status":"success"}
+[2026-02-28 09:11:52] INFO: {"method":"POST","url":"/users/auth/login","role":"Anonymous","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":201,"duration":"192ms","timestamp":"2026-02-28T09:11:52.319Z","status":"create_success","createdId":19}
+[2026-02-28 09:11:52] ERROR: {"method":"POST","url":"/user-devices","role":"USER","userId":19,"customHeader":"vi_VN","message":"Bad Request Exception","statusCode":400,"duration":"2ms","timestamp":"2026-02-28T09:11:52.699Z"}
+[2026-02-28 09:11:56] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"5ms","timestamp":"2026-02-28T09:11:56.017Z","status":"success"}
+[2026-02-28 09:11:56] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"25ms","timestamp":"2026-02-28T09:11:56.097Z","status":"success"}
+[2026-02-28 09:11:57] INFO: ⚡ New connection attempt lk2rukduAH9TpfVQAAAb
+[2026-02-28 09:11:57] INFO: userid57 19
+[2026-02-28 09:11:57] INFO: ✅ Joining room: user_19
+[2026-02-28 09:11:57] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"27ms","timestamp":"2026-02-28T09:11:57.633Z","status":"success"}
+[2026-02-28 09:12:00] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:12:00] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:12:00] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:12:00] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":201,"duration":"378ms","timestamp":"2026-02-28T09:12:00.838Z","status":"create_success","createdId":84}
+[2026-02-28 09:12:00] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"22ms","timestamp":"2026-02-28T09:12:00.964Z","status":"success"}
+[2026-02-28 09:12:28] INFO: {"method":"GET","url":"/user-relations/ranking/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"33ms","timestamp":"2026-02-28T09:12:28.808Z","status":"success"}
+[2026-02-28 09:14:38] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"302ms","timestamp":"2026-02-28T09:14:38.656Z"}
+[2026-02-28 09:15:10] INFO: ⚡ New connection attempt aobZd1TZdIF7NZaLAAAd
+[2026-02-28 09:15:10] INFO: userid57 19
+[2026-02-28 09:15:10] INFO: ✅ Joining room: user_19
+[2026-02-28 09:15:10] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"47ms","timestamp":"2026-02-28T09:15:10.746Z","status":"success"}
+[2026-02-28 09:15:46] INFO: ⚡ New connection attempt ax04cupl3UYiIToyAAAf
+[2026-02-28 09:15:46] INFO: userid57 19
+[2026-02-28 09:15:46] INFO: ✅ Joining room: user_19
+[2026-02-28 09:15:46] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"50ms","timestamp":"2026-02-28T09:15:46.999Z","status":"success"}
+[2026-02-28 09:15:49] INFO: ⚡ New connection attempt GhAdXCvScePnezHDAAAh
+[2026-02-28 09:15:49] INFO: userid57 19
+[2026-02-28 09:15:49] INFO: ✅ Joining room: user_19
+[2026-02-28 09:15:49] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"23ms","timestamp":"2026-02-28T09:15:49.803Z","status":"success"}
+[2026-02-28 09:15:55] INFO: ⚡ New connection attempt kPJFoLPEglx6K9GNAAAj
+[2026-02-28 09:15:55] INFO: userid57 19
+[2026-02-28 09:15:55] INFO: ✅ Joining room: user_19
+[2026-02-28 09:15:55] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"24ms","timestamp":"2026-02-28T09:15:55.432Z","status":"success"}
+[2026-02-28 09:15:57] INFO: ⚡ New connection attempt exDIzaRYLZpe9gMiAAAl
+[2026-02-28 09:15:57] INFO: userid57 19
+[2026-02-28 09:15:57] INFO: ✅ Joining room: user_19
+[2026-02-28 09:15:57] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"22ms","timestamp":"2026-02-28T09:15:57.305Z","status":"success"}
+[2026-02-28 09:16:04] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:16:04] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:16:04] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:16:04] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":201,"duration":"423ms","timestamp":"2026-02-28T09:16:04.283Z","status":"create_success","createdId":85}
+[2026-02-28 09:16:04] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"25ms","timestamp":"2026-02-28T09:16:04.402Z","status":"success"}
+[2026-02-28 09:16:08] INFO: ⚡ New connection attempt XvTRHX--c5O2W2DUAAAn
+[2026-02-28 09:16:08] INFO: userid57 19
+[2026-02-28 09:16:08] INFO: ✅ Joining room: user_19
+[2026-02-28 09:16:09] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"29ms","timestamp":"2026-02-28T09:16:09.094Z","status":"success"}
+[2026-02-28 09:16:46] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"23ms","timestamp":"2026-02-28T09:16:46.899Z","status":"success"}
+[2026-02-28 09:18:03] INFO: {"method":"POST","url":"/users/auth/login","role":"Anonymous","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"195ms","timestamp":"2026-02-28T09:18:03.291Z","status":"create_success","createdId":18}
+[2026-02-28 09:20:02] ERROR: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"customHeader":"vi_VN","message":"Bad Request Exception","statusCode":400,"duration":"2ms","timestamp":"2026-02-28T09:20:02.622Z"}
+[2026-02-28 09:20:09] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:20:09] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:20:09] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:20:09] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"399ms","timestamp":"2026-02-28T09:20:09.083Z","status":"create_success","createdId":86}
+[2026-02-28 09:20:13] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"5ms","timestamp":"2026-02-28T09:20:13.712Z","status":"success"}
+[2026-02-28 09:20:15] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"37ms","timestamp":"2026-02-28T09:20:15.012Z","status":"success"}
+[2026-02-28 09:20:16] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"21ms","timestamp":"2026-02-28T09:20:16.005Z","status":"success"}
+[2026-02-28 09:20:22] INFO: {"method":"POST","url":"/chat-message-reads","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":201,"duration":"7ms","timestamp":"2026-02-28T09:20:22.970Z","status":"create_success","createdId":18}
+[2026-02-28 09:20:23] INFO: ⚡ New connection attempt ROobDaf3G1fXhEw_AAAp
+[2026-02-28 09:20:23] INFO: userid57 19
+[2026-02-28 09:20:23] INFO: ✅ Joining room: user_19
+[2026-02-28 09:20:23] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"34ms","timestamp":"2026-02-28T09:20:23.144Z","status":"success"}
+[2026-02-28 09:21:31] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"5ms","timestamp":"2026-02-28T09:21:31.700Z","status":"success"}
+[2026-02-28 09:21:31] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"23ms","timestamp":"2026-02-28T09:21:31.758Z","status":"success"}
+[2026-02-28 09:22:14] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"39ms","timestamp":"2026-02-28T09:22:14.934Z","status":"success"}
+[2026-02-28 09:22:15] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"16ms","timestamp":"2026-02-28T09:22:15.458Z","status":"success"}
+[2026-02-28 09:22:30] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:22:30] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:22:30] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:22:30] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"407ms","timestamp":"2026-02-28T09:22:30.241Z","status":"create_success","createdId":87}
+[2026-02-28 09:22:31] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:22:31.962Z","status":"success"}
+[2026-02-28 09:22:32] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"21ms","timestamp":"2026-02-28T09:22:32.765Z","status":"success"}
+[2026-02-28 09:22:33] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T09:22:33.215Z","status":"success"}
+[2026-02-28 09:22:34] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:22:34.094Z","status":"success"}
+[2026-02-28 09:22:36] INFO: {"method":"GET","url":"/user-relations/ranking/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"8ms","timestamp":"2026-02-28T09:22:36.523Z","status":"success"}
+[2026-02-28 09:28:29] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:28:29.838Z","status":"success"}
+[2026-02-28 09:28:29] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"24ms","timestamp":"2026-02-28T09:28:29.916Z","status":"success"}
+[2026-02-28 09:28:31] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:28:31] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:28:31] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:28:31] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"402ms","timestamp":"2026-02-28T09:28:31.466Z","status":"create_success","createdId":88}
+[2026-02-28 09:28:53] INFO: {"method":"GET","url":"/user-relations/ranking/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"25ms","timestamp":"2026-02-28T09:28:53.234Z","status":"success"}
+[2026-02-28 09:28:57] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:28:57] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:28:57] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:28:57] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"364ms","timestamp":"2026-02-28T09:28:57.081Z","status":"create_success","createdId":89}
+[2026-02-28 09:29:06] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:29:06] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:29:06] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:29:06] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"376ms","timestamp":"2026-02-28T09:29:06.211Z","status":"create_success","createdId":90}
+[2026-02-28 09:29:11] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"5ms","timestamp":"2026-02-28T09:29:11.078Z","status":"success"}
+[2026-02-28 09:29:12] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"23ms","timestamp":"2026-02-28T09:29:12.006Z","status":"success"}
+[2026-02-28 09:29:14] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"17ms","timestamp":"2026-02-28T09:29:14.344Z","status":"success"}
+[2026-02-28 09:29:17] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:29:17.780Z","status":"success"}
+[2026-02-28 09:29:18] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T09:29:18.824Z","status":"success"}
+[2026-02-28 09:29:19] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"16ms","timestamp":"2026-02-28T09:29:19.458Z","status":"success"}
+[2026-02-28 09:29:32] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:29:32.730Z","status":"success"}
+[2026-02-28 09:29:32] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"21ms","timestamp":"2026-02-28T09:29:32.797Z","status":"success"}
+[2026-02-28 09:29:34] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:29:34.390Z","status":"success"}
+[2026-02-28 09:29:35] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:29:35.943Z","status":"success"}
+[2026-02-28 09:29:39] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:29:39.279Z","status":"success"}
+[2026-02-28 09:29:40] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"5ms","timestamp":"2026-02-28T09:29:40.256Z","status":"success"}
+[2026-02-28 09:29:42] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:29:42.013Z","status":"success"}
+[2026-02-28 09:29:53] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"17ms","timestamp":"2026-02-28T09:29:53.456Z","status":"success"}
+[2026-02-28 09:34:56] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"5ms","timestamp":"2026-02-28T09:34:56.152Z","status":"success"}
+[2026-02-28 09:34:56] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"17ms","timestamp":"2026-02-28T09:34:56.231Z","status":"success"}
+[2026-02-28 09:34:57] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:34:57] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:34:57] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:34:57] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"388ms","timestamp":"2026-02-28T09:34:57.935Z","status":"create_success","createdId":91}
+[2026-02-28 09:35:07] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:35:07] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:35:07] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:35:07] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"374ms","timestamp":"2026-02-28T09:35:07.468Z","status":"create_success","createdId":92}
+[2026-02-28 09:35:11] INFO: {"method":"POST","url":"/chat-message-reads","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":201,"duration":"6ms","timestamp":"2026-02-28T09:35:11.146Z","status":"create_success","createdId":19}
+[2026-02-28 09:35:11] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"34ms","timestamp":"2026-02-28T09:35:11.557Z","status":"success"}
+[2026-02-28 09:35:15] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:35:15] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:35:15] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:35:15] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"391ms","timestamp":"2026-02-28T09:35:15.288Z","status":"create_success","createdId":93}
+[2026-02-28 09:35:18] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:35:18] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:35:18] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:35:18] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"296ms","timestamp":"2026-02-28T09:35:18.218Z","status":"create_success","createdId":94}
+[2026-02-28 09:35:22] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"33ms","timestamp":"2026-02-28T09:35:22.282Z","status":"success"}
+[2026-02-28 09:35:30] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:35:30] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:35:30] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:35:30] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"380ms","timestamp":"2026-02-28T09:35:30.779Z","status":"create_success","createdId":95}
+[2026-02-28 09:35:56] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:35:56.443Z","status":"success"}
+[2026-02-28 09:35:56] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"24ms","timestamp":"2026-02-28T09:35:56.537Z","status":"success"}
+[2026-02-28 09:35:57] INFO: {"method":"POST","url":"/chat-message-reads","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":201,"duration":"20ms","timestamp":"2026-02-28T09:35:57.215Z","status":"create_success","createdId":20}
+[2026-02-28 09:35:57] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"36ms","timestamp":"2026-02-28T09:35:57.641Z","status":"success"}
+[2026-02-28 09:35:57] INFO: ⚡ New connection attempt STGTsonchyAivvl3AAAr
+[2026-02-28 09:35:57] INFO: userid57 19
+[2026-02-28 09:35:57] INFO: ✅ Joining room: user_19
+[2026-02-28 09:36:02] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:36:02] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:36:02] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:36:02] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"391ms","timestamp":"2026-02-28T09:36:02.813Z","status":"create_success","createdId":96}
+[2026-02-28 09:36:03] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"24ms","timestamp":"2026-02-28T09:36:03.054Z","status":"success"}
+[2026-02-28 09:36:03] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"40ms","timestamp":"2026-02-28T09:36:03.078Z","status":"success"}
+[2026-02-28 09:36:14] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:36:14] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:36:14] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:36:14] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"403ms","timestamp":"2026-02-28T09:36:14.660Z","status":"create_success","createdId":97}
+[2026-02-28 09:36:14] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"24ms","timestamp":"2026-02-28T09:36:14.894Z","status":"success"}
+[2026-02-28 09:36:14] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T09:36:14.957Z","status":"success"}
+[2026-02-28 09:36:22] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:36:22] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:36:22] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:36:22] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"379ms","timestamp":"2026-02-28T09:36:22.764Z","status":"create_success","createdId":98}
+[2026-02-28 09:36:26] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:36:26] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:36:26] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:36:26] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"294ms","timestamp":"2026-02-28T09:36:26.066Z","status":"create_success","createdId":99}
+[2026-02-28 09:39:31] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"7ms","timestamp":"2026-02-28T09:39:31.034Z","status":"success"}
+[2026-02-28 09:39:31] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"16ms","timestamp":"2026-02-28T09:39:31.073Z","status":"success"}
+[2026-02-28 09:39:34] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:39:34] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:39:34] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:39:34] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"385ms","timestamp":"2026-02-28T09:39:34.974Z","status":"create_success","createdId":100}
+[2026-02-28 09:39:43] INFO: {"method":"POST","url":"/chat-message-reads","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":201,"duration":"16ms","timestamp":"2026-02-28T09:39:43.214Z","status":"create_success","createdId":21}
+[2026-02-28 09:39:43] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"36ms","timestamp":"2026-02-28T09:39:43.703Z","status":"success"}
+[2026-02-28 09:39:47] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:39:47] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:39:47] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:39:47] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"379ms","timestamp":"2026-02-28T09:39:47.348Z","status":"create_success","createdId":101}
+[2026-02-28 09:44:07] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"5ms","timestamp":"2026-02-28T09:44:07.215Z","status":"success"}
+[2026-02-28 09:44:07] INFO: ⚡ New connection attempt PvsqjFjsmuZ_qPPIAAAt
+[2026-02-28 09:44:07] INFO: userid57 19
+[2026-02-28 09:44:07] INFO: ✅ Joining room: user_19
+[2026-02-28 09:44:07] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"23ms","timestamp":"2026-02-28T09:44:07.311Z","status":"success"}
+[2026-02-28 09:44:11] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:44:11] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:44:11] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:44:11] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"392ms","timestamp":"2026-02-28T09:44:11.713Z","status":"create_success","createdId":102}
+[2026-02-28 09:44:11] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T09:44:11.854Z","status":"success"}
+[2026-02-28 09:44:11] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T09:44:11.901Z","status":"success"}
+[2026-02-28 09:44:14] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:44:14] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:44:14] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:44:14] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"307ms","timestamp":"2026-02-28T09:44:14.863Z","status":"create_success","createdId":103}
+[2026-02-28 09:44:15] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T09:44:15.020Z","status":"success"}
+[2026-02-28 09:44:15] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"18ms","timestamp":"2026-02-28T09:44:15.086Z","status":"success"}
+[2026-02-28 09:44:17] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:44:17.865Z","status":"success"}
+[2026-02-28 09:44:18] INFO: {"method":"POST","url":"/chat-message-reads","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":201,"duration":"16ms","timestamp":"2026-02-28T09:44:18.281Z","status":"create_success","createdId":22}
+[2026-02-28 09:44:18] INFO: {"method":"GET","url":"/chat-messages?page=1&entry=10&sort=DESC&field=id&conversationId=4","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"33ms","timestamp":"2026-02-28T09:44:18.753Z","status":"success"}
+[2026-02-28 09:44:20] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:44:20] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:44:20] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:44:20] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"392ms","timestamp":"2026-02-28T09:44:20.759Z","status":"create_success","createdId":104}
+[2026-02-28 09:44:20] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"22ms","timestamp":"2026-02-28T09:44:20.954Z","status":"success"}
+[2026-02-28 09:44:21] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"20ms","timestamp":"2026-02-28T09:44:21.002Z","status":"success"}
+[2026-02-28 09:44:23] INFO: ⚡ New connection attempt v2ipZjuU35b7QJCTAAAv
+[2026-02-28 09:44:23] INFO: userid57 19
+[2026-02-28 09:44:23] INFO: ✅ Joining room: user_19
+[2026-02-28 09:44:23] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T09:44:23.820Z","status":"success"}
+[2026-02-28 09:44:25] INFO: ⚡ New connection attempt nlcRis2T7Zk4Qh8WAAAx
+[2026-02-28 09:44:25] INFO: userid57 19
+[2026-02-28 09:44:25] INFO: ✅ Joining room: user_19
+[2026-02-28 09:44:25] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"18ms","timestamp":"2026-02-28T09:44:25.580Z","status":"success"}
+[2026-02-28 09:44:28] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:44:28] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:44:28] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:44:28] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"402ms","timestamp":"2026-02-28T09:44:28.185Z","status":"create_success","createdId":105}
+[2026-02-28 09:44:28] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"22ms","timestamp":"2026-02-28T09:44:28.284Z","status":"success"}
+[2026-02-28 09:44:28] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"20ms","timestamp":"2026-02-28T09:44:28.336Z","status":"success"}
+[2026-02-28 09:50:42] INFO: ⚡ New connection attempt eGR2vuqbXwOebJDhAAAz
+[2026-02-28 09:50:42] INFO: userid57 19
+[2026-02-28 09:50:42] INFO: ✅ Joining room: user_19
+[2026-02-28 09:50:42] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"5ms","timestamp":"2026-02-28T09:50:42.226Z","status":"success"}
+[2026-02-28 09:50:42] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"21ms","timestamp":"2026-02-28T09:50:42.263Z","status":"success"}
+[2026-02-28 09:50:50] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:50:50] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:50:50] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:50:50] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"435ms","timestamp":"2026-02-28T09:50:50.302Z","status":"create_success","createdId":106}
+[2026-02-28 09:50:50] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T09:50:50.506Z","status":"success"}
+[2026-02-28 09:50:50] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T09:50:50.547Z","status":"success"}
+[2026-02-28 09:53:49] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"5ms","timestamp":"2026-02-28T09:53:49.905Z","status":"success"}
+[2026-02-28 09:53:49] INFO: ⚡ New connection attempt i7DCYya-Sw3nlTq9AAA1
+[2026-02-28 09:53:49] INFO: userid57 19
+[2026-02-28 09:53:49] INFO: ✅ Joining room: user_19
+[2026-02-28 09:53:50] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"25ms","timestamp":"2026-02-28T09:53:50.008Z","status":"success"}
+[2026-02-28 09:53:52] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:53:52] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:53:52] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:53:52] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"387ms","timestamp":"2026-02-28T09:53:52.188Z","status":"create_success","createdId":107}
+[2026-02-28 09:53:52] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"21ms","timestamp":"2026-02-28T09:53:52.301Z","status":"success"}
+[2026-02-28 09:53:58] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:53:58] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:53:58] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:53:58] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"363ms","timestamp":"2026-02-28T09:53:58.332Z","status":"create_success","createdId":108}
+[2026-02-28 09:53:58] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T09:53:58.440Z","status":"success"}
+[2026-02-28 09:54:03] INFO: 📡 Emitting 'new_message' to user_18
+[2026-02-28 09:54:03] INFO: 📡 Emitting 'new_message' to user_19
+[2026-02-28 09:54:03] INFO: 📡 Emitting 'new_message' to user_141
+[2026-02-28 09:54:03] INFO: {"method":"POST","url":"/chat-messages","role":"USER","userId":18,"userName":"nhantest1","customHeader":"vi_VN","statusCode":201,"duration":"340ms","timestamp":"2026-02-28T09:54:03.270Z","status":"create_success","createdId":109}
+[2026-02-28 09:54:03] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"20ms","timestamp":"2026-02-28T09:54:03.385Z","status":"success"}
+[2026-02-28 09:55:44] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"23ms","timestamp":"2026-02-28T09:55:44.051Z","status":"success"}
+[2026-02-28 09:55:44] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:55:44.921Z","status":"success"}
+[2026-02-28 09:55:48] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:55:48.309Z","status":"success"}
+[2026-02-28 09:55:50] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"3ms","timestamp":"2026-02-28T09:55:50.344Z","status":"success"}
+[2026-02-28 09:55:51] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:55:51.330Z","status":"success"}
+[2026-02-28 09:56:17] INFO: {"method":"GET","url":"/user-relations/ranking/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"24ms","timestamp":"2026-02-28T09:56:17.322Z","status":"success"}
+[2026-02-28 09:59:07] INFO: ⚡ New connection attempt GUPNe0qdvjSM5bwZAAA3
+[2026-02-28 09:59:07] INFO: userid57 19
+[2026-02-28 09:59:07] INFO: ✅ Joining room: user_19
+[2026-02-28 09:59:07] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"61ms","timestamp":"2026-02-28T09:59:07.241Z","status":"success"}
+[2026-02-28 09:59:08] INFO: {"method":"GET","url":"/tournaments?page=1&entry=10&sort=DESC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"200ms","timestamp":"2026-02-28T09:59:08.840Z","status":"success"}
+[2026-02-28 09:59:11] INFO: {"method":"GET","url":"/user-profiles/info/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"34ms","timestamp":"2026-02-28T09:59:11.223Z","status":"success"}
+[2026-02-28 09:59:11] INFO: {"method":"GET","url":"/user-profiles/info/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"10ms","timestamp":"2026-02-28T09:59:11.333Z","status":"success"}
+[2026-02-28 09:59:13] INFO: {"method":"GET","url":"/user-profiles/recent-matches/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"2072ms","timestamp":"2026-02-28T09:59:13.496Z","status":"success"}
+[2026-02-28 09:59:15] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:59:15.529Z","status":"success"}
+[2026-02-28 09:59:15] INFO: {"method":"GET","url":"/user-profiles/info/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"9ms","timestamp":"2026-02-28T09:59:15.582Z","status":"success"}
+[2026-02-28 09:59:15] INFO: {"method":"GET","url":"/user-profiles/info/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"11ms","timestamp":"2026-02-28T09:59:15.681Z","status":"success"}
+[2026-02-28 09:59:17] INFO: {"method":"GET","url":"/user-profiles/recent-matches/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"2054ms","timestamp":"2026-02-28T09:59:17.828Z","status":"success"}
+[2026-02-28 09:59:20] INFO: ⚡ New connection attempt RDEYvp8I0p0YhxOUAAA5
+[2026-02-28 09:59:20] INFO: userid57 19
+[2026-02-28 09:59:20] INFO: ✅ Joining room: user_19
+[2026-02-28 09:59:20] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T09:59:20.561Z","status":"success"}
+[2026-02-28 09:59:21] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T09:59:21.705Z","status":"success"}
+[2026-02-28 09:59:37] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"23ms","timestamp":"2026-02-28T09:59:37.526Z","status":"success"}
+[2026-02-28 10:01:35] INFO: {"method":"GET","url":"/tournaments?page=1&entry=10&sort=DESC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"178ms","timestamp":"2026-02-28T10:01:35.046Z","status":"success"}
+[2026-02-28 10:01:35] ERROR: {"method":"GET","url":"/host-participants?page=1&entry=20&sort=ASC&field=id&status=accepted","role":"USER","userId":19,"customHeader":"vi_VN","message":"Bad Request Exception","statusCode":400,"duration":"175ms","timestamp":"2026-02-28T10:01:35.061Z"}
+[2026-02-28 10:01:35] ERROR: {"method":"GET","url":"/hosts?page=1&entry=50&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","customHeader":"vi_VN","message":"column host.totalCourts does not exist","statusCode":500,"duration":"171ms","timestamp":"2026-02-28T10:01:35.062Z"}
+[2026-02-28 10:01:35] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"169ms","timestamp":"2026-02-28T10:01:35.066Z","status":"success"}
+[2026-02-28 10:01:37] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"24ms","timestamp":"2026-02-28T10:01:37.289Z","status":"success"}
+[2026-02-28 10:01:39] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T10:01:39.184Z","status":"success"}
+[2026-02-28 10:01:39] ERROR: {"method":"GET","url":"/hosts?page=1&entry=50&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","customHeader":"vi_VN","message":"column host.totalCourts does not exist","statusCode":500,"duration":"4ms","timestamp":"2026-02-28T10:01:39.302Z"}
+[2026-02-28 10:01:39] INFO: {"method":"GET","url":"/tournaments?page=1&entry=10&sort=DESC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"190ms","timestamp":"2026-02-28T10:01:39.419Z","status":"success"}
+[2026-02-28 10:01:39] ERROR: {"method":"GET","url":"/host-participants?page=1&entry=20&sort=ASC&field=id&status=accepted","role":"USER","userId":19,"customHeader":"vi_VN","message":"Bad Request Exception","statusCode":400,"duration":"7ms","timestamp":"2026-02-28T10:01:39.432Z"}
+[2026-02-28 10:01:44] INFO: ⚡ New connection attempt CptD8Bgxg06WU_xKAAA8
+[2026-02-28 10:01:44] INFO: userid57 19
+[2026-02-28 10:01:44] INFO: ✅ Joining room: user_19
+[2026-02-28 10:01:44] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"18ms","timestamp":"2026-02-28T10:01:44.137Z","status":"success"}
+[2026-02-28 10:01:44] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T10:01:44.808Z","status":"success"}
+[2026-02-28 10:01:46] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T10:01:46.608Z","status":"success"}
+[2026-02-28 10:01:54] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"5ms","timestamp":"2026-02-28T10:01:54.376Z","status":"success"}
+[2026-02-28 10:01:55] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T10:01:55.934Z","status":"success"}
+[2026-02-28 10:01:56] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T10:01:56.686Z","status":"success"}
+[2026-02-28 10:01:57] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T10:01:57.443Z","status":"success"}
+[2026-02-28 10:01:58] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T10:01:58.356Z","status":"success"}
+[2026-02-28 10:02:21] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"24ms","timestamp":"2026-02-28T10:02:21.776Z","status":"success"}
+[2026-02-28 10:02:21] INFO: {"method":"GET","url":"/user-profiles/info/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"40ms","timestamp":"2026-02-28T10:02:21.839Z","status":"success"}
+[2026-02-28 10:02:21] INFO: {"method":"GET","url":"/user-profiles/info/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"11ms","timestamp":"2026-02-28T10:02:21.936Z","status":"success"}
+[2026-02-28 10:02:24] INFO: {"method":"GET","url":"/user-profiles/recent-matches/19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"2031ms","timestamp":"2026-02-28T10:02:24.049Z","status":"success"}
+[2026-02-28 10:04:35] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T10:04:35.483Z","status":"success"}
+[2026-02-28 10:04:35] INFO: ⚡ New connection attempt EMpjCJsDqsa3Xu_9AAA-
+[2026-02-28 10:04:35] INFO: userid57 19
+[2026-02-28 10:04:35] INFO: ✅ Joining room: user_19
+[2026-02-28 10:04:35] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"26ms","timestamp":"2026-02-28T10:04:35.531Z","status":"success"}
+[2026-02-28 10:04:36] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"20ms","timestamp":"2026-02-28T10:04:36.740Z","status":"success"}
+[2026-02-28 10:04:36] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T10:04:36.755Z","status":"success"}
+[2026-02-28 10:04:38] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T10:04:38.023Z","status":"success"}
+[2026-02-28 10:04:38] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"3ms","timestamp":"2026-02-28T10:04:38.057Z","status":"success"}
+[2026-02-28 10:04:39] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"21ms","timestamp":"2026-02-28T10:04:39.491Z","status":"success"}
+[2026-02-28 10:04:39] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T10:04:39.541Z","status":"success"}
+[2026-02-28 10:04:40] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"20ms","timestamp":"2026-02-28T10:04:40.272Z","status":"success"}
+[2026-02-28 10:04:40] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"3ms","timestamp":"2026-02-28T10:04:40.301Z","status":"success"}
+[2026-02-28 10:04:41] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"20ms","timestamp":"2026-02-28T10:04:41.003Z","status":"success"}
+[2026-02-28 10:04:41] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"3ms","timestamp":"2026-02-28T10:04:41.031Z","status":"success"}
+[2026-02-28 10:04:41] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"20ms","timestamp":"2026-02-28T10:04:41.705Z","status":"success"}
+[2026-02-28 10:04:41] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T10:04:41.739Z","status":"success"}
+[2026-02-28 10:04:42] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"18ms","timestamp":"2026-02-28T10:04:42.453Z","status":"success"}
+[2026-02-28 10:04:42] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"3ms","timestamp":"2026-02-28T10:04:42.506Z","status":"success"}
+[2026-02-28 10:05:06] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"4ms","timestamp":"2026-02-28T10:05:06.575Z","status":"success"}
+[2026-02-28 10:05:06] INFO: ⚡ New connection attempt 4z6x8QPDkb1LbQpuAABA
+[2026-02-28 10:05:06] INFO: userid57 19
+[2026-02-28 10:05:06] INFO: ✅ Joining room: user_19
+[2026-02-28 10:05:06] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"25ms","timestamp":"2026-02-28T10:05:06.686Z","status":"success"}
+[2026-02-28 10:05:07] INFO: ⚡ New connection attempt P59twSZYy7MAjUBXAABD
+[2026-02-28 10:05:07] INFO: userid57 19
+[2026-02-28 10:05:07] INFO: ✅ Joining room: user_19
+[2026-02-28 10:05:07] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"25ms","timestamp":"2026-02-28T10:05:07.276Z","status":"success"}
+[2026-02-28 10:05:07] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"21ms","timestamp":"2026-02-28T10:05:07.301Z","status":"success"}
+[2026-02-28 10:05:08] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T10:05:08.074Z","status":"success"}
+[2026-02-28 10:05:10] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"23ms","timestamp":"2026-02-28T10:05:10.644Z","status":"success"}
+[2026-02-28 10:05:22] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"37ms","timestamp":"2026-02-28T10:05:22.310Z","status":"success"}
+[2026-02-28 10:05:24] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"17ms","timestamp":"2026-02-28T10:05:24.252Z","status":"success"}
+[2026-02-28 10:05:25] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"20ms","timestamp":"2026-02-28T10:05:25.403Z","status":"success"}
+[2026-02-28 10:05:26] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T10:05:26.802Z","status":"success"}
+[2026-02-28 10:05:27] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"20ms","timestamp":"2026-02-28T10:05:27.904Z","status":"success"}
+[2026-02-28 10:05:34] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"21ms","timestamp":"2026-02-28T10:05:34.206Z","status":"success"}
+[2026-02-28 10:05:53] INFO: {"method":"GET","url":"/tournaments?page=1&entry=10&sort=DESC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"227ms","timestamp":"2026-02-28T10:05:53.449Z","status":"success"}
+[2026-02-28 10:05:54] INFO: ⚡ New connection attempt 0Yijq0SkoeYUGcMMAABF
+[2026-02-28 10:05:54] INFO: userid57 19
+[2026-02-28 10:05:54] INFO: ✅ Joining room: user_19
+[2026-02-28 10:05:54] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"19ms","timestamp":"2026-02-28T10:05:54.136Z","status":"success"}
+[2026-02-28 10:05:54] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"17ms","timestamp":"2026-02-28T10:05:54.853Z","status":"success"}
+[2026-02-28 10:05:54] INFO: ⚡ New connection attempt trL3JulU88594D09AABI
+[2026-02-28 10:05:54] INFO: userid57 19
+[2026-02-28 10:05:54] INFO: ✅ Joining room: user_19
+[2026-02-28 10:05:54] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"17ms","timestamp":"2026-02-28T10:05:54.903Z","status":"success"}
+[2026-02-28 10:05:56] INFO: ⚡ New connection attempt h21rJ2UyFXl7z2JXAABK
+[2026-02-28 10:05:56] INFO: userid57 19
+[2026-02-28 10:05:56] INFO: ✅ Joining room: user_19
+[2026-02-28 10:05:56] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"17ms","timestamp":"2026-02-28T10:05:56.486Z","status":"success"}
+[2026-02-28 10:05:56] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"21ms","timestamp":"2026-02-28T10:05:56.725Z","status":"success"}
+[2026-02-28 10:05:56] INFO: ⚡ New connection attempt pO8-Myr8UdxUJYg1AABO
+[2026-02-28 10:05:56] INFO: userid57 19
+[2026-02-28 10:05:56] INFO: ✅ Joining room: user_19
+[2026-02-28 10:05:56] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"16ms","timestamp":"2026-02-28T10:05:56.853Z","status":"success"}
+[2026-02-28 10:05:56] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"16ms","timestamp":"2026-02-28T10:05:56.895Z","status":"success"}
+[2026-02-28 10:06:08] INFO: ⚡ New connection attempt PO1xAi3_JHBiiRB9AABQ
+[2026-02-28 10:06:08] INFO: userid57 19
+[2026-02-28 10:06:08] INFO: ✅ Joining room: user_19
+[2026-02-28 10:06:08] INFO: {"method":"GET","url":"/navbar?page=1&entry=100&sort=ASC&field=id","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"7ms","timestamp":"2026-02-28T10:06:08.055Z","status":"success"}
+[2026-02-28 10:06:08] INFO: {"method":"GET","url":"/conversations?page=1&entry=10&sort=ASC&field=id&userId=19","role":"USER","userId":19,"userName":"nhantest2","customHeader":"vi_VN","statusCode":200,"duration":"26ms","timestamp":"2026-02-28T10:06:08.098Z","status":"success"}
+[2026-02-28 10:58:32] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"289ms","timestamp":"2026-02-28T10:58:32.990Z"}
+[2026-02-28 13:45:14] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"311ms","timestamp":"2026-02-28T13:45:14.526Z"}
+[2026-02-28 14:30:07] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"306ms","timestamp":"2026-02-28T14:30:07.635Z"}
+[2026-02-28 15:07:14] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"312ms","timestamp":"2026-02-28T15:07:14.798Z"}
+[2026-02-28 15:07:15] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"225ms","timestamp":"2026-02-28T15:07:15.650Z"}
+[2026-02-28 17:59:11] INFO: {"method":"GET","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"6ms","timestamp":"2026-02-28T17:59:11.181Z","status":"success"}
+[2026-02-28 18:04:12] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"302ms","timestamp":"2026-02-28T18:04:12.604Z"}
+[2026-02-28 18:08:04] INFO: {"method":"GET","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"1ms","timestamp":"2026-02-28T18:08:04.444Z","status":"success"}
+[2026-02-28 18:08:22] INFO: {"method":"GET","url":"/community-posts/feed?entry=10&direction=next&authorId=1","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"27ms","timestamp":"2026-02-28T18:08:22.252Z","status":"success"}
+[2026-02-28 18:08:27] INFO: {"method":"GET","url":"/community-posts/feed?entry=10&direction=next","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","customHeader":"vi_VN","statusCode":200,"duration":"37ms","timestamp":"2026-02-28T18:08:27.567Z","status":"success"}
+[2026-02-28 18:20:01] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"298ms","timestamp":"2026-02-28T18:20:01.014Z"}
+[2026-02-28 18:40:47] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"247ms","timestamp":"2026-02-28T18:40:47.595Z"}
+[2026-02-28 18:41:19] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"309ms","timestamp":"2026-02-28T18:41:19.612Z"}
+[2026-02-28 18:42:20] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"314ms","timestamp":"2026-02-28T18:42:20.654Z"}
+[2026-02-28 18:43:58] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"310ms","timestamp":"2026-02-28T18:43:58.074Z"}
+[2026-02-28 18:44:00] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"224ms","timestamp":"2026-02-28T18:44:00.452Z"}
+[2026-02-28 18:44:22] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"223ms","timestamp":"2026-02-28T18:44:22.624Z"}
+[2026-02-28 19:14:33] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"303ms","timestamp":"2026-02-28T19:14:33.828Z"}
+[2026-02-28 21:49:40] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"295ms","timestamp":"2026-02-28T21:49:40.923Z"}
+[2026-02-28 23:04:40] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"299ms","timestamp":"2026-02-28T23:04:40.433Z"}

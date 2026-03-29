@@ -1,0 +1,5 @@
+[2026-02-22 02:34:58] INFO: {"method":"GET","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"9ms","timestamp":"2026-02-22T02:34:58.688Z","status":"success"}
+[2026-02-22 14:52:24] INFO: {"method":"GET","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"1ms","timestamp":"2026-02-22T14:52:24.591Z","status":"success"}
+[2026-02-22 16:57:06] INFO: {"method":"GET","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"2ms","timestamp":"2026-02-22T16:57:06.592Z","status":"success"}
+[2026-02-22 19:29:15] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"292ms","timestamp":"2026-02-22T19:29:15.805Z"}
+[2026-02-22 20:44:20] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"366ms","timestamp":"2026-02-22T20:44:20.564Z"}

@@ -1,0 +1,22 @@
+[2026-03-22 03:42:50] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 03:42:50] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 03:42:50] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 04:16:39] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"323ms","timestamp":"2026-03-22T04:16:39.258Z"}
+[2026-03-22 10:59:40] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 10:59:40] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 10:59:40] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 12:06:25] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 12:06:25] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 12:06:26] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 14:06:58] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 14:06:58] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 14:06:59] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 14:22:47] INFO: {"method":"GET","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"2ms","timestamp":"2026-03-22T14:22:47.221Z","status":"success"}
+[2026-03-22 18:07:29] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 18:07:29] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 18:07:29] INFO: ✅ Community Socket - User 3 joined room: user_3
+[2026-03-22 19:46:18] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"194ms","timestamp":"2026-03-22T19:46:18.664Z"}
+[2026-03-22 20:42:16] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"357ms","timestamp":"2026-03-22T20:42:16.387Z"}
+[2026-03-22 21:05:30] ERROR: {"method":"GET","url":"/.well-known/assetlinks.json","role":"Anonymous","userId":"Anonymous","message":"Maximum call stack size exceeded","statusCode":500,"duration":"317ms","timestamp":"2026-03-22T21:05:30.148Z"}
+[2026-03-22 22:24:49] INFO: {"method":"GET","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"1ms","timestamp":"2026-03-22T22:24:49.783Z","status":"success"}
+[2026-03-22 22:41:11] INFO: {"method":"GET","url":"/","role":"Anonymous","userId":"Anonymous","userName":"Anonymous","statusCode":200,"duration":"1ms","timestamp":"2026-03-22T22:41:11.028Z","status":"success"}

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent Flow Builder - Enterprise Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .canvas-bg {
+            background-color: #F3F4F6;
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        .node-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .sidebar-animate {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .hidden-sidebar {
+            transform: translateX(100%);
+        }
+    </style>
+</head>
+
+<body class="bg-[#F3F4F6] text-slate-900 overflow-hidden">
+
+    <div class="flex h-screen w-full">
+        <!-- Sidebar Navigation (Left) -->
+        <aside class="w-20 bg-white border-r border-slate-200 flex flex-col items-center py-8 gap-10 shadow-sm z-20">
+            <div
+                class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-indigo-100 hover:scale-110 transition-transform cursor-pointer">
+                <i data-lucide="brain-circuit" size="28"></i>
+            </div>
+            <nav class="flex flex-col gap-8 text-slate-400">
+                <i data-lucide="layout-grid" class="text-indigo-600 cursor-pointer"></i>
+                <i data-lucide="cpu" class="hover:text-indigo-600 transition-colors cursor-pointer"></i>
+                <i data-lucide="activity" class="hover:text-indigo-600 transition-colors cursor-pointer"></i>
+                <i data-lucide="database" class="hover:text-indigo-600 transition-colors cursor-pointer"></i>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header
+                class="h-20 bg-white border-b border-slate-200 px-10 flex items-center justify-between z-10 shadow-sm">
+                <div>
+                    <h1 class="font-black text-xl tracking-tighter text-slate-900 uppercase">Agent <span
+                            class="text-indigo-600">Flow Builder</span></h1>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Enterprise Automation
+                        CRM/ERP</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button id="deployBtn"
+                        class="px-8 py-3 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-black shadow-lg shadow-slate-200 transition-all active:scale-95 flex items-center gap-2">
+                        <i data-lucide="play" size="16" fill="currentColor"></i>
+                        <span>Deploy Agent</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Workflow Canvas -->
+            <main class="flex-1 overflow-x-auto p-12 canvas-bg">
+                <div id="workflowColumns" class="flex gap-12 min-w-max pb-20">
+                    <!-- Columns will be injected here -->
+                </div>
+            </main>
+        </div>
+
+        <!-- Right Sidebar (Config) -->
+        <aside id="configSidebar"
+            class="w-[400px] bg-white border-l border-slate-200 shadow-2xl z-30 flex flex-col sidebar-animate hidden-sidebar fixed right-0 top-0 bottom-0 lg:relative lg:top-auto lg:bottom-auto">
+            <div class="p-8 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div id="configIcon" class="p-3 bg-slate-50 rounded-2xl text-indigo-600">
+                        <i data-lucide="settings" size="24"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-black text-slate-800 uppercase text-xs tracking-widest">Cấu hình Tác vụ</h3>
+                        <p id="configId" class="text-[10px] text-slate-400 font-bold tracking-tighter mt-0.5 uppercase">
+                            AGENT_ID: NONE</p>
+                    </div>
+                </div>
+                <button id="closeSidebar" class="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                    <i data-lucide="x" class="text-slate-400" size="24"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-8 space-y-8">
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Tên hiển
+                        thị</label>
+                    <input id="nodeLabelInput" type="text"
+                        class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-50 outline-none font-bold text-sm transition-all" />
+                </div>
+
+                <div>
+                    <label
+                        class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 text-slate-400">Hệ
+                        thống tích hợp</label>
+                    <div class="space-y-3">
+                        <div
+                            class="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-2xl cursor-pointer hover:border-indigo-200">
+                            <span class="text-xs font-bold text-slate-700">SAP S/4HANA</span>
+                            <div class="w-2.5 h-2.5 rounded-full bg-green-500 shadow-sm shadow-green-200"></div>
+                        </div>
+                        <div
+                            class="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-2xl cursor-pointer hover:border-indigo-200">
+                            <span class="text-xs font-bold text-slate-700">Odoo ERP</span>
+                            <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                        </div>
+                        <div
+                            class="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-2xl cursor-pointer hover:border-indigo-200">
+                            <span class="text-xs font-bold text-slate-700">Salesforce CRM</span>
+                            <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-indigo-50 rounded-[2rem] border border-indigo-100">
+                    <div class="flex items-center gap-2 text-indigo-700 font-black text-[10px] uppercase mb-2">
+                        <i data-lucide="shield-check" size="16"></i> AI Logic Safe-Mode
+                    </div>
+                    <p class="text-[11px] text-indigo-600 leading-relaxed font-medium">
+                        Mọi hành động cập nhật vào ERP/CRM đều được Agent kiểm tra trạng thái **Concurrency** để tránh
+                        ghi đè dữ liệu hoặc gửi request chồng chéo.
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-8 border-t border-slate-100">
+                <button
+                    class="w-full py-5 bg-indigo-600 text-white rounded-[2rem] font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95">
+                    Chạy thử Tác vụ này
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Deployment Overlay -->
+    <div id="deployOverlay"
+        class="fixed bottom-12 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-10 py-5 rounded-[2rem] shadow-2xl flex items-center gap-5 z-[100] border border-slate-800 hidden opacity-0 transition-opacity duration-300">
+        <div class="h-3 w-3 rounded-full bg-indigo-500 animate-ping"></div>
+        <span class="text-sm font-black uppercase tracking-widest">Đang kích hoạt AI Agent lên hệ thống...</span>
+    </div>
+
+    <script>
+        // Data Configuration
+        const PHASES = [
+            { id: 'input', title: '01. Tiếp nhận (Input)', color: 'bg-blue-500', icon: 'zap' },
+            { id: 'reasoning', title: '02. AI Reasoning', color: 'bg-indigo-600', icon: 'brain-circuit' },
+            { id: 'action', title: '03. ERP/CRM Action', color: 'bg-orange-500', icon: 'boxes' },
+            { id: 'governance', title: '04. Kiểm soát (Audit)', color: 'bg-emerald-600', icon: 'shield-check' }
+        ];
+
+        const NODE_TEMPLATES = {
+            WEBHOOK: { icon: 'zap', label: 'API Webhook', category: 'input', desc: 'Nhận request từ ERP/CRM.' },
+            EMAIL: { icon: 'mail', label: 'Email Agent', category: 'input', desc: 'AI tự động đọc và phân loại mail.' },
+            LLM: { icon: 'brain-circuit', label: 'AI Decision', category: 'reasoning', desc: 'Agent phân tích và ra quyết định.' },
+            SAP: { icon: 'refresh-cw', label: 'SAP/Odoo Sync', category: 'action', desc: 'Đồng bộ dữ liệu kho/đơn hàng.' },
+            SALESFORCE: { icon: 'users', label: 'CRM Update', category: 'action', desc: 'Cập nhật trạng thái khách hàng.' },
+            DEDUPE: { icon: 'layers', label: 'Anti-Overlap', category: 'governance', desc: 'Chống chồng chéo request (10s).' },
+            LOG: { icon: 'terminal', label: 'System Audit', category: 'governance', desc: 'Ghi nhật ký lịch sử Agent.' },
+        };
+
+        let nodes = [
+            { id: '1', phase: 'input', type: 'WEBHOOK', label: 'Inbound ERP Request', description: 'Cổng nhận dữ liệu từ SAP' },
+            { id: '2', phase: 'reasoning', type: 'LLM', label: 'AI Agent Brain', description: 'Phân tích mã đơn & tồn kho' },
+            { id: '3', phase: 'action', type: 'SAP', label: 'Odoo Inventory Update', description: 'Cập nhật kho tự động' },
+            { id: '4', phase: 'governance', type: 'DEDUPE', label: 'Request Lock', description: 'Ngăn trùng lặp dữ liệu' },
+        ];
+
+        let selectedNodeId = null;
+
+        // Dom Elements
+        const workflowColumns = document.getElementById('workflowColumns');
+        const configSidebar = document.getElementById('configSidebar');
+        const nodeLabelInput = document.getElementById('nodeLabelInput');
+        const configIdText = document.getElementById('configId');
+        const deployBtn = document.getElementById('deployBtn');
+        const deployOverlay = document.getElementById('deployOverlay');
+
+        // Functions
+        function render() {
+            workflowColumns.innerHTML = '';
+
+            PHASES.forEach((phase, index) => {
+                const column = document.createElement('div');
+                column.className = 'flex items-start';
+
+                const phaseNodes = nodes.filter(n => n.phase === phase.id);
+
+                column.innerHTML = `
+                    <div class="w-80 flex flex-col gap-6">
+                        <div class="flex items-center justify-between px-2">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2.5 rounded-xl text-white ${phase.color} shadow-lg">
+                                    <i data-lucide="${phase.icon}" size="16"></i>
+                                </div>
+                                <h2 class="font-black text-slate-800 text-[11px] uppercase tracking-widest">${phase.title}</h2>
+                            </div>
+                            <button onclick="addNode('${phase.id}')" class="p-1.5 hover:bg-white rounded-lg text-slate-400 hover:text-indigo-600 transition-all border border-transparent hover:border-slate-200">
+                                <i data-lucide="plus" size="20"></i>
+                            </button>
+                        </div>
+                        <div class="flex-1 min-h-[550px] bg-slate-200/40 rounded-[2.5rem] border-2 border-dashed border-slate-300 p-5 space-y-4">
+                            ${phaseNodes.map(node => `
+                                <div onclick="selectNode('${node.id}')" class="group bg-white p-6 rounded-[2rem] border-2 transition-all cursor-pointer shadow-sm hover:shadow-xl node-card ${selectedNodeId === node.id ? 'border-indigo-500 ring-8 ring-indigo-50 scale-[1.03]' : 'border-transparent'}">
+                                    <div class="flex items-start justify-between mb-4">
+                                        <div class="p-3 rounded-2xl bg-slate-50 ${node.phase === 'reasoning' ? 'text-indigo-600' : node.phase === 'action' ? 'text-orange-600' : 'text-slate-600'}">
+                                            <i data-lucide="${getIconForType(node.type)}" size="22"></i>
+                                        </div>
+                                        <button onclick="event.stopPropagation(); removeNode('${node.id}')" class="opacity-0 group-hover:opacity-100 p-1 text-slate-300 hover:text-rose-500 transition-all">
+                                            <i data-lucide="trash-2" size="18"></i>
+                                        </button>
+                                    </div>
+                                    <h4 class="font-bold text-slate-900 text-sm mb-1">${node.label}</h4>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed line-clamp-2">${node.description}</p>
+                                </div>
+                            `).join('')}
+                            <button onclick="addNode('${phase.id}')" class="w-full py-4 border-2 border-dashed border-slate-300 rounded-[2rem] text-slate-400 hover:bg-white hover:text-indigo-600 transition-all text-[10px] font-bold uppercase tracking-widest">
+                                Thêm tác vụ
+                            </button>
+                        </div>
+                    </div>
+                    ${index < PHASES.length - 1 ? `
+                        <div class="flex items-center justify-center w-12 pt-32 opacity-20">
+                            <i data-lucide="arrow-right" size="28" class="text-slate-400"></i>
+                        </div>
+                    ` : ''}
+                `;
+                workflowColumns.appendChild(column);
+            });
+
+            lucide.createIcons();
+            updateSidebar();
+        }
+
+        function getIconForType(type) {
+            const icons = {
+                WEBHOOK: 'zap',
+                EMAIL: 'mail',
+                LLM: 'brain-circuit',
+                SAP: 'refresh-cw',
+                SALESFORCE: 'users',
+                DEDUPE: 'layers',
+                LOG: 'terminal'
+            };
+            return icons[type] || 'settings';
+        }
+
+        function addNode(phaseId) {
+            const templateKeys = Object.keys(NODE_TEMPLATES).filter(k => NODE_TEMPLATES[k].category === phaseId);
+            const type = templateKeys[0] || 'WEBHOOK';
+            const newNode = {
+                id: Math.random().toString(36).substr(2, 9),
+                phase: phaseId,
+                type: type,
+                label: NODE_TEMPLATES[type] ? NODE_TEMPLATES[type].label : 'Tác vụ mới',
+                description: 'Cấu hình tác vụ Agent mới'
+            };
+            nodes.push(newNode);
+            selectNode(newNode.id);
+            render();
+        }
+
+        function removeNode(id) {
+            nodes = nodes.filter(n => n.id !== id);
+            if (selectedNodeId === id) selectedNodeId = null;
+            render();
+        }
+
+        function selectNode(id) {
+            selectedNodeId = id;
+            render();
+        }
+
+        function updateSidebar() {
+            const selectedNode = nodes.find(n => n.id === selectedNodeId);
+            if (selectedNode) {
+                configSidebar.classList.remove('hidden-sidebar');
+                configIdText.innerText = `AGENT_ID: ${selectedNode.id}`;
+                nodeLabelInput.value = selectedNode.label;
+            } else {
+                configSidebar.classList.add('hidden-sidebar');
+            }
+        }
+
+        // Event Listeners
+        nodeLabelInput.addEventListener('input', (e) => {
+            if (selectedNodeId) {
+                nodes = nodes.map(n => n.id === selectedNodeId ? { ...n, label: e.target.value } : n);
+                render();
+            }
+        });
+
+        document.getElementById('closeSidebar').addEventListener('click', () => {
+            selectedNodeId = null;
+            render();
+        });
+
+        deployBtn.addEventListener('click', () => {
+            deployOverlay.classList.remove('hidden');
+            setTimeout(() => {
+                deployOverlay.style.opacity = '1';
+            }, 10);
+
+            deployBtn.disabled = true;
+            deployBtn.innerHTML = '<i data-lucide="refresh-cw" class="animate-spin" size="16"></i><span>Deploying...</span>';
+            lucide.createIcons();
+
+            setTimeout(() => {
+                deployOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    deployOverlay.classList.add('hidden');
+                }, 300);
+                deployBtn.disabled = false;
+                deployBtn.innerHTML = '<i data-lucide="play" size="16" fill="currentColor"></i><span>Deploy Agent</span>';
+                lucide.createIcons();
+            }, 3000);
+        });
+
+        // Initialize
+        window.onload = () => {
+            render();
+        };
+    </script>
+</body>
+
+</html>

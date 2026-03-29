@@ -1,0 +1,2778 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festminton — Internal Docs</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #07090f;
+            --surface: #0e1420;
+            --s2: #131c2e;
+            --s3: #192238;
+            --border: #1e2d45;
+            --border2: #243450;
+            --blue: #4f8ef7;
+            --blue-dim: rgba(79, 142, 247, 0.12);
+            --blue-glow: rgba(79, 142, 247, 0.06);
+            --green: #22c98b;
+            --green-dim: rgba(34, 201, 139, 0.12);
+            --amber: #f5a623;
+            --amber-dim: rgba(245, 166, 35, 0.12);
+            --red: #f05252;
+            --red-dim: rgba(240, 82, 82, 0.12);
+            --purple: #9b6dff;
+            --purple-dim: rgba(155, 109, 255, 0.12);
+            --cyan: #22d3ee;
+            --cyan-dim: rgba(34, 211, 238, 0.1);
+            --text: #dce6f5;
+            --text2: #8099bc;
+            --text3: #4a6080;
+            --mono: 'Fira Code', monospace;
+            --sans: 'Sora', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: 260px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 100;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        .sb-logo {
+            padding: 24px 20px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sb-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -.3px;
+        }
+
+        .sb-brand-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #1a56db, #7e3af2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .sb-tag {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sb-section {
+            margin-top: 16px
+        }
+
+        .sb-section-label {
+            padding: 4px 20px 6px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text3);
+        }
+
+        .sb-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 7px 20px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text2);
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            transition: all .12s;
+            cursor: pointer;
+        }
+
+        .sb-item:hover {
+            color: var(--text);
+            background: var(--s2);
+        }
+
+        .sb-item.active {
+            color: var(--blue);
+            background: var(--blue-glow);
+            border-left-color: var(--blue);
+        }
+
+        .sb-icon {
+            font-size: 13px;
+            flex-shrink: 0;
+            width: 16px;
+            text-align: center;
+        }
+
+        /* ── MAIN ── */
+        .main {
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            padding: 80px 72px 64px;
+            background:
+                radial-gradient(ellipse 60% 50% at 80% 20%, rgba(79, 142, 247, .06) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(155, 109, 255, .05) 0%, transparent 60%),
+                var(--bg);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--blue-dim);
+            border: 1px solid rgba(79, 142, 247, .25);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--blue);
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 14px;
+        }
+
+        .hero-grad {
+            background: linear-gradient(90deg, #4f8ef7, #9b6dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 15px;
+            color: var(--text2);
+            max-width: 580px;
+            line-height: 1.7;
+            margin-bottom: 36px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .stat-num {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4f8ef7, #22c98b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text3);
+            font-weight: 500;
+        }
+
+        /* ── DOMAIN PILLS ── */
+        .domain-nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 20px 72px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .domain-pill {
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid var(--border2);
+            color: var(--text2);
+            background: var(--s2);
+            cursor: pointer;
+            transition: all .15s;
+            text-decoration: none;
+        }
+
+        .domain-pill:hover {
+            color: var(--text);
+            border-color: var(--text3);
+        }
+
+        .domain-pill.d-blue {
+            border-color: rgba(79, 142, 247, .3);
+            color: var(--blue);
+            background: var(--blue-glow);
+        }
+
+        .domain-pill.d-green {
+            border-color: rgba(34, 201, 139, .3);
+            color: var(--green);
+            background: var(--green-dim);
+        }
+
+        .domain-pill.d-amber {
+            border-color: rgba(245, 166, 35, .3);
+            color: var(--amber);
+            background: var(--amber-dim);
+        }
+
+        .domain-pill.d-purple {
+            border-color: rgba(155, 109, 255, .3);
+            color: var(--purple);
+            background: var(--purple-dim);
+        }
+
+        .domain-pill.d-cyan {
+            border-color: rgba(34, 211, 238, .3);
+            color: var(--cyan);
+            background: var(--cyan-dim);
+        }
+
+        /* ── CONTENT ── */
+        .content {
+            padding: 0 72px 80px;
+        }
+
+        /* ── DOMAIN SECTION ── */
+        .domain-section {
+            padding-top: 64px;
+            border-top: 1px solid var(--border);
+            margin-top: 64px;
+        }
+
+        .domain-section:first-child {
+            border-top: none;
+            margin-top: 0;
+        }
+
+        .domain-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+
+        .domain-icon-big {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .dib-blue {
+            background: var(--blue-dim);
+            border: 1px solid rgba(79, 142, 247, .2);
+        }
+
+        .dib-green {
+            background: var(--green-dim);
+            border: 1px solid rgba(34, 201, 139, .2);
+        }
+
+        .dib-amber {
+            background: var(--amber-dim);
+            border: 1px solid rgba(245, 166, 35, .2);
+        }
+
+        .dib-purple {
+            background: var(--purple-dim);
+            border: 1px solid rgba(155, 109, 255, .2);
+        }
+
+        .dib-cyan {
+            background: var(--cyan-dim);
+            border: 1px solid rgba(34, 211, 238, .2);
+        }
+
+        .domain-title {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        .domain-desc {
+            font-size: 13px;
+            color: var(--text2);
+            margin-top: 4px;
+            line-height: 1.6;
+        }
+
+        /* ── SUBSECTION ── */
+        .sub {
+            margin: 32px 0;
+        }
+
+        .sub-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sub-title::before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: 18px;
+            border-radius: 2px;
+            background: var(--blue);
+            flex-shrink: 0;
+        }
+
+        /* ── CALLOUT ── */
+        .callout {
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-size: 13px;
+            line-height: 1.7;
+            border-left: 3px solid;
+        }
+
+        .ca-blue {
+            background: var(--blue-dim);
+            border-color: var(--blue);
+        }
+
+        .ca-green {
+            background: var(--green-dim);
+            border-color: var(--green);
+        }
+
+        .ca-amber {
+            background: var(--amber-dim);
+            border-color: var(--amber);
+        }
+
+        .ca-red {
+            background: var(--red-dim);
+            border-color: var(--red);
+        }
+
+        .ca-purple {
+            background: var(--purple-dim);
+            border-color: var(--purple);
+        }
+
+        .callout strong {
+            color: var(--text);
+        }
+
+        .callout-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-bottom: 4px;
+        }
+
+        .ca-blue .callout-label {
+            color: var(--blue);
+        }
+
+        .ca-green .callout-label {
+            color: var(--green);
+        }
+
+        .ca-amber .callout-label {
+            color: var(--amber);
+        }
+
+        .ca-red .callout-label {
+            color: var(--red);
+        }
+
+        .ca-purple .callout-label {
+            color: var(--purple);
+        }
+
+        /* ── CODE ── */
+        pre {
+            background: #060a10;
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            padding: 20px 22px;
+            font-family: var(--mono);
+            font-size: 12.5px;
+            line-height: 1.75;
+            overflow-x: auto;
+            margin: 14px 0;
+            position: relative;
+        }
+
+        .lang {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+        }
+
+        code {
+            font-family: var(--mono);
+            font-size: 12px;
+            background: rgba(79, 142, 247, .1);
+            color: #93bbfc;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        .kw {
+            color: #ff79c6;
+        }
+
+        .ty {
+            color: #8be9fd;
+        }
+
+        .st {
+            color: #f1fa8c;
+        }
+
+        .cm {
+            color: #4a6080;
+            font-style: italic;
+        }
+
+        .nm {
+            color: #bd93f9;
+        }
+
+        .pr {
+            color: #50fa7b;
+        }
+
+        .br {
+            color: #ffb86c;
+        }
+
+        .at {
+            color: #ff9580;
+        }
+
+        /* ── TABLE ── */
+        .tbl {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+            margin: 14px 0;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .tbl th {
+            background: var(--s2);
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            color: var(--text3);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tbl td {
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(30, 45, 69, .6);
+            color: var(--text2);
+            vertical-align: top;
+        }
+
+        .tbl tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tbl tr:hover td {
+            background: rgba(19, 28, 46, .5);
+        }
+
+        /* ── BADGE ── */
+        .b {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: var(--mono);
+        }
+
+        .bb {
+            background: var(--blue-dim);
+            color: #93bbfc;
+        }
+
+        .bg {
+            background: var(--green-dim);
+            color: #6ee7b7;
+        }
+
+        .ba {
+            background: var(--amber-dim);
+            color: #fcd34d;
+        }
+
+        .br2 {
+            background: var(--red-dim);
+            color: #fca5a5;
+        }
+
+        .bp {
+            background: var(--purple-dim);
+            color: #c4b5fd;
+        }
+
+        .bc {
+            background: var(--cyan-dim);
+            color: #67e8f9;
+        }
+
+        .bx {
+            background: rgba(74, 96, 128, .15);
+            color: var(--text3);
+        }
+
+        /* ── GRID ── */
+        .g2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin: 16px 0;
+        }
+
+        .g3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        @media(max-width:900px) {
+
+            .g2,
+            .g3 {
+                grid-template-columns: 1fr;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .hero,
+            .domain-nav,
+            .content {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+        }
+
+        /* ── CARD ── */
+        .card {
+            background: var(--s2);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            padding: 18px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-body {
+            font-size: 13px;
+            color: var(--text2);
+            line-height: 1.65;
+        }
+
+        /* ── PHONE MOCKUP ── */
+        .phone {
+            background: var(--s2);
+            border: 1px solid var(--border2);
+            border-radius: 18px;
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+        .phone-bar {
+            background: var(--s3);
+            padding: 12px 14px 10px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .pdot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .pd-r {
+            background: #f05252;
+        }
+
+        .pd-y {
+            background: #f5a623;
+        }
+
+        .pd-g {
+            background: #22c98b;
+        }
+
+        .phone-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text3);
+            flex: 1;
+            text-align: center;
+            padding-right: 23px;
+        }
+
+        .phone-body {
+            padding: 14px;
+        }
+
+        /* ── APP COMPONENTS ── */
+        .app-hd {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .app-hd-t {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .app-hd-s {
+            font-size: 11px;
+            color: var(--text3);
+            margin-top: 1px;
+        }
+
+        .row-item {
+            background: var(--s3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 9px;
+        }
+
+        .rank-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 0;
+            border-bottom: 1px solid rgba(30, 45, 69, .5);
+        }
+
+        .rank-row:last-child {
+            border-bottom: none;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        /* ── STATE FLOW ── */
+        .state-flow {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            flex-wrap: wrap;
+            row-gap: 12px;
+            background: var(--s2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 14px 0;
+        }
+
+        .snode {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .sbubble {
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 11.5px;
+            font-weight: 700;
+            border: 1.5px solid;
+            white-space: nowrap;
+            font-family: var(--mono);
+        }
+
+        .sb-gray {
+            border-color: var(--border2);
+            color: var(--text3);
+            background: transparent;
+        }
+
+        .sb-blue {
+            border-color: rgba(79, 142, 247, .5);
+            color: #93bbfc;
+            background: var(--blue-dim);
+        }
+
+        .sb-green {
+            border-color: rgba(34, 201, 139, .5);
+            color: #6ee7b7;
+            background: var(--green-dim);
+        }
+
+        .sb-amber {
+            border-color: rgba(245, 166, 35, .5);
+            color: #fcd34d;
+            background: var(--amber-dim);
+        }
+
+        .sb-red {
+            border-color: rgba(240, 82, 82, .5);
+            color: #fca5a5;
+            background: var(--red-dim);
+        }
+
+        .sb-purple {
+            border-color: rgba(155, 109, 255, .5);
+            color: #c4b5fd;
+            background: var(--purple-dim);
+        }
+
+        .slabel {
+            font-size: 10px;
+            color: var(--text3);
+            text-align: center;
+            max-width: 72px;
+            line-height: 1.3;
+        }
+
+        .sarrow {
+            padding: 0 8px;
+            color: var(--border2);
+            font-size: 16px;
+            align-self: flex-start;
+            margin-top: 10px;
+        }
+
+        .sarrow-label {
+            font-size: 10px;
+            color: var(--text3);
+            text-align: center;
+        }
+
+        /* ── ENTITY DIAGRAM ── */
+        .ent-wrap {
+            display: flex;
+            gap: 0;
+            align-items: stretch;
+            background: var(--s2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            margin: 14px 0;
+            overflow-x: auto;
+            flex-wrap: wrap;
+            gap: 12px;
+            row-gap: 16px;
+        }
+
+        .ent {
+            background: var(--bg);
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            min-width: 155px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .ent-h {
+            padding: 9px 13px;
+            font-size: 12px;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ent-h.blue {
+            background: var(--blue-dim);
+            color: #93bbfc;
+        }
+
+        .ent-h.green {
+            background: var(--green-dim);
+            color: #6ee7b7;
+        }
+
+        .ent-h.amber {
+            background: var(--amber-dim);
+            color: #fcd34d;
+        }
+
+        .ent-h.purple {
+            background: var(--purple-dim);
+            color: #c4b5fd;
+        }
+
+        .ent-h.cyan {
+            background: var(--cyan-dim);
+            color: #67e8f9;
+        }
+
+        .ent-f {
+            padding: 5px 13px;
+            font-size: 11.5px;
+            font-family: var(--mono);
+            color: var(--text3);
+            border-bottom: 1px solid rgba(30, 45, 69, .4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ent-f:last-child {
+            border-bottom: none;
+        }
+
+        .ft {
+            font-size: 10px;
+            color: #9b6dff;
+            font-style: italic;
+        }
+
+        .fpk {
+            color: var(--amber) !important;
+        }
+
+        .ffk {
+            color: #93bbfc !important;
+        }
+
+        .fnew {
+            color: var(--green) !important;
+        }
+
+        .ent-rel {
+            display: flex;
+            align-items: center;
+            padding: 0 6px;
+            font-size: 13px;
+            color: var(--text3);
+            align-self: center;
+            flex-shrink: 0;
+            font-weight: 700;
+        }
+
+        /* ── FLOW DIAGRAM ── */
+        .flow {
+            background: var(--s2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px;
+            margin: 14px 0;
+            overflow-x: auto;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            row-gap: 14px;
+        }
+
+        .fnode {
+            padding: 9px 16px;
+            border-radius: 9px;
+            font-size: 12.5px;
+            font-weight: 600;
+            border: 1.5px solid;
+            text-align: center;
+            min-width: 90px;
+        }
+
+        .fn-b {
+            border-color: rgba(79, 142, 247, .4);
+            background: var(--blue-dim);
+            color: #93bbfc;
+        }
+
+        .fn-g {
+            border-color: rgba(34, 201, 139, .4);
+            background: var(--green-dim);
+            color: #6ee7b7;
+        }
+
+        .fn-a {
+            border-color: rgba(245, 166, 35, .4);
+            background: var(--amber-dim);
+            color: #fcd34d;
+        }
+
+        .fn-r {
+            border-color: rgba(240, 82, 82, .4);
+            background: var(--red-dim);
+            color: #fca5a5;
+        }
+
+        .fn-p {
+            border-color: rgba(155, 109, 255, .4);
+            background: var(--purple-dim);
+            color: #c4b5fd;
+        }
+
+        .fn-x {
+            border-color: var(--border2);
+            background: var(--s3);
+            color: var(--text2);
+        }
+
+        .farr {
+            color: var(--border2);
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .fnote {
+            font-size: 10px;
+            color: var(--text3);
+            text-align: center;
+            margin-top: 3px;
+        }
+
+        /* ── RISK CARD ── */
+        .risk {
+            background: var(--s2);
+            border: 1px solid var(--border2);
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .risk::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+        }
+
+        .risk.rh::before {
+            background: var(--red);
+        }
+
+        .risk.rm::before {
+            background: var(--amber);
+        }
+
+        .risk.rl::before {
+            background: var(--green);
+        }
+
+        .risk-hd {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .risk-title {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .risk-lv {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            flex-shrink: 0;
+        }
+
+        .lv-h {
+            background: var(--red-dim);
+            color: #fca5a5;
+        }
+
+        .lv-m {
+            background: var(--amber-dim);
+            color: #fcd34d;
+        }
+
+        .lv-l {
+            background: var(--green-dim);
+            color: #6ee7b7;
+        }
+
+        .risk-body {
+            font-size: 13px;
+            color: var(--text2);
+            line-height: 1.65;
+        }
+
+        .risk-fix {
+            margin-top: 12px;
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 12.5px;
+            color: var(--text2);
+            line-height: 1.6;
+        }
+
+        .risk-fix-t {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--green);
+            margin-bottom: 5px;
+        }
+
+        /* ── MATH BOX ── */
+        .mathbox {
+            background: var(--bg);
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin: 14px 0;
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        .math-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-bottom: 8px;
+        }
+
+        .mh {
+            color: #f1fa8c;
+            font-weight: 600;
+        }
+
+        /* highlight */
+        .mc {
+            color: #8be9fd;
+        }
+
+        /* cyan */
+        .mg {
+            color: #50fa7b;
+        }
+
+        /* green */
+        .mp {
+            color: #bd93f9;
+        }
+
+        /* purple */
+        .mo {
+            color: #ffb86c;
+        }
+
+        /* orange */
+
+        /* ── TOURNAMENT BRACKET ── */
+        .bracket {
+            display: flex;
+            gap: 0;
+            background: var(--s2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 14px 0;
+            overflow-x: auto;
+        }
+
+        .brnd {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: 0;
+            min-width: 130px;
+            padding: 0 16px;
+            position: relative;
+        }
+
+        .brnd-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text3);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .bmatch {
+            background: var(--bg);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 6px 0;
+            flex-shrink: 0;
+        }
+
+        .bteam {
+            padding: 8px 10px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(30, 45, 69, .5);
+        }
+
+        .bteam:last-child {
+            border-bottom: none;
+        }
+
+        .bteam.win {
+            background: var(--green-dim);
+            color: #6ee7b7;
+            font-weight: 600;
+        }
+
+        .bteam.lose {
+            opacity: .5;
+        }
+
+        .bteam .score {
+            font-family: var(--mono);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .brnd::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 16px;
+            height: 60%;
+            border-top: 1px solid var(--border2);
+            border-right: 1px solid var(--border2);
+            border-bottom: 1px solid var(--border2);
+            transform: translateY(-50%);
+        }
+
+        .brnd:last-child::after {
+            display: none;
+        }
+
+        /* ── PAYMENT FLOW ── */
+        .pay-step {
+            display: flex;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(30, 45, 69, .4);
+        }
+
+        .pay-step:last-child {
+            border-bottom: none;
+        }
+
+        .pay-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--blue-dim);
+            border: 1px solid rgba(79, 142, 247, .3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--blue);
+            flex-shrink: 0;
+        }
+
+        .pay-content {
+            flex: 1;
+        }
+
+        .pay-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .pay-body {
+            font-size: 12.5px;
+            color: var(--text2);
+            line-height: 1.6;
+        }
+
+        /* ── ELO VISUALIZER ── */
+        .elo-chart {
+            background: var(--bg);
+            border: 1px solid var(--border2);
+            border-radius: 10px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+
+        /* ── DIVIDER ── */
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 0;
+        }
+
+        /* ── MISC ── */
+        p {
+            color: var(--text2);
+            font-size: 13.5px;
+            line-height: 1.75;
+            margin-bottom: 12px;
+        }
+
+        h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin: 20px 0 10px;
+        }
+
+        .toc-number {
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--blue);
+            background: var(--blue-dim);
+            border: 1px solid rgba(79, 142, 247, .2);
+            padding: 3px 8px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+        <div class="sb-logo">
+            <div class="sb-brand">
+                <div class="sb-brand-icon">🏸</div>
+                FESTMINTON
+            </div>
+            <div class="sb-tag">Internal Docs · v2.0</div>
+        </div>
+
+        <div class="sb-section">
+            <div class="sb-section-label">Bắt đầu</div>
+            <a href="#overview" class="sb-item"><span class="sb-icon">📖</span>Tổng quan dự án</a>
+            <a href="#architecture" class="sb-item"><span class="sb-icon">🏗</span>Kiến trúc hệ thống</a>
+        </div>
+
+        <div class="sb-section">
+            <div class="sb-section-label">Domain 1</div>
+            <a href="#elo" class="sb-item active"><span class="sb-icon">📊</span>ELO / OpenSkill</a>
+            <a href="#elo-math" class="sb-item"><span class="sb-icon">∑</span>Công thức tính điểm</a>
+            <a href="#elo-anticheat" class="sb-item"><span class="sb-icon">🛡</span>Anti-Cheat</a>
+        </div>
+
+        <div class="sb-section">
+            <div class="sb-section-label">Domain 2</div>
+            <a href="#host" class="sb-item"><span class="sb-icon">🏟</span>Host / Drop-in</a>
+            <a href="#host-match" class="sb-item"><span class="sb-icon">⚡</span>Match State Machine</a>
+            <a href="#recurring" class="sb-item"><span class="sb-icon">🔄</span>Recurring Series</a>
+        </div>
+
+        <div class="sb-section">
+            <div class="sb-section-label">Domain 3</div>
+            <a href="#tournament" class="sb-item"><span class="sb-icon">🏆</span>Tournament</a>
+            <a href="#bracket" class="sb-item"><span class="sb-icon">🌲</span>Bracket & Advancement</a>
+            <a href="#group-stage" class="sb-item"><span class="sb-icon">🔢</span>Group Stage</a>
+        </div>
+
+        <div class="sb-section">
+            <div class="sb-section-label">Domain 4</div>
+            <a href="#payment" class="sb-item"><span class="sb-icon">💳</span>Payment Flow</a>
+            <a href="#payment-risks" class="sb-item"><span class="sb-icon">⚠️</span>Rủi ro thanh toán</a>
+        </div>
+
+        <div class="sb-section">
+            <div class="sb-section-label">Domain 5</div>
+            <a href="#community" class="sb-item"><span class="sb-icon">💬</span>User & Community</a>
+            <a href="#club" class="sb-item"><span class="sb-icon">🏛</span>Club Integration</a>
+        </div>
+
+        <div class="sb-section">
+            <div class="sb-section-label">Tổng hợp</div>
+            <a href="#risks" class="sb-item"><span class="sb-icon">🚨</span>10 Rủi ro cốt lõi</a>
+            <a href="#glossary" class="sb-item"><span class="sb-icon">📚</span>Bảng thuật ngữ</a>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <!-- HERO -->
+        <div class="hero" id="overview">
+            <div class="hero-eyebrow">📋 Internal Docs · Toàn đội đọc</div>
+            <h1>Festminton<br><span class="hero-grad">System Bible</span></h1>
+            <p class="hero-sub">Tài liệu nội bộ đầy đủ — từ toán ELO đến thanh toán, từ giải đấu đến cộng đồng. Đọc xong
+                là hiểu hết dự án, dù bạn là BE, FE, hay PM.</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-num">5</div>
+                    <div class="stat-label">Core Domains</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">10</div>
+                    <div class="stat-label">Rủi ro được phân tích</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">OpenSkill</div>
+                    <div class="stat-label">Thuật toán xếp hạng</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">Realtime</div>
+                    <div class="stat-label">WebSocket + Score live</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOMAIN NAV -->
+        <div class="domain-nav">
+            <a href="#elo" class="domain-pill d-blue">📊 ELO System</a>
+            <a href="#host" class="domain-pill d-green">🏟 Host / Drop-in</a>
+            <a href="#tournament" class="domain-pill d-amber">🏆 Tournament</a>
+            <a href="#payment" class="domain-pill d-cyan">💳 Payment</a>
+            <a href="#community" class="domain-pill d-purple">💬 Community</a>
+            <a href="#risks" class="domain-pill">🚨 Risks</a>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <!-- ══════════════════════════════════════════════
+     SECTION: ARCHITECTURE
+══════════════════════════════════════════════ -->
+            <div class="domain-section" id="architecture">
+                <div class="domain-header">
+                    <div class="domain-icon-big dib-blue">🏗</div>
+                    <div>
+                        <div class="domain-title">Kiến Trúc Tổng Quan</div>
+                        <div class="domain-desc">5 domain, cách chúng kết nối với nhau, và dữ liệu chảy như thế nào
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ent-wrap">
+                    <div class="ent">
+                        <div class="ent-h blue">👤 User</div>
+                        <div class="ent-f"><span class="ffk">skillMu</span><span class="ft">float</span></div>
+                        <div class="ent-f"><span class="ffk">skillSigma</span><span class="ft">float</span></div>
+                        <div class="ent-f"><span>rankTier</span><span class="ft">enum</span></div>
+                        <div class="ent-f"><span>reputationScore</span><span class="ft">int</span></div>
+                    </div>
+                    <div class="ent-rel">→</div>
+                    <div class="ent">
+                        <div class="ent-h green">🏟 Host</div>
+                        <div class="ent-f"><span class="fnew">hostSeriesId?</span><span class="ft">uuid?</span></div>
+                        <div class="ent-f"><span>hostsType</span><span class="ft">enum</span></div>
+                        <div class="ent-f"><span>status</span><span class="ft">enum</span></div>
+                        <div class="ent-f"><span>eloMin/Max</span><span class="ft">int</span></div>
+                    </div>
+                    <div class="ent-rel">→</div>
+                    <div class="ent">
+                        <div class="ent-h amber">⚔️ HostMatch</div>
+                        <div class="ent-f"><span>status</span><span class="ft">enum</span></div>
+                        <div class="ent-f"><span>courtName</span><span class="ft">string</span></div>
+                        <div class="ent-f"><span>queuePosition</span><span class="ft">int</span></div>
+                        <div class="ent-f"><span>scoreHistory</span><span class="ft">json[]</span></div>
+                    </div>
+                    <div class="ent-rel">→</div>
+                    <div class="ent">
+                        <div class="ent-h purple">📊 OpenSkill</div>
+                        <div class="ent-f"><span>matchWeight</span><span class="ft">float</span></div>
+                        <div class="ent-f"><span>muChange</span><span class="ft">float</span></div>
+                        <div class="ent-f"><span>sigmaChange</span><span class="ft">float</span></div>
+                        <div class="ent-f"><span>handicapFactor</span><span class="ft">float</span></div>
+                    </div>
+                    <div class="ent-rel">→</div>
+                    <div class="ent">
+                        <div class="ent-h cyan">💳 Payment</div>
+                        <div class="ent-f"><span>proofUrl</span><span class="ft">string</span></div>
+                        <div class="ent-f"><span>paymentStatus</span><span class="ft">enum</span></div>
+                        <div class="ent-f"><span>amount</span><span class="ft">int</span></div>
+                        <div class="ent-f"><span>transferContent</span><span class="ft">string</span></div>
+                    </div>
+                </div>
+
+                <div class="callout ca-blue">
+                    <div class="callout-label">💡 Nguyên lý cốt lõi</div>
+                    Mọi thứ xoay quanh <strong>User.skillMu</strong>. Sau mỗi <strong>HostMatch</strong> hoặc
+                    <strong>TournamentMatch</strong> hoàn thành, pipeline OpenSkill chạy và cập nhật skillMu của từng
+                    người chơi. Đây là điểm hội tụ của toàn hệ thống.
+                </div>
+            </div>
+
+            <!-- ══════════════════════════════════════════════
+     DOMAIN 1: ELO / OPENSKILL
+══════════════════════════════════════════════ -->
+            <div class="domain-section" id="elo">
+                <div class="domain-header">
+                    <div class="domain-icon-big dib-blue">📊</div>
+                    <div>
+                        <div class="domain-title">Domain 1 — ELO & OpenSkill System</div>
+                        <div class="domain-desc">Trái tim của Festminton — cách xếp hạng người chơi một cách công bằng
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub" id="elo-math">
+                    <div class="sub-title">Tại sao không dùng ELO truyền thống?</div>
+                    <p>ELO cổ điển chỉ có 1 số duy nhất. Nếu Minh mới tạo tài khoản và đánh 2 trận, con số ELO 1000 của
+                        Minh <em>không đáng tin</em> như ELO 1000 của Hùng đã đánh 200 trận. Festminton dùng
+                        <strong>OpenSkill</strong> (biến thể TrueSkill của Microsoft) với 2 tham số để giải quyết điều
+                        này.</p>
+
+                    <div class="mathbox">
+                        <div class="math-label">Model OpenSkill — Mỗi người chơi là một Gaussian Distribution</div>
+                        <div><span class="mh">μ (Mu = skillMu)</span> — Trình độ ước tính <span class="cm">// Default:
+                                25.0</span></div>
+                        <div><span class="mh">σ (Sigma = skillSigma)</span> — Mức độ chắc chắn <span class="cm">//
+                                Default: 8.333</span></div>
+                        <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border2)">
+                            <span class="mc">Rank Score</span> = Round(<span class="mh">μ</span> × <span
+                                class="nm">40</span>)
+                            <span class="cm">// Điểm hiển thị cho user (Mu 25 → 1000 điểm)</span>
+                        </div>
+                        <div style="margin-top:4px">
+                            <span class="mc">Ví dụ:</span> Mu=25, Sigma=8.3 → <span class="mg">RankScore=1000</span>,
+                            rank tier <span class="mg">AMATEUR</span>
+                        </div>
+                        <div style="margin-top:4px">
+                            <span class="mc">Sau 50 trận:</span> Sigma giảm còn ~3.0 → hệ thống <span class="mg">tin
+                                tưởng</span> Mu hơn nhiều
+                        </div>
+                    </div>
+
+                    <div class="g3">
+                        <div class="card">
+                            <div class="card-title">📉 Sigma cao</div>
+                            <div class="card-body">User mới, ít trận. ELO thay đổi nhiều sau mỗi trận — hệ thống đang
+                                "học" về người này.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">📈 Sigma thấp</div>
+                            <div class="card-body">User kỳ cựu. ELO ổn định, thay đổi ít. Cần thắng nhiều mới tăng đáng
+                                kể.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">🏷 RankTier</div>
+                            <div class="card-body">NEWBIE → AMATEUR → INTERMEDIATE → ADVANCED → ELITE → PRO. Ánh xạ từ
+                                RankScore.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub">
+                    <div class="sub-title">Pipeline Tính Điểm Sau Mỗi Trận</div>
+                    <p>Mỗi khi một trận đấu kết thúc (<code>FINISHED</code>), toàn bộ pipeline sau chạy tuần tự:</p>
+
+                    <div class="flow">
+                        <div class="flow-row">
+                            <div>
+                                <div class="fnode fn-x">Match FINISHED</div>
+                                <div class="fnote">Trigger</div>
+                            </div>
+                            <div class="farr">→</div>
+                            <div>
+                                <div class="fnode fn-r">① AntiCheat</div>
+                                <div class="fnote">matchWeight</div>
+                            </div>
+                            <div class="farr">→</div>
+                            <div>
+                                <div class="fnode fn-a">② Handicap</div>
+                                <div class="fnote">handicapFactor</div>
+                            </div>
+                            <div class="farr">→</div>
+                            <div>
+                                <div class="fnode fn-p">③ Predict</div>
+                                <div class="fnote">predictedScore</div>
+                            </div>
+                            <div class="farr">→</div>
+                            <div>
+                                <div class="fnode fn-b">④ Rate</div>
+                                <div class="fnote">deltaMu/Sigma</div>
+                            </div>
+                            <div class="farr">→</div>
+                            <div>
+                                <div class="fnode fn-g">⑤ Save & Learn</div>
+                                <div class="fnote">Update DB + K-factor</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mathbox">
+                        <div class="math-label">Công thức Final Delta — Bước ④ Rate</div>
+                        <div><span class="mc">WeightedDeltaMu</span> =</div>
+                        <div style="padding-left:20px">
+                            <span class="mh">deltaMu</span> <span class="cm">// OpenSkill library tính ra</span>
+                        </div>
+                        <div style="padding-left:20px">
+                            × <span class="mo">matchWeight</span> <span class="cm">// 0.0 nếu gian lận, 1.0 nếu
+                                sạch</span>
+                        </div>
+                        <div style="padding-left:20px">
+                            × <span class="mp">MU_SCALE</span> <span class="cm">// Hằng số scale để ra điểm hợp
+                                lý</span>
+                        </div>
+                        <div style="padding-left:20px">
+                            × <span class="mg">handicapFactor</span> <span class="cm">// &lt;1.0 nếu kết quả quá dễ
+                                đoán</span>
+                        </div>
+                        <div style="padding-left:20px">
+                            + <span class="at">WINNER_MU_BONUS</span> <span class="cm">// Bonus nhỏ cho người
+                                thắng</span>
+                        </div>
+                    </div>
+
+                    <div id="elo-anticheat" class="sub">
+                        <div class="sub-title">Anti-Cheat: validateMatchHonesty()</div>
+                        <p>Trước khi tính ELO, hệ thống kiểm tra xem trận đấu có "diễn" không:</p>
+
+                        <table class="tbl">
+                            <thead>
+                                <tr>
+                                    <th>Dấu hiệu đáng ngờ</th>
+                                    <th>Kết quả</th>
+                                    <th>Hậu quả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2 người chơi luôn đánh với nhau (pair rate cao)</td>
+                                    <td><span class="b ba">Suspicious</span></td>
+                                    <td>matchWeight giảm</td>
+                                </tr>
+                                <tr>
+                                    <td>Tỉ lệ thắng quá lệch (1 bên luôn thắng)</td>
+                                    <td><span class="b ba">Suspicious</span></td>
+                                    <td>matchWeight giảm</td>
+                                </tr>
+                                <tr>
+                                    <td>ELO chênh lệch quá lớn nhưng kết quả sát nút</td>
+                                    <td><span class="b br2">Cheating</span></td>
+                                    <td>matchWeight = 0</td>
+                                </tr>
+                                <tr>
+                                    <td>Tốc độ tạo match bất thường (quá nhiều trận/giờ)</td>
+                                    <td><span class="b br2">Cheating</span></td>
+                                    <td>Pipeline bị ngắt</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="callout ca-amber">
+                            <div class="callout-label">⚠️ Blind Spot: Sandbagging</div>
+                            Anti-Cheat phát hiện được <strong>buff ELO</strong> (tăng giả) nhưng <strong>khó phát hiện
+                                sandbagging</strong> — cố tình thua để giảm ELO trước giải. Giải pháp: dùng <strong>Peak
+                                ELO</strong> (điểm cao nhất 3 tháng) thay vì Current ELO để xét điều kiện vào giải lớn.
+                        </div>
+                    </div>
+
+                    <div class="sub">
+                        <div class="sub-title">Bước ⑤ — Machine Learning: adjustKFactor()</div>
+                        <p>Sau mỗi trận, hệ thống so sánh <code>predictedScore</code> với <code>actualScore</code> để tự
+                            điều chỉnh:</p>
+                        <div class="mathbox">
+                            <div class="math-label">Self-learning K-factor</div>
+                            <div><span class="mc">predictionAccuracy</span> = |<span class="mh">predictedScore</span> -
+                                <span class="mg">actualScore</span>| / maxScore</div>
+                            <div style="margin-top:6px"><span class="cm">// Nếu sai số cao → tăng K → học nhanh
+                                    hơn</span></div>
+                            <div><span class="cm">// Nếu sai số thấp → giảm K → ổn định hệ thống</span></div>
+                            <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border2)">
+                                <span class="mc">Kết quả:</span> Càng nhiều dữ liệu trận đấu, dự đoán tỉ số càng chính
+                                xác.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════════════════════════════════════════════
+     DOMAIN 2: HOST / DROP-IN
+══════════════════════════════════════════════ -->
+            <div class="domain-section" id="host">
+                <div class="domain-header">
+                    <div class="domain-icon-big dib-green">🏟</div>
+                    <div>
+                        <div class="domain-title">Domain 2 — Host / Drop-in Sessions</div>
+                        <div class="domain-desc">Giao lưu vãng lai — tạo buổi chơi, quản lý sân, xếp hàng trận đấu</div>
+                    </div>
+                </div>
+
+                <div class="sub">
+                    <div class="sub-title">Lifecycle của một buổi Host</div>
+
+                    <div class="state-flow">
+                        <div class="snode">
+                            <div class="sbubble sb-gray">DRAFT</div>
+                            <div class="slabel">Host đang cấu hình</div>
+                        </div>
+                        <div class="sarrow">→</div>
+                        <div class="snode">
+                            <div class="sbubble sb-blue">OPEN</div>
+                            <div class="slabel">Mở đăng ký</div>
+                        </div>
+                        <div class="sarrow">→</div>
+                        <div class="snode">
+                            <div class="sbubble sb-amber">IN_PROGRESS</div>
+                            <div class="slabel">Đang diễn ra</div>
+                        </div>
+                        <div class="sarrow">→</div>
+                        <div class="snode">
+                            <div class="sbubble sb-green">FINISHED</div>
+                            <div class="slabel">Xong, ELO tính</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:6px;display:flex;gap:10px;align-items:center">
+                        <div class="sbubble sb-red" style="font-size:11px;padding:5px 12px">CANCELLED</div>
+                        <span style="font-size:12px;color:var(--text3)">Có thể từ OPEN hoặc IN_PROGRESS → cần xử lý
+                            Refund</span>
+                    </div>
+
+                    <table class="tbl" style="margin-top:16px">
+                        <thead>
+                            <tr>
+                                <th>Config khi tạo</th>
+                                <th>Ý nghĩa</th>
+                                <th>Ảnh hưởng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>hostsType: CASUAL | RATED</code></td>
+                                <td>CASUAL = đánh vui, RATED = tính ELO</td>
+                                <td>Quyết định có chạy OpenSkill pipeline không</td>
+                            </tr>
+                            <tr>
+                                <td><code>eloRatingLowest / Highest</code></td>
+                                <td>Giới hạn ELO tham gia</td>
+                                <td>Filter participant khi đăng ký</td>
+                            </tr>
+                            <tr>
+                                <td><code>totalCourt</code></td>
+                                <td>Số sân khả dụng</td>
+                                <td>Quyết định capacity queue</td>
+                            </tr>
+                            <tr>
+                                <td><code>fee</code></td>
+                                <td>Phí/người</td>
+                                <td>Tạo Payment record khi accept</td>
+                            </tr>
+                            <tr>
+                                <td><code>ageMin / ageMax</code></td>
+                                <td>Giới hạn độ tuổi</td>
+                                <td>Filter participant khi đăng ký</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub" id="host-match">
+                    <div class="sub-title">Match Queue — Hệ thống xếp hàng sân</div>
+                    <p>Đây là cơ chế phức tạp nhất trong Host. Mỗi sân có một <strong>hàng đợi riêng</strong>, với
+                        <code>queuePosition</code> quyết định ai lên sân tiếp theo.</p>
+
+                    <div class="g2">
+                        <div>
+                            <div class="mathbox">
+                                <div class="math-label">Logic Queue</div>
+                                <div><span class="mh">queuePosition = 0</span> → Đang ở trên sân (PLAYING)</div>
+                                <div><span class="mh">queuePosition = 1</span> → Chuẩn bị lên (CALLPLAYER)</div>
+                                <div><span class="mh">queuePosition = 2,3...</span> → Đang chờ</div>
+                                <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border2)">
+                                    <div class="cm">// Khi sân trống:</div>
+                                    <div><span class="mc">promoteNextWaitingMatch()</span></div>
+                                    <div style="padding-left:16px">→ Trận có queuePos thấp nhất lên CALLPLAYER</div>
+                                    <div style="padding-left:16px">→ Tất cả trận còn lại -1 queuePosition</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="phone" style="max-width:100%">
+                                <div class="phone-bar">
+                                    <div class="pdot pd-r"></div>
+                                    <div class="pdot pd-y"></div>
+                                    <div class="pdot pd-g"></div>
+                                    <div class="phone-title">Quản lý sân A</div>
+                                </div>
+                                <div class="phone-body">
+                                    <div
+                                        style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">
+                                        Sân A — Hàng đợi</div>
+                                    <div class="row-item"
+                                        style="border-color:rgba(34,201,139,.3);background:var(--green-dim)">
+                                        <div style="display:flex;align-items:center;justify-content:space-between">
+                                            <div style="font-size:12px;font-weight:700;color:#6ee7b7">🎯 Đang thi đấu
+                                            </div>
+                                            <span class="b bg">PLAYING</span>
+                                        </div>
+                                        <div style="font-size:11px;color:var(--text2);margin-top:4px">Hùng & Minh vs Tú
+                                            & Long · 14:3</div>
+                                    </div>
+                                    <div class="row-item" style="border-color:rgba(245,166,35,.3)">
+                                        <div style="display:flex;align-items:center;justify-content:space-between">
+                                            <div style="font-size:12px;font-weight:600;color:var(--amber)">1️⃣ Chuẩn bị
+                                                vào</div>
+                                            <span class="b ba">CALLPLAYER</span>
+                                        </div>
+                                        <div style="font-size:11px;color:var(--text2);margin-top:4px">Bình & An vs Khánh
+                                            & Nam</div>
+                                    </div>
+                                    <div class="row-item">
+                                        <div style="display:flex;align-items:center;justify-content:space-between">
+                                            <div style="font-size:12px;font-weight:600;color:var(--text2)">2️⃣ Đang chờ
+                                            </div>
+                                            <span class="b bx">WAITING</span>
+                                        </div>
+                                        <div style="font-size:11px;color:var(--text3);margin-top:4px">Hải & Sơn vs Đức &
+                                            Phong</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>State Machine của HostMatch</h3>
+                    <div class="state-flow">
+                        <div class="snode">
+                            <div class="sbubble sb-gray">WAITING</div>
+                            <div class="slabel">Trong hàng đợi</div>
+                        </div>
+                        <div class="sarrow">→</div>
+                        <div class="snode">
+                            <div class="sbubble sb-amber">CALLPLAYER</div>
+                            <div class="slabel">Được gọi lên sân</div>
+                        </div>
+                        <div class="sarrow">→</div>
+                        <div class="snode">
+                            <div class="sbubble sb-blue">PLAYING</div>
+                            <div class="slabel">Đang đánh, ghi điểm</div>
+                        </div>
+                        <div class="sarrow">→</div>
+                        <div class="snode">
+                            <div class="sbubble sb-green">FINISHED</div>
+                            <div class="slabel">Xong → OpenSkill</div>
+                        </div>
+                    </div>
+
+                    <div class="callout ca-blue">
+                        <div class="callout-label">🔑 Scoring Logic — checkSetWon()</div>
+                        <strong>matchConfig</strong> định nghĩa: <code>targetScore: 21</code>,
+                        <code>winByTwo: true</code>, <code>capScore: 30</code>, <code>setsToWin: 2</code>.<br>
+                        → Ai đến 21 trước và hơn 2 điểm: thắng set. Nếu 29-29 → ai đến 30 trước thắng bất chấp cách
+                        biệt.
+                        <br>→ Ai thắng đủ <code>setsToWin</code> set: thắng trận → trigger OpenSkill pipeline.
+                    </div>
+                </div>
+
+                <div class="sub" id="recurring">
+                    <div class="sub-title">Recurring Series (Vãng Lai Lặp Lại)</div>
+                    <p>Tính năng mới: Tạo 1 lần, hệ thống tự sinh buổi hàng tuần/2 tuần/tháng.</p>
+
+                    <div class="ent-wrap">
+                        <div class="ent">
+                            <div class="ent-h blue">🔄 HostSeries <span
+                                    style="font-weight:400;font-size:10px">(MỚI)</span></div>
+                            <div class="ent-f"><span class="fpk">id</span><span class="ft">uuid PK</span></div>
+                            <div class="ent-f"><span class="ffk fnew">clubId?</span><span class="ft">uuid? FK</span>
+                            </div>
+                            <div class="ent-f"><span class="fnew">recurrenceRule</span><span class="ft">enum</span>
+                            </div>
+                            <div class="ent-f"><span class="fnew">dayOfWeek</span><span class="ft">0–6</span></div>
+                            <div class="ent-f"><span class="fnew">activeUntil?</span><span class="ft">date</span></div>
+                            <div class="ent-f"><span class="fnew">regularPlayerIds</span><span class="ft">uuid[]</span>
+                            </div>
+                            <div class="ent-f"><span class="fnew">status</span><span class="ft">enum</span></div>
+                        </div>
+                        <div class="ent-rel">1→N</div>
+                        <div class="ent">
+                            <div class="ent-h green">📅 Host</div>
+                            <div class="ent-f"><span class="fpk">id</span><span class="ft">uuid PK</span></div>
+                            <div class="ent-f"><span class="ffk fnew">hostSeriesId?</span><span class="ft">uuid?
+                                    FK</span></div>
+                            <div class="ent-f"><span class="fnew">sessionIndex?</span><span class="ft">number</span>
+                            </div>
+                            <div class="ent-f"><span>... (giữ nguyên)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="g2">
+                        <div class="card">
+                            <div class="card-title">📱 Feed chính — Hiển thị</div>
+                            <div class="card-body">Chỉ show buổi <strong>active nhất</strong> của mỗi series. Không liệt
+                                kê 52 buổi trong năm. Có nút "Xem lịch sử chuỗi" để vào timeline view.</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">📋 History View — Timeline</div>
+                            <div class="card-body">Show toàn bộ buổi đã qua và sắp tới. <strong>Bấm vào từng buổi → link
+                                    đến Host detail riêng lẻ</strong>. Buổi đã FINISHED không thể chỉnh sửa.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════════════════════════════════════════════
+     DOMAIN 3: TOURNAMENT
+══════════════════════════════════════════════ -->
+            <div class="domain-section" id="tournament">
+                <div class="domain-header">
+                    <div class="domain-icon-big dib-amber">🏆</div>
+                    <div>
+                        <div class="domain-title">Domain 3 — Tournament System</div>
+                        <div class="domain-desc">Giải đấu chuyên nghiệp — bracket, vòng bảng, trọng tài realtime</div>
+                    </div>
+                </div>
+
+                <div class="sub">
+                    <div class="sub-title">Lifecycle Giải Đấu</div>
+
+                    <div class="state-flow">
+                        <div class="snode">
+                            <div class="sbubble sb-gray">DRAFT</div>
+                            <div class="slabel">Đang cấu hình</div>
+                        </div>
+                        <div class="sarrow">→</div>
+                        <div class="snode">
+                            <div class="sbubble sb-blue">REGISTRATION</div>
+                            <div class="slabel">Mở đăng ký</div>
+                        </div>
+                        <div class="sarrow">→</div>
+                        <div class="snode">
+                            <div class="sbubble sb-purple">DRAW</div>
+                            <div class="slabel">Bốc thăm xếp bảng</div>
+                        </div>
+                        <div class="sarrow">→</div>
+                        <div class="snode">
+                            <div class="sbubble sb-amber">IN_PROGRESS</div>
+                            <div class="slabel">Đang thi đấu</div>
+                        </div>
+                        <div class="sarrow">→</div>
+                        <div class="snode">
+                            <div class="sbubble sb-green">COMPLETED</div>
+                            <div class="slabel">Xong, trao giải</div>
+                        </div>
+                    </div>
+
+                    <table class="tbl" style="margin-top:16px">
+                        <thead>
+                            <tr>
+                                <th>Config quan trọng</th>
+                                <th>Ý nghĩa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>tournamentFormat</code></td>
+                                <td>KNOCKOUT (Đấu loại) / ROUND_ROBIN (Vòng bảng) / IRR (Xáo trộn cá nhân)</td>
+                            </tr>
+                            <tr>
+                                <td><code>allowBestThirds</code></td>
+                                <td>Cho phép đội hạng 3 tốt nhất (từ nhiều bảng) vào vòng trong</td>
+                            </tr>
+                            <tr>
+                                <td><code>loserAdvancement</code></td>
+                                <td>Đội thua có được vào nhánh thua không (Double Elimination)</td>
+                            </tr>
+                            <tr>
+                                <td><code>formats[]</code></td>
+                                <td>Danh sách thể thức: MEN_SINGLES, MEN_DOUBLES, MIXED_DOUBLES...</td>
+                            </tr>
+                            <tr>
+                                <td><code>eloRatingMin/Max</code></td>
+                                <td>Điều kiện ELO tham dự — kiểm tra Peak ELO hoặc Current ELO</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub" id="bracket">
+                    <div class="sub-title">Bracket — Cây Giải Đấu Knockout</div>
+
+                    <div class="bracket">
+                        <div class="brnd">
+                            <div class="brnd-title">Tứ kết</div>
+                            <div class="bmatch">
+                                <div class="bteam win"><span>🥇 Team A</span><span class="score">21–15</span></div>
+                                <div class="bteam lose"><span>Team B</span><span class="score">15–21</span></div>
+                            </div>
+                            <div class="bmatch">
+                                <div class="bteam win"><span>🥇 Team C</span><span class="score">21–18</span></div>
+                                <div class="bteam lose"><span>Team D</span><span class="score">18–21</span></div>
+                            </div>
+                            <div class="bmatch">
+                                <div class="bteam win"><span>🥇 Team E</span><span class="score">21–19</span></div>
+                                <div class="bteam lose"><span>Team F</span><span class="score">19–21</span></div>
+                            </div>
+                            <div class="bmatch">
+                                <div class="bteam win"><span>🥇 Team G</span><span class="score">21–10</span></div>
+                                <div class="bteam lose"><span>Team H</span><span class="score">10–21</span></div>
+                            </div>
+                        </div>
+                        <div class="brnd">
+                            <div class="brnd-title">Bán kết</div>
+                            <div class="bmatch" style="margin-top:30px">
+                                <div class="bteam win"><span>🥇 Team A</span><span class="score">21–17</span></div>
+                                <div class="bteam lose"><span>Team C</span><span class="score">17–21</span></div>
+                            </div>
+                            <div class="bmatch" style="margin-top:60px">
+                                <div class="bteam win"><span>🥇 Team G</span><span class="score">22–20</span></div>
+                                <div class="bteam lose"><span>Team E</span><span class="score">20–22</span></div>
+                            </div>
+                        </div>
+                        <div class="brnd" style="justify-content:center;">
+                            <div class="brnd-title">Chung kết</div>
+                            <div class="bmatch"
+                                style="border-color:var(--amber);box-shadow:0 0 12px rgba(245,166,35,.2)">
+                                <div class="bteam" style="background:var(--amber-dim)"><span
+                                        style="color:var(--amber)">🏆 Team A</span><span class="score"
+                                        style="color:var(--amber)">?–?</span></div>
+                                <div class="bteam"><span>Team G</span><span class="score">?–?</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="callout ca-red">
+                        <div class="callout-label">🔥 Cascade Kill — Nguy hiểm nhất</div>
+                        Khi trọng tài <strong>sửa kết quả</strong> một trận đã xong: hệ thống chạy
+                        <code>triggerCascade()</code> đệ quy lên toàn bộ cây bracket, <strong>XÓA SẠCH</strong> teamId
+                        của đội cũ khỏi tất cả trận tương lai mà đội đó đã được ghi nhận vào. Đây là operation cực kỳ
+                        nhạy cảm — phải có transaction và rollback nếu lỗi.
+                    </div>
+
+                    <div class="callout ca-amber">
+                        <div class="callout-label">⚠️ Thiếu: ELO Rollback</div>
+                        Khi sửa kết quả, ELO đã tính từ trận cũ <strong>không được hoàn lại</strong>. Cần xây dựng cơ
+                        chế <strong>Transactional ELO Rollback</strong> hoặc áp dụng <em>"Match Pending" — cả 2 đội
+                            confirm điểm trước khi hệ thống tính ELO</em>.
+                    </div>
+                </div>
+
+                <div class="sub" id="group-stage">
+                    <div class="sub-title">Group Stage — Vòng Bảng</div>
+                    <p>Khác với Knockout, vòng bảng tích điểm qua <code>GroupStageService.getStandings()</code>. Chỉ sau
+                        trận cuối cùng trong bảng mới xét đội đi tiếp.</p>
+
+                    <div class="g2">
+                        <table class="tbl">
+                            <thead>
+                                <tr>
+                                    <th>Đội</th>
+                                    <th>T</th>
+                                    <th>H</th>
+                                    <th>Pts</th>
+                                    <th>+/-</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="color:var(--green)">🥇 Team A</td>
+                                    <td>3</td>
+                                    <td>0</td>
+                                    <td><b>9</b></td>
+                                    <td>+24</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#93bbfc">🥈 Team C</td>
+                                    <td>2</td>
+                                    <td>1</td>
+                                    <td><b>6</b></td>
+                                    <td>+8</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:var(--amber)">⭐ Team B</td>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td><b>3</b></td>
+                                    <td>-5</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:var(--text3)">Team D</td>
+                                    <td>0</td>
+                                    <td>3</td>
+                                    <td><b>0</b></td>
+                                    <td>-27</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="card">
+                            <div class="card-title">📋 Quy tắc xét Best Third</div>
+                            <div class="card-body">
+                                Nếu <code>allowBestThirds = true</code>: Lấy tất cả đội xếp hạng 3 từ các bảng, so sánh
+                                điểm, chọn N đội tốt nhất vào vòng trong.<br><br>
+                                Thứ tự ưu tiên: Điểm → Hiệu số → Điểm ghi được → Kết quả đối đầu trực tiếp.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════════════════════════════════════════════
+     DOMAIN 4: PAYMENT
+══════════════════════════════════════════════ -->
+            <div class="domain-section" id="payment">
+                <div class="domain-header">
+                    <div class="domain-icon-big dib-cyan">💳</div>
+                    <div>
+                        <div class="domain-title">Domain 4 — Payment Flow</div>
+                        <div class="domain-desc">Thanh toán thủ công qua chuyển khoản — quy trình, rủi ro và lộ trình
+                            automation</div>
+                    </div>
+                </div>
+
+                <div class="sub">
+                    <div class="sub-title">Flow Thanh Toán Hiện Tại (Manual)</div>
+
+                    <div
+                        style="background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:20px;margin:14px 0">
+                        <div class="pay-step">
+                            <div class="pay-num">1</div>
+                            <div class="pay-content">
+                                <div class="pay-title">Participant đăng ký → UNPAID</div>
+                                <div class="pay-body">Khi Host <code>ACCEPT</code> một participant, hệ thống tạo
+                                    <code>Payment</code> record với <code>paymentStatus = UNPAID</code>. Participant
+                                    nhận thông tin tài khoản ngân hàng của Host.</div>
+                            </div>
+                        </div>
+                        <div class="pay-step">
+                            <div class="pay-num">2</div>
+                            <div class="pay-content">
+                                <div class="pay-title">Participant chuyển khoản + upload ảnh</div>
+                                <div class="pay-body">Participant chuyển khoản, chụp màn hình bill, upload lên app. Hệ
+                                    thống lưu vào <code>Payment.proofUrl</code>. Nội dung chuyển khoản
+                                    (<code>transferContent</code>) cũng được lưu để đối soát sau này.</div>
+                            </div>
+                        </div>
+                        <div class="pay-step">
+                            <div class="pay-num">3</div>
+                            <div class="pay-content">
+                                <div class="pay-title">Host Admin verify bằng mắt → PAID</div>
+                                <div class="pay-body">Host vào Dashboard, xem ảnh bill, đối chiếu với lịch sử nhận tiền
+                                    trong tài khoản ngân hàng. Nếu khớp → bấm xác nhận →
+                                    <code>paymentStatus = PAID</code>.</div>
+                            </div>
+                        </div>
+                        <div class="pay-step">
+                            <div class="pay-num">4</div>
+                            <div class="pay-content">
+                                <div class="pay-title">Check-in tại sân</div>
+                                <div class="pay-body">Chỉ Participant có <code>paymentStatus = PAID</code> mới có thể
+                                    check-in (<code>CHECKED_IN</code>). Người chưa thanh toán không được xếp vào
+                                    HostMatch.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="payment-risks" class="sub">
+                        <div class="sub-title">Sơ đồ Payment State</div>
+                        <div class="state-flow">
+                            <div class="snode">
+                                <div class="sbubble sb-red">UNPAID</div>
+                                <div class="slabel">Chưa thanh toán</div>
+                            </div>
+                            <div class="sarrow">→</div>
+                            <div class="snode">
+                                <div class="sbubble sb-amber">PENDING_VERIFY</div>
+                                <div class="slabel">Đã upload bill</div>
+                            </div>
+                            <div class="sarrow">→</div>
+                            <div class="snode">
+                                <div class="sbubble sb-green">PAID</div>
+                                <div class="slabel">Host đã confirm</div>
+                            </div>
+                            <div class="sarrow">→</div>
+                            <div class="snode">
+                                <div class="sbubble sb-blue">REFUNDED</div>
+                                <div class="slabel">Đã hoàn tiền</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="callout ca-red">
+                        <div class="callout-label">🚨 Vấn đề với Manual Verification</div>
+                        <strong>Fake Bill:</strong> Participant có thể dùng app giả bill. Verify bằng mắt không đủ tin
+                        cậy.<br>
+                        <strong>Scale vấn đề:</strong> Tournament 200+ người → Host không thể verify 200 bill bằng tay
+                        trong vài giờ trước giờ bốc thăm.<br>
+                        <strong>Tắc nghẽn Draw:</strong> Hệ thống block bốc thăm nếu còn participant chưa PAID → một
+                        người chưa xác minh trễ làm cả giải bị delay.
+                    </div>
+
+                    <div class="callout ca-green">
+                        <div class="callout-label">✅ Lộ trình Automation</div>
+                        <strong>Giai đoạn 1 (ngắn hạn):</strong> Tích hợp webhook OpenBanking (SePay / Casso) — khi nhận
+                        được giao dịch khớp <code>transferContent</code> → tự động update <code>PAID</code>.<br>
+                        <strong>Giai đoạn 2 (dài hạn):</strong> Tích hợp QR Pay (VietQR) — mỗi participant nhận QR riêng
+                        chứa nội dung chuyển khoản duy nhất → tự động đối soát 100%.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════════════════════════════════════════════
+     DOMAIN 5: COMMUNITY & CLUB
+══════════════════════════════════════════════ -->
+            <div class="domain-section" id="community">
+                <div class="domain-header">
+                    <div class="domain-icon-big dib-purple">💬</div>
+                    <div>
+                        <div class="domain-title">Domain 5 — User, Community & Club</div>
+                        <div class="domain-desc">Mạng xã hội — post, chat, reputation, và hệ sinh thái CLB</div>
+                    </div>
+                </div>
+
+                <div class="sub">
+                    <div class="sub-title">User Profile & Reputation</div>
+
+                    <div class="g2">
+                        <div>
+                            <table class="tbl">
+                                <thead>
+                                    <tr>
+                                        <th>Field</th>
+                                        <th>Ý nghĩa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>skillMu / skillSigma</code></td>
+                                        <td>ELO thực — dùng cho ghép cặp</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>rankScore</code></td>
+                                        <td>Mu × 40 — hiển thị cho user</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>rankTier</code></td>
+                                        <td>Nhãn hiển thị: NEWBIE → PRO</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>reputationScore</code></td>
+                                        <td>Uy tín xã hội — report từ người khác</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>winCount / lossCount</code></td>
+                                        <td>Lịch sử thắng/thua tích lũy</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>peakMu</code></td>
+                                        <td>Mu cao nhất (dùng cho ELO giải)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="phone" style="max-width:100%">
+                            <div class="phone-bar">
+                                <div class="pdot pd-r"></div>
+                                <div class="pdot pd-y"></div>
+                                <div class="pdot pd-g"></div>
+                                <div class="phone-title">Hồ sơ cá nhân</div>
+                            </div>
+                            <div class="phone-body">
+                                <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                                    <div class="avatar"
+                                        style="width:44px;height:44px;background:linear-gradient(135deg,#1a56db,#7e3af2);font-size:18px">
+                                        H</div>
+                                    <div>
+                                        <div style="font-size:14px;font-weight:800">Nguyễn Văn Hùng</div>
+                                        <div style="font-size:11px;color:var(--text3)">Ho Chi Minh City</div>
+                                    </div>
+                                    <div style="margin-left:auto">
+                                        <span class="b ba">ADVANCED</span>
+                                    </div>
+                                </div>
+                                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+                                    <div style="background:var(--s3);border-radius:8px;padding:8px;text-align:center">
+                                        <div style="font-size:16px;font-weight:800;color:var(--blue)">1240</div>
+                                        <div style="font-size:10px;color:var(--text3)">Rank</div>
+                                    </div>
+                                    <div style="background:var(--s3);border-radius:8px;padding:8px;text-align:center">
+                                        <div style="font-size:16px;font-weight:800;color:var(--green)">68%</div>
+                                        <div style="font-size:10px;color:var(--text3)">Tỉ lệ thắng</div>
+                                    </div>
+                                    <div style="background:var(--s3);border-radius:8px;padding:8px;text-align:center">
+                                        <div style="font-size:16px;font-weight:800;color:var(--amber)">4.8⭐</div>
+                                        <div style="font-size:10px;color:var(--text3)">Uy tín</div>
+                                    </div>
+                                </div>
+                                <div style="background:var(--s3);border-radius:8px;padding:8px;">
+                                    <div style="font-size:10px;color:var(--text3);margin-bottom:4px">Tiến độ lên PRO
+                                    </div>
+                                    <div style="background:var(--bg);height:6px;border-radius:3px;overflow:hidden">
+                                        <div
+                                            style="width:68%;height:100%;background:linear-gradient(90deg,var(--blue),var(--purple))">
+                                        </div>
+                                    </div>
+                                    <div style="font-size:10px;color:var(--text3);margin-top:3px">1240 / 1600 điểm</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub">
+                    <div class="sub-title">Community — Newsfeed & Tương Tác</div>
+
+                    <table class="tbl">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Entity</th>
+                                <th>Chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Đăng bài</td>
+                                <td><code>CommunityPost</code></td>
+                                <td>Text + đính kèm <code>CommunityImages</code></td>
+                            </tr>
+                            <tr>
+                                <td>Cảm xúc</td>
+                                <td><code>CommunityReaction</code></td>
+                                <td>Enum: LIKE, LOVE, HAHA, WOW, SAD, ANGRY</td>
+                            </tr>
+                            <tr>
+                                <td>Bình luận</td>
+                                <td><code>CommunityComment</code></td>
+                                <td>Có support nested comment (reply)</td>
+                            </tr>
+                            <tr>
+                                <td>Bookmark</td>
+                                <td><code>UserBookmark</code></td>
+                                <td>Lưu bài để xem sau</td>
+                            </tr>
+                            <tr>
+                                <td>Chat 1-1 / Group</td>
+                                <td><code>Conversation + ChatMessage</code></td>
+                                <td>Realtime qua WebSocket</td>
+                            </tr>
+                            <tr>
+                                <td>Đọc tin</td>
+                                <td><code>ChatMessageRead</code></td>
+                                <td>Badge tin nhắn mới, read receipt</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="callout ca-blue">
+                        <div class="callout-label">🔐 Chat Security</div>
+                        Chỉ mở chat nếu 2 user có quan hệ (<strong>Friends</strong> hoặc <strong>Following</strong>).
+                        Kiểm tra qua <code>UserRelations</code> trước khi tạo <code>Conversation</code>. Tránh spam và
+                        harassment từ người lạ.
+                    </div>
+                </div>
+
+                <div class="sub" id="club">
+                    <div class="sub-title">Club — Hệ sinh thái CLB</div>
+                    <p>CLB là nhóm người chơi thường xuyên cùng nhau. Quan hệ chính: <strong>1 Club → N HostSeries → N
+                            Host</strong>.</p>
+
+                    <div class="ent-wrap">
+                        <div class="ent">
+                            <div class="ent-h purple">🏛 Club</div>
+                            <div class="ent-f"><span class="fpk">id</span><span class="ft">uuid</span></div>
+                            <div class="ent-f"><span>name</span><span class="ft">string</span></div>
+                            <div class="ent-f"><span>isPrivate</span><span class="ft">boolean</span></div>
+                            <div class="ent-f"><span class="ffk">ownerId</span><span class="ft">uuid FK</span></div>
+                        </div>
+                        <div class="ent-rel">1→N</div>
+                        <div class="ent">
+                            <div class="ent-h blue">👥 ClubMember</div>
+                            <div class="ent-f"><span class="ffk">clubId</span><span class="ft">uuid FK</span></div>
+                            <div class="ent-f"><span class="ffk">userId</span><span class="ft">uuid FK</span></div>
+                            <div class="ent-f"><span>role</span><span class="ft">OWNER/ADMIN/MEMBER</span></div>
+                        </div>
+                        <div class="ent-rel">1→N</div>
+                        <div class="ent">
+                            <div class="ent-h green">🔄 HostSeries</div>
+                            <div class="ent-f"><span class="ffk">clubId?</span><span class="ft">uuid? nullable</span>
+                            </div>
+                            <div class="ent-f"><span>recurrenceRule</span><span class="ft">enum</span></div>
+                        </div>
+                    </div>
+
+                    <table class="tbl" style="margin-top:16px">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>OWNER</th>
+                                <th>ADMIN</th>
+                                <th>MEMBER</th>
+                                <th>Non-member</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tạo HostSeries gắn CLB</td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b br2">✗</span></td>
+                                <td><span class="b br2">✗</span></td>
+                            </tr>
+                            <tr>
+                                <td>Xem vãng lai (Private Club)</td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b br2">✗ Ẩn</span></td>
+                            </tr>
+                            <tr>
+                                <td>Đăng ký tham gia buổi</td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b ba">Nếu Public</span></td>
+                            </tr>
+                            <tr>
+                                <td>Xem Club Newsfeed</td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b ba">Nếu Public</span></td>
+                            </tr>
+                            <tr>
+                                <td>Chat CLB</td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b bg">✓</span></td>
+                                <td><span class="b br2">✗</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ══════════════════════════════════════════════
+     10 CORE RISKS
+══════════════════════════════════════════════ -->
+            <div class="domain-section" id="risks">
+                <div class="domain-header">
+                    <div class="domain-icon-big dib-blue">🚨</div>
+                    <div>
+                        <div class="domain-title">10 Rủi Ro Cốt Lõi</div>
+                        <div class="domain-desc">Tất cả edge cases nguy hiểm — phân loại theo mức độ ưu tiên</div>
+                    </div>
+                </div>
+
+                <div class="risk rh">
+                    <div class="risk-hd">
+                        <div class="risk-title">R1 — Guest ELO Merger: Người khách giỏi bị reset về NEWBIE</div>
+                        <span class="risk-lv lv-h">🔴 Critical</span>
+                    </div>
+                    <div class="risk-body">Khách (<code>guest</code>) trong <code>HostParticipant</code> có
+                        <code>guestSkillMu</code> riêng. Nếu họ tạo tài khoản App sau đó, hệ thống hiện tại
+                        <strong>không có API để merge</strong> dữ liệu ELO cũ vào User mới → người đánh giỏi bị reset về
+                        Newbie và "hành gà" cả hệ thống.</div>
+                    <div class="risk-fix">
+                        <div class="risk-fix-t">→ Giải pháp</div>
+                        Xây tính năng <strong>Claim Guest Profile</strong>: user mới xác thực bằng SĐT đã đăng ký khi
+                        đánh guest → hệ thống tìm tất cả <code>HostParticipant</code> có <code>guestPhone</code> khớp →
+                        merge <code>guestSkillMu</code> (weighted average) vào <code>user.skillMu</code>.
+                    </div>
+                </div>
+
+                <div class="risk rh">
+                    <div class="risk-hd">
+                        <div class="risk-title">R2 — ELO Rollback khi sửa kết quả trận</div>
+                        <span class="risk-lv lv-h">🔴 Critical</span>
+                    </div>
+                    <div class="risk-body">OpenSkill pipeline chỉ <strong>cộng dồn</strong>
+                        <code>WeightedDeltaMu</code>. Khi trọng tài sửa điểm (VD: 21–19 thành 19–21), ELO cũ không được
+                        hoàn lại → sai lệch vĩnh viễn, không có cách sửa sạch.</div>
+                    <div class="risk-fix">
+                        <div class="risk-fix-t">→ Giải pháp</div>
+                        Implement <strong>Match Pending Mode</strong>: 2 đội phải confirm điểm trong 5 phút sau trận →
+                        mới trigger ELO. Hoặc lưu snapshot Mu/Sigma trước trận vào <code>HostMatchParticipant</code> để
+                        có thể rollback khi cần.
+                    </div>
+                </div>
+
+                <div class="risk rh">
+                    <div class="risk-hd">
+                        <div class="risk-title">R3 — Cache Stampede khi xem bracket giải đấu</div>
+                        <span class="risk-lv lv-h">🔴 Critical</span>
+                    </div>
+                    <div class="risk-body">Endpoint xem bracket join 4 cấp quan hệ:
+                        <code>matches → teams → participants → user</code>. Lúc chung kết hàng ngàn người xem cùng lúc →
+                        Postgres CPU 100%, DB sập.</div>
+                    <div class="risk-fix">
+                        <div class="risk-fix-t">→ Giải pháp</div>
+                        Lưu bracket dạng <strong>Flat JSON Tree trên Redis</strong>. Mỗi khi có thay đổi (match kết
+                        thúc) → emit event → rebuild Redis cache. Endpoint public <strong>chỉ đọc Redis</strong>, không
+                        bao giờ query DB.
+                    </div>
+                </div>
+
+                <div class="risk rm">
+                    <div class="risk-hd">
+                        <div class="risk-title">R4 — Fake Bill: Ảnh chuyển khoản giả lọt qua verify</div>
+                        <span class="risk-lv lv-m">🟡 High</span>
+                    </div>
+                    <div class="risk-body">Verify bằng mắt người <code>proofUrl</code> không đủ tin cậy. Có app tạo bill
+                        giả hoàn hảo. Scale lên Tournament 500 người → Admin không kịp verify.</div>
+                    <div class="risk-fix">
+                        <div class="risk-fix-t">→ Giải pháp</div>
+                        Tích hợp SePay/Casso webhook: khi nhận giao dịch thực từ ngân hàng khớp
+                        <code>transferContent</code> → auto update <code>PAID</code>. Không cần verify bằng mắt.
+                    </div>
+                </div>
+
+                <div class="risk rm">
+                    <div class="risk-hd">
+                        <div class="risk-title">R5 — Sandbagging: Cố tình thua để giảm ELO trước giải</div>
+                        <span class="risk-lv lv-m">🟡 High</span>
+                    </div>
+                    <div class="risk-body">Anti-Cheat hiện tại phát hiện được buff ELO (tăng giả) nhưng <strong>không
+                            phát hiện được sandbagging</strong> — thua cố ý liên tiếp trong RATED sessions để xuống rank
+                        rồi vào giải dễ thắng giải thưởng.</div>
+                    <div class="risk-fix">
+                        <div class="risk-fix-t">→ Giải pháp</div>
+                        Dùng <strong>Peak ELO</strong> (Mu cao nhất trong 90 ngày qua) thay vì Current ELO để xét điều
+                        kiện thi đấu giải có giải thưởng. Thêm flag <code>peakMu</code> vào User, cập nhật mỗi khi Mu
+                        mới cao hơn peakMu.
+                    </div>
+                </div>
+
+                <div class="risk rm">
+                    <div class="risk-hd">
+                        <div class="risk-title">R6 — Visibility Leak: Buổi của Private Club lộ ra ngoài</div>
+                        <span class="risk-lv lv-m">🟡 High</span>
+                    </div>
+                    <div class="risk-body">Nếu <code>GET /hosts</code> không filter theo <code>club.isPrivate</code>,
+                        người ngoài có thể xem và đăng ký buổi của CLB riêng tư.</div>
+                    <div class="risk-fix">
+                        <div class="risk-fix-t">→ Giải pháp</div>
+                        Thêm filter:
+                        <code>WHERE club IS NULL OR club.isPrivate = false OR clubMember.userId = :currentUser</code>.
+                        Viết E2E test bắt buộc cho case này trước khi deploy.
+                    </div>
+                </div>
+
+                <div class="risk rm">
+                    <div class="risk-hd">
+                        <div class="risk-title">R7 — Cancel Chuỗi khi có người đã PAID — Refund chưa có</div>
+                        <span class="risk-lv lv-m">🟡 High</span>
+                    </div>
+                    <div class="risk-body">Khi host cancel một buổi trong Recurring Series, những người đã PAID cần hoàn
+                        tiền. Hệ thống hiện tại không có Refund Flow.</div>
+                    <div class="risk-fix">
+                        <div class="risk-fix-t">→ Giải pháp</div>
+                        Khi cancel, tự động tạo <code>RefundRequest</code> entity với danh sách participant cần hoàn
+                        tiền + số tiền. Gửi notification cho Host Admin. Dài hạn: auto-refund qua OpenBanking.
+                    </div>
+                </div>
+
+                <div class="risk rl">
+                    <div class="risk-hd">
+                        <div class="risk-title">R8 — IRR Format: Server Ignore thiếu team data → ELO crash</div>
+                        <span class="risk-lv lv-l">🟢 Medium</span>
+                    </div>
+                    <div class="risk-body">Thể thức IRR (Social Mixer) yêu cầu đúng 4 người xáo cặp. Nếu FE truyền
+                        thiếu, server <strong>ignore silently</strong> → <code>team1Ratings = []</code> → OpenSkill
+                        pipeline crash âm thầm.</div>
+                    <div class="risk-fix">
+                        <div class="risk-fix-t">→ Giải pháp</div>
+                        Throw explicit exception <code>400 BAD_REQUEST</code> thay vì ignore. Validate
+                        <code>teamsId.length === 4</code> ở service layer trước khi gọi OpenSkill.
+                    </div>
+                </div>
+
+                <div class="risk rl">
+                    <div class="risk-hd">
+                        <div class="risk-title">R9 — Series Stats: Query naive O(n) mỗi lần xem</div>
+                        <span class="risk-lv lv-l">🟢 Medium</span>
+                    </div>
+                    <div class="risk-body">Thống kê series (win/loss của từng người trong 52 buổi × 18 trận/buổi = ~936
+                        records) nếu query realtime sẽ chậm khi series lớn.</div>
+                    <div class="risk-fix">
+                        <div class="risk-fix-t">→ Giải pháp</div>
+                        Tạo bảng <code>HostSeriesParticipantStats</code> — sau mỗi buổi FINISHED, cộng dồn aggregated
+                        stats vào đây. API đọc bảng này, không query HostMatch trực tiếp.
+                    </div>
+                </div>
+
+                <div class="risk rl">
+                    <div class="risk-hd">
+                        <div class="risk-title">R10 — Cascade Kill không có Transaction Guard</div>
+                        <span class="risk-lv lv-l">🟢 Medium</span>
+                    </div>
+                    <div class="risk-body"><code>triggerCascade()</code> xóa đệ quy nhiều TournamentMatch records. Nếu
+                        hệ thống crash giữa chừng, bracket ở trạng thái nửa-xóa nửa-còn → corrupt data.</div>
+                    <div class="risk-fix">
+                        <div class="risk-fix-t">→ Giải pháp</div>
+                        Wrap toàn bộ <code>triggerCascade()</code> trong một <strong>DB Transaction</strong>. Nếu bất kỳ
+                        bước nào fail → rollback toàn bộ về trạng thái trước khi sửa kết quả.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════════════════════════════════════════════
+     GLOSSARY
+══════════════════════════════════════════════ -->
+            <div class="domain-section" id="glossary">
+                <div class="domain-header">
+                    <div class="domain-icon-big dib-purple">📚</div>
+                    <div>
+                        <div class="domain-title">Bảng Thuật Ngữ</div>
+                        <div class="domain-desc">Các từ khóa kỹ thuật được dùng trong toàn bộ hệ thống</div>
+                    </div>
+                </div>
+
+                <div class="g2">
+                    <table class="tbl">
+                        <thead>
+                            <tr>
+                                <th>Thuật ngữ</th>
+                                <th>Giải thích</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>skillMu (μ)</code></td>
+                                <td>ELO trung bình — trình độ ước tính</td>
+                            </tr>
+                            <tr>
+                                <td><code>skillSigma (σ)</code></td>
+                                <td>Độ không chắc chắn về Mu — giảm dần theo số trận</td>
+                            </tr>
+                            <tr>
+                                <td><code>rankScore</code></td>
+                                <td>Mu × 40 — điểm hiển thị với user</td>
+                            </tr>
+                            <tr>
+                                <td><code>rankTier</code></td>
+                                <td>Nhãn rank: NEWBIE, AMATEUR, INTERMEDIATE, ADVANCED, ELITE, PRO</td>
+                            </tr>
+                            <tr>
+                                <td><code>matchWeight</code></td>
+                                <td>Hệ số tin cậy của trận (0–1), do AntiCheat tính</td>
+                            </tr>
+                            <tr>
+                                <td><code>handicapFactor</code></td>
+                                <td>Hệ số giảm ELO nếu kết quả quá dễ đoán</td>
+                            </tr>
+                            <tr>
+                                <td><code>peakMu</code></td>
+                                <td>Mu cao nhất trong 90 ngày, dùng để xét điều kiện giải</td>
+                            </tr>
+                            <tr>
+                                <td><code>reputationScore</code></td>
+                                <td>Điểm uy tín xã hội — bị ảnh hưởng bởi report</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="tbl">
+                        <thead>
+                            <tr>
+                                <th>Thuật ngữ</th>
+                                <th>Giải thích</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>queuePosition</code></td>
+                                <td>Vị trí hàng đợi sân (0 = đang chơi)</td>
+                            </tr>
+                            <tr>
+                                <td><code>hostsType</code></td>
+                                <td>CASUAL (không tính ELO) hoặc RATED (có tính ELO)</td>
+                            </tr>
+                            <tr>
+                                <td><code>HostSeries</code></td>
+                                <td>Chuỗi vãng lai lặp lại — chứa nhiều Host con</td>
+                            </tr>
+                            <tr>
+                                <td><code>regularPlayerIds</code></td>
+                                <td>Danh sách user được tự động mời vào mỗi buổi mới</td>
+                            </tr>
+                            <tr>
+                                <td><code>triggerCascade</code></td>
+                                <td>Xóa đệ quy dữ liệu đội trong bracket khi sửa kết quả</td>
+                            </tr>
+                            <tr>
+                                <td><code>proofUrl</code></td>
+                                <td>URL ảnh bill chuyển khoản — dùng để verify thủ công</td>
+                            </tr>
+                            <tr>
+                                <td><code>transferContent</code></td>
+                                <td>Nội dung chuyển khoản — dùng để auto-match webhook</td>
+                            </tr>
+                            <tr>
+                                <td><code>allowBestThirds</code></td>
+                                <td>Config cho phép đội hạng 3 tốt nhất vào vòng trong</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div
+                style="margin-top:64px;padding:28px 0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+                <div style="font-size:12px;color:var(--text3)">
+                    <strong style="color:var(--text2)">Festminton System Bible</strong> · Internal use only · v2.0
+                </div>
+                <div style="display:flex;gap:16px;flex-wrap:wrap">
+                    <span style="font-size:11px;color:var(--blue)">5 Domains documented</span>
+                    <span style="font-size:11px;color:var(--red)">3 Critical risks</span>
+                    <span style="font-size:11px;color:var(--amber)">4 High risks</span>
+                    <span style="font-size:11px;color:var(--green)">3 Medium risks</span>
+                </div>
+            </div>
+
+        </div><!-- /content -->
+    </div><!-- /main -->
+
+    <script>
+        // Active sidebar tracking
+        const sectionIds = ['overview', 'architecture', 'elo', 'host', 'tournament', 'payment', 'community', 'risks', 'glossary'];
+        const items = document.querySelectorAll('.sb-item');
+
+        function setActive(id) {
+            items.forEach(i => {
+                i.classList.toggle('active', i.getAttribute('href') === '#' + id);
+            });
+        }
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) setActive(e.target.id);
+            });
+        }, { threshold: 0.2, rootMargin: '-80px 0px -60% 0px' });
+
+        sectionIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) observer.observe(el);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const t = document.querySelector(a.getAttribute('href'));
+                if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+
+</html>
